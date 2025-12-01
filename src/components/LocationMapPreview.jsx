@@ -6,21 +6,35 @@ export default function LocationMapPreview({ pickupCoords, dropoffCoords, pickup
   const mapInstanceRef = useRef(null);
   const pickupCoordsRef = useRef(pickupCoords);
   const dropoffCoordsRef = useRef(dropoffCoords);
+  const [activeLocation, setActiveLocation] = useState(() => {
+    if (!pickupCoords) return 'pickup';
+    if (!dropoffCoords) return 'dropoff';
+    return 'pickup';
+  });
+  const activeLocationRef = useRef(activeLocation);
   const [pickupMarker, setPickupMarker] = useState(null);
   const [dropoffMarker, setDropoffMarker] = useState(null);
   const [isGeocoding, setIsGeocoding] = useState(false);
+
+  const selectActiveLocation = (location) => {
+    setActiveLocation(location);
+  };
 
   // Sync refs with props
   useEffect(() => {
     pickupCoordsRef.current = pickupCoords;
     dropoffCoordsRef.current = dropoffCoords;
   }, [pickupCoords, dropoffCoords]);
-  
+
+  useEffect(() => {
+    activeLocationRef.current = activeLocation;
+  }, [activeLocation]);
+
   // Determine which location to set next
   const getNextLocationToSet = () => {
     if (!pickupCoords) return 'pickup';
     if (!dropoffCoords) return 'dropoff';
-    return null; // Both are set
+    return activeLocation;
   };
 
   // Reverse geocode coordinates to get address
@@ -114,8 +128,8 @@ export default function LocationMapPreview({ pickupCoords, dropoffCoords, pickup
             <div class="pin-shadow"></div>
           </div>
         `,
-        iconSize: [48, 48],
-        iconAnchor: [24, 48]
+        iconSize: [40, 40],
+        iconAnchor: [20, 40]
       });
 
       const bluePinIcon = window.L.divIcon({
@@ -126,8 +140,8 @@ export default function LocationMapPreview({ pickupCoords, dropoffCoords, pickup
             <div class="pin-shadow"></div>
           </div>
         `,
-        iconSize: [48, 48],
-        iconAnchor: [24, 48]
+        iconSize: [40, 40],
+        iconAnchor: [20, 40]
       });
 
       // Add markers with colored pins
@@ -172,8 +186,7 @@ export default function LocationMapPreview({ pickupCoords, dropoffCoords, pickup
         } else if (!currentDropoff) {
           locationToSet = 'dropoff';
         } else {
-          // Both are set, allow updating dropoff
-          locationToSet = 'dropoff';
+          locationToSet = activeLocationRef.current || 'pickup';
         }
         
         if (!locationToSet) return;
@@ -188,6 +201,9 @@ export default function LocationMapPreview({ pickupCoords, dropoffCoords, pickup
         
         if (locationToSet === 'pickup' && onPickupSelect) {
           onPickupSelect({ lat, lng }, address);
+          if (!currentDropoff) {
+            setActiveLocation('dropoff');
+          }
         } else if (locationToSet === 'dropoff' && onDropoffSelect) {
           onDropoffSelect({ lat, lng }, address);
           // Don't auto-close - let user close manually
@@ -275,8 +291,8 @@ export default function LocationMapPreview({ pickupCoords, dropoffCoords, pickup
           <div class="pin-shadow"></div>
         </div>
       `,
-      iconSize: [48, 48],
-      iconAnchor: [24, 48]
+      iconSize: [40, 40],
+      iconAnchor: [20, 40]
     });
 
     const bluePinIcon = window.L.divIcon({
@@ -287,8 +303,8 @@ export default function LocationMapPreview({ pickupCoords, dropoffCoords, pickup
           <div class="pin-shadow"></div>
         </div>
       `,
-      iconSize: [48, 48],
-      iconAnchor: [24, 48]
+      iconSize: [40, 40],
+      iconAnchor: [20, 40]
     });
 
     // Add pickup marker with red pin (only if coordinates exist)
@@ -342,8 +358,6 @@ export default function LocationMapPreview({ pickupCoords, dropoffCoords, pickup
     }
   }, [pickupCoords, dropoffCoords]);
 
-  const nextLocation = getNextLocationToSet();
-  
   return (
     <div className="location-map-preview-modern">
       <div className="map-wrapper">
@@ -361,42 +375,7 @@ export default function LocationMapPreview({ pickupCoords, dropoffCoords, pickup
           </button>
         )}
         
-        {/* Floating instruction card */}
-        {!isGeocoding && (
-          <div className="map-instruction-card">
-            <div className="instruction-content">
-              {nextLocation === 'pickup' && (
-                <>
-                  <div className="instruction-icon pickup">📍</div>
-                  <div>
-                    <h4>Set Pickup Location</h4>
-                    <p>Tap anywhere on the map to set your pickup point</p>
-                  </div>
-                </>
-              )}
-              {nextLocation === 'dropoff' && (
-                <>
-                  <div className="instruction-icon dropoff">📍</div>
-                  <div>
-                    <h4>Set Dropoff Location</h4>
-                    <p>Tap anywhere on the map to set your destination</p>
-                  </div>
-                </>
-              )}
-              {!nextLocation && (
-                <>
-                  <div className="instruction-icon complete">✓</div>
-                  <div>
-                    <h4>Locations Set</h4>
-                    <p>Both pickup and dropoff locations are confirmed</p>
-                  </div>
-                </>
-              )}
-            </div>
-          </div>
-        )}
-
-        {/* Loading indicator */}
+        {/* Loading indicator only */}
         {isGeocoding && (
           <div className="map-instruction-card">
             <div className="instruction-content">
@@ -410,46 +389,6 @@ export default function LocationMapPreview({ pickupCoords, dropoffCoords, pickup
             </div>
           </div>
         )}
-
-        {/* Bottom location cards */}
-        <div className="map-location-cards">
-          <div className={`location-card pickup-card ${pickupCoords ? 'filled' : 'empty'}`}>
-            <div className="location-card-header">
-              <div className="location-card-icon pickup">A</div>
-              <div className="location-card-content">
-                <div className="location-card-label">Pickup</div>
-                <div className="location-card-address">
-                  {pickupAddress || (pickupCoords ? `${pickupCoords.lat.toFixed(4)}, ${pickupCoords.lng.toFixed(4)}` : 'Tap map to set')}
-                </div>
-              </div>
-              {pickupCoords && <div className="location-card-check">✓</div>}
-            </div>
-          </div>
-
-          <div className={`location-card dropoff-card ${dropoffCoords ? 'filled' : 'empty'}`}>
-            <div className="location-card-header">
-              <div className="location-card-icon dropoff">B</div>
-              <div className="location-card-content">
-                <div className="location-card-label">Dropoff</div>
-                <div className="location-card-address">
-                  {dropoffAddress || (dropoffCoords ? `${dropoffCoords.lat.toFixed(4)}, ${dropoffCoords.lng.toFixed(4)}` : 'Tap map to set')}
-                </div>
-              </div>
-              {dropoffCoords && <div className="location-card-check">✓</div>}
-            </div>
-          </div>
-
-          {/* Done button - only show if not always visible */}
-          {!alwaysVisible && (pickupCoords || dropoffCoords) && (
-            <button
-              className="map-done-btn"
-              onClick={() => onMapClose && onMapClose()}
-              type="button"
-            >
-              Done
-            </button>
-          )}
-        </div>
       </div>
     </div>
   );

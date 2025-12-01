@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import Step1_Locations from "./components/Step1_Locations";
 import Step2_DateTime from "./components/Step2_DateTime";
 import Step3_Vehicle from "./components/Step3_Vehicle";
-import Step4_Extras from "./components/Step4_Extras";
 import Step5_CustomerInfo from "./components/Step5_CustomerInfo";
 import Step6_Review from "./components/Step6_Review";
 import ProgressBar from "./components/ProgressBar";
@@ -25,10 +24,20 @@ export default function BookingWizard() {
     phone: ""
   });
 
-  const next = () => setStep((s) => Math.min(6, s + 1));
+  const next = () => setStep((s) => Math.min(5, s + 1));
   const back = () => setStep((s) => Math.max(1, s - 1));
 
   const setDataPatch = (patch) => setData((d) => ({ ...d, ...patch }));
+
+  const formatTime = (time) => {
+    if (!time) return "—";
+    const [hStr, mStr] = time.split(":");
+    const h = parseInt(hStr, 10);
+    if (Number.isNaN(h)) return time;
+    const suffix = h >= 12 ? "PM" : "AM";
+    const hour12 = h % 12 === 0 ? 12 : h % 12;
+    return `${hour12}:${mStr} ${suffix}`;
+  };
 
   // Strict validation - check if all required steps are completed
   const isBookingComplete = () => {
@@ -59,12 +68,9 @@ export default function BookingWizard() {
             <Step3_Vehicle next={next} back={back} data={data} setData={setDataPatch} />
           )}
           {step === 4 && (
-            <Step4_Extras next={next} back={back} data={data} setData={setDataPatch} />
-          )}
-          {step === 5 && (
             <Step5_CustomerInfo next={next} back={back} data={data} setData={setDataPatch} />
           )}
-          {step === 6 && (
+          {step === 5 && (
             <Step6_Review back={back} data={data} />
           )}
         </div>
@@ -94,7 +100,7 @@ export default function BookingWizard() {
               </div>
               <div>
                 <small>Time</small>
-                <div className="muted">{data.time || "—"}</div>
+                <div className="muted">{formatTime(data.time)}</div>
               </div>
             </div>
 
@@ -126,15 +132,6 @@ export default function BookingWizard() {
               <small>Estimated Total</small>
               <div className="total-value">${data.price || 0}</div>
             </div>
-
-            <button
-              className={`cta ${!isBookingComplete() ? 'disabled' : ''}`}
-              onClick={() => isBookingComplete() && setStep(6)}
-              disabled={!isBookingComplete()}
-              title={!isBookingComplete() ? "Please complete all steps before reviewing" : ""}
-            >
-              Continue to Review
-            </button>
           </div>
         </aside>
       </div>

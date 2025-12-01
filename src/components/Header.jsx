@@ -1,9 +1,15 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 
 export default function Header() {
   const navigate = useNavigate();
   const location = useLocation();
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  useEffect(() => {
+    document.body.classList.toggle('menu-open', menuOpen);
+    return () => document.body.classList.remove('menu-open');
+  }, [menuOpen]);
 
   const handleLogoClick = (e) => {
     e.preventDefault();
@@ -15,6 +21,14 @@ export default function Header() {
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }, 100);
     }
+  };
+
+  const closeMenu = () => setMenuOpen(false);
+  const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  const handleNavLinkClick = () => {
+    closeMenu();
+    scrollToTop();
   };
 
   const handleAboutClick = (e) => {
@@ -31,23 +45,51 @@ export default function Header() {
         if (element) {
           element.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
+        setMenuOpen(false);
       }, 100);
     }
+    setMenuOpen(false);
   };
 
   return (
     <header className="header">
       <div className="container header-inner">
         <div className="logo">
-          <h1>J&J Limo Services</h1>
+          <img src="/assets/logo.svg" alt="J&J Limo Services" className="logo-mark" />
+          <span className="sr-only">J&J Limo Services</span>
         </div>
-        <div className="nav-links">
-          <Link to="/" onClick={handleLogoClick}>Home</Link>
-          <Link to="/vehicles">Vehicles</Link>
-          <Link to="/services">Services</Link>
+
+        <button
+          className={`menu-toggle ${menuOpen ? 'active' : ''}`}
+          aria-label="Toggle navigation menu"
+          aria-expanded={menuOpen}
+          onClick={() => setMenuOpen((open) => !open)}
+        >
+          <span />
+          <span />
+          <span />
+        </button>
+
+        <div className={`nav-links ${menuOpen ? 'open' : ''}`}>
+          <div className="mobile-logo">
+            <img src="/assets/logo.svg" alt="J&J Limo Services" />
+          </div>
+          <button
+            className="mobile-close"
+            aria-label="Close navigation menu"
+            onClick={closeMenu}
+          >
+            ×
+          </button>
+          <Link to="/" onClick={(e) => { handleLogoClick(e); closeMenu(); }}>Home</Link>
+          <Link to="/vehicles" onClick={handleNavLinkClick}>Vehicles</Link>
+          <Link to="/services" onClick={handleNavLinkClick}>Services</Link>
           <a href="/#about" onClick={handleAboutClick}>About Us</a>
-          <Link to="/contact">Contact Us</Link>
-          <Link to="/booking">Book Now</Link>
+          <Link to="/contact" onClick={handleNavLinkClick}>Contact Us</Link>
+          <Link to="/booking" onClick={handleNavLinkClick}>Book Now</Link>
+          <div className="mobile-contact">
+            <a href="tel:+18629029304">Call +1 (862) 902-9304</a>
+          </div>
         </div>
         <div className="contact-info">
           <a href="tel:+18629029304">+1 (862) 902-9304</a>

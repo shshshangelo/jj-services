@@ -4,6 +4,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import BookingWizard from "./BookingWizard";
 import ContactPage from "./components/ContactPage";
+import TermsPage from "./components/TermsPage";
 import VehiclesPage from "./components/VehiclesPage";
 import ServicesPage from "./components/ServicesPage";
 import BackToTop from "./components/BackToTop";
@@ -294,6 +295,7 @@ export default function App() {
             <Route path="/vehicles" element={<VehiclesPage />} />
             <Route path="/services" element={<ServicesPage />} />
             <Route path="/contact" element={<ContactPage />} />
+            <Route path="/terms" element={<TermsPage />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </main>

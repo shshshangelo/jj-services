@@ -4,6 +4,16 @@ import BookingConfirmationModal from "./BookingConfirmationModal";
 export default function Step6_Review({ back, data }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const formatTime = (time) => {
+    if (!time) return "—";
+    const [hStr, mStr] = time.split(":");
+    const h = parseInt(hStr, 10);
+    if (Number.isNaN(h)) return time;
+    const suffix = h >= 12 ? "PM" : "AM";
+    const hour12 = h % 12 === 0 ? 12 : h % 12;
+    return `${hour12}:${mStr} ${suffix}`;
+  };
+
   return (
     <>
       <div className="step-card">
@@ -18,20 +28,15 @@ export default function Step6_Review({ back, data }) {
             <strong>Dropoff:</strong> {data.dropoff || (data.dropoffCoords ? `${data.dropoffCoords.lat.toFixed(6)}, ${data.dropoffCoords.lng.toFixed(6)}` : "—")}
           </div>
           <div className="review-row"><strong>Date:</strong> {data.date || "—"}</div>
-          <div className="review-row"><strong>Time:</strong> {data.time || "—"}</div>
+          <div className="review-row"><strong>Time:</strong> {formatTime(data.time)}</div>
           <div className="review-row"><strong>Vehicle:</strong> {data.vehicle || "—"}</div>
           <div className="review-row"><strong>Passengers:</strong> {data.passengers}</div>
-          <div className="review-row"><strong>Add-ons:</strong> {data.addons && data.addons.length ? data.addons.join(", ") : "None"}</div>
         </div>
 
         <div className="review-section">
           <h3 className="review-section-title">Contact Information</h3>
           <div className="review-row"><strong>Name:</strong> {data.customerName || "—"}</div>
           <div className="review-row"><strong>Phone:</strong> {data.phone || "—"}</div>
-        </div>
-
-        <div className="total-box">
-          <strong>Estimated Total (US SRP):</strong> ${data.price || 0}
         </div>
 
         <div className="btn-row">

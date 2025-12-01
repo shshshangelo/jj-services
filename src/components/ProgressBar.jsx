@@ -1,7 +1,7 @@
 import React from "react";
 
 export default function ProgressBar({ step }) {
-  const steps = ["Locations", "Date & Time", "Vehicle", "Extras", "Contact Info", "Review"];
+  const steps = ["Locations", "Date & Time", "Vehicle", "Contact Info", "Review"];
 
   return (
     <div className="progress-bar-wrapper">

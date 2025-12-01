@@ -44,7 +44,10 @@ export default function Step5_CustomerInfo({ next, back, data, setData }) {
         type="text"
         className="input-field"
         value={data.customerName || ''}
-        onChange={(e) => setData({ customerName: e.target.value })}
+        onChange={(e) => {
+          const onlyLetters = e.target.value.replace(/[0-9]/g, '');
+          setData({ customerName: onlyLetters });
+        }}
         placeholder="Enter your full name"
         required
       />
