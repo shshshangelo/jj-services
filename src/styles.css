@@ -15,10 +15,120 @@
   --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 
+/* Extra small devices tweaks */
+@media (max-width: 420px) {
+  /* slightly larger tap targets for nav */
+  .nav-links a {
+    font-size: 16px;
+    padding: 14px 0;
+  }
+
+  /* logo scale on very small screens */
+  .logo-mark {
+    height: 40px;
+  }
+
+  /* tighten hero spacing and font sizes */
+  .hero {
+    padding: 28px 12px;
+    min-height: 55vh;
+  }
+
+  .hero h1 {
+    font-size: 22px;
+  }
+
+  .hero p {
+    font-size: 14px;
+  }
+
+  /* About/text spacing */
+  .about-text {
+    padding: 16px 14px;
+  }
+
+  .about-features {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  /* Wizard / summary compacting */
+  .summary-inner {
+    padding: 16px;
+  }
+
+  .summary-card {
+    position: static;
+    width: 100%;
+  }
+
+  /* CTA banner compact */
+  .cta-banner {
+    padding: 24px 16px;
+    gap: 16px;
+  }
+
+  /* Make buttons stack and fill width */
+  .cta-banner-buttons,
+  .cta-buttons {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .cta-banner-btn,
+  .cta-primary,
+  .cta-secondary {
+    width: 100%;
+  }
+
+  /* smaller map iframe on tiny devices */
+  .map-container iframe {
+    height: 260px;
+  }
+
+  /* ensure vehicle cards remain readable */
+  .vehicle-card img {
+    width: 80px;
+    height: 50px;
+  }
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+
+/* skip link for A11y */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  background: transparent;
+  color: var(--primary);
+  z-index: 9999;
+  text-decoration: none;
+}
+.skip-link:focus {
+  left: 12px;
+  top: 12px;
+  width: auto;
+  height: auto;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: white;
+  box-shadow: var(--shadow-md);
+}
+
+/* small route loader style used during lazy loading of pages */
+.route-loader {
+  padding: 60px 0;
+  text-align: center;
+  color: var(--muted);
+  font-weight: 600;
 }
 
 html {
@@ -2444,6 +2554,8 @@ body.menu-open .back-to-top {
 
   .cta-banner-content {
     text-align: center;
+    /* allow the content to shrink on very narrow screens so the banner won't overflow */
+    min-width: 0;
   }
 
   .cta-banner-buttons {
@@ -2454,6 +2566,8 @@ body.menu-open .back-to-top {
   .cta-banner-btn {
     flex: 1;
     min-width: 150px;
+    /* allow button labels to wrap if needed on small screens */
+    white-space: normal;
   }
 
   .services-page {

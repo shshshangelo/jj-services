@@ -1,24 +1,18 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate, Link } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import BookingWizard from "./BookingWizard";
-import ContactPage from "./components/ContactPage";
-import TermsPage from "./components/TermsPage";
-import VehiclesPage from "./components/VehiclesPage";
-import ServicesPage from "./components/ServicesPage";
 import BackToTop from "./components/BackToTop";
 import './styles.css';
 
-function HomePage() {
-  const scrollToSection = (e, sectionId) => {
-    e.preventDefault();
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  };
+const BookingWizard = lazy(() => import('./BookingWizard'));
+const ContactPage = lazy(() => import('./components/ContactPage'));
+const TermsPage = lazy(() => import('./components/TermsPage'));
+const VehiclesPage = lazy(() => import('./components/VehiclesPage'));
+const ServicesPage = lazy(() => import('./components/ServicesPage'));
+const AboutPage = lazy(() => import('./components/AboutPage'));
 
+function HomePage() {
   return (
     <>
       <section className="hero">
@@ -50,9 +44,11 @@ function HomePage() {
           <div className="vehicles-showcase">
             <div className="showcase-card">
               <div className="showcase-image">
-                <img 
+                  <img 
                   src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" 
                   alt="Luxury Sedan" 
+                    loading="lazy"
+                    decoding="async"
                 />
               </div>
               <h3>Sedan</h3>
@@ -60,9 +56,11 @@ function HomePage() {
             </div>
             <div className="showcase-card">
               <div className="showcase-image">
-                <img 
+                  <img 
                   src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" 
                   alt="Luxury SUV" 
+                    loading="lazy"
+                    decoding="async"
                 />
               </div>
               <h3>SUV</h3>
@@ -70,9 +68,11 @@ function HomePage() {
             </div>
             <div className="showcase-card">
               <div className="showcase-image">
-                <img 
+                  <img 
                   src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" 
                   alt="Luxury Van" 
+                    loading="lazy"
+                    decoding="async"
                 />
               </div>
               <h3>Luxury Van</h3>
@@ -127,52 +127,7 @@ function HomePage() {
         </div>
       </section>
 
-      <section id="about" className="about-section">
-        <div className="container">
-          <div className="about-content">
-            <div className="about-text">
-              <h2 className="section-title">About J&J Limo Services</h2>
-              <p>
-                With years of experience in the transportation industry, J&J Limo Services 
-                has established itself as a trusted name in premium ground transportation. 
-                We specialize in providing safe, reliable, and comfortable rides for airport 
-                transfers, corporate events, and special occasions.
-              </p>
-              <p>
-                Our professional drivers are fully licensed, insured, and committed to 
-                delivering exceptional service. We understand that your time is valuable, 
-                which is why we prioritize punctuality and efficiency in every journey.
-              </p>
-              <div className="about-features">
-                <div className="feature-item">
-                  <span className="feature-icon">✓</span>
-                  <span>24/7 Availability</span>
-                </div>
-                <div className="feature-item">
-                  <span className="feature-icon">✓</span>
-                  <span>Professional Drivers</span>
-                </div>
-                <div className="feature-item">
-                  <span className="feature-icon">✓</span>
-                  <span>Fully Insured</span>
-                </div>
-                <div className="feature-item">
-                  <span className="feature-icon">✓</span>
-                  <span>Premium Vehicles</span>
-                </div>
-                <div className="feature-item">
-                  <span className="feature-icon">✓</span>
-                  <span>Competitive Pricing</span>
-                </div>
-                <div className="feature-item">
-                  <span className="feature-icon">✓</span>
-                  <span>Customer Satisfaction</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* About section moved to dedicated /about page */}
 
       <section className="stats-section">
         <div className="container">
@@ -285,16 +240,19 @@ export default function App() {
     <Router>
       <div className="App">
         <Header />
-        <main>
-          <Routes>
+        <main id="main-content">
+          <Suspense fallback={<div className="route-loader container">Loading…</div>}>
+            <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/booking" element={<BookingPage />} />
             <Route path="/vehicles" element={<VehiclesPage />} />
             <Route path="/services" element={<ServicesPage />} />
             <Route path="/contact" element={<ContactPage />} />
+            <Route path="/about" element={<AboutPage />} />
             <Route path="/terms" element={<TermsPage />} />
             <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
+            </Routes>
+          </Suspense>
         </main>
         <Footer />
         <BackToTop />

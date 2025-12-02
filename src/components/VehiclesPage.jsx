@@ -104,7 +104,7 @@ export default function VehiclesPage() {
           {vehicles.map((vehicle) => (
             <div key={vehicle.name} className="vehicle-detail-card">
               <div className="vehicle-detail-image">
-                <img src={vehicle.img} alt={vehicle.name} />
+                <img src={vehicle.img} alt={vehicle.name} loading="lazy" decoding="async" />
               </div>
               <div className="vehicle-detail-content">
                 <div className="vehicle-detail-header">
@@ -129,7 +129,7 @@ export default function VehiclesPage() {
                   <p className="ideal-for">{vehicle.ideal}</p>
                 </div>
 
-                <Link to="/booking" className="book-vehicle-btn">
+                <Link to="/booking" state={{ vehicle: vehicle.name }} className="book-vehicle-btn">
                   Book {vehicle.name}
                 </Link>
               </div>

@@ -33,27 +33,11 @@ export default function Header() {
     scrollToTop();
   };
 
-  const handleAboutClick = (e) => {
-    e.preventDefault();
-    if (location.pathname === '/') {
-      const element = document.getElementById('about');
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    } else {
-      navigate('/');
-      setTimeout(() => {
-        const element = document.getElementById('about');
-        if (element) {
-          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-        setMenuOpen(false);
-      }, 100);
-    }
-    setMenuOpen(false);
-  };
 
   return (
+    <>
+      <a className="skip-link" href="#main-content">Skip to main content</a>
+      
     <header className="header">
       <div className="container header-inner">
         <div className="logo">
@@ -72,7 +56,7 @@ export default function Header() {
           <span />
         </button>
 
-        <div className={`nav-links ${menuOpen ? 'open' : ''}`}>
+        <nav className={`nav-links ${menuOpen ? 'open' : ''}`} role="navigation" aria-label="Main navigation">
           <div className="mobile-logo">
             <img src="/assets/logo.svg" alt="J&J Limo Services" />
           </div>
@@ -104,13 +88,13 @@ export default function Header() {
           >
             Services
           </Link>
-          <a
-            href="/#about"
-            className={isActivePath("/") ? "active" : ""}
-            onClick={handleAboutClick}
+          <Link
+            to="/about"
+            className={isActivePath("/about") ? "active" : ""}
+            onClick={handleNavLinkClick}
           >
             About Us
-          </a>
+          </Link>
           <Link
             to="/contact"
             className={isActivePath("/contact") ? "active" : ""}
@@ -128,11 +112,12 @@ export default function Header() {
           <div className="mobile-contact">
             <a href="tel:+18629029304">Call +1 (862) 902-9304</a>
           </div>
-        </div>
+        </nav>
         <div className="contact-info">
           <a href="tel:+18629029304">+1 (862) 902-9304</a>
         </div>
       </div>
     </header>
+    </>
   );
 }

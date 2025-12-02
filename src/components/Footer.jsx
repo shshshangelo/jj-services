@@ -29,7 +29,7 @@ export default function Footer() {
             <Link to="/booking">Book Now</Link>
             <Link to="/vehicles">Our Vehicles</Link>
             <Link to="/services">Services</Link>
-            <a href="/#about">About Us</a>
+            <Link to="/about">About Us</Link>
             <Link to="/contact">Contact</Link>
           </div>
         </div>

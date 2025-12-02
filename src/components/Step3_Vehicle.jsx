@@ -30,7 +30,7 @@ export default function Step3_Vehicle({ next, back, data, setData }) {
             className={`vehicle-card ${data.vehicle === v.name ? 'selected' : ''}`}
             onClick={() => handleVehicleSelect(v)}
           >
-            <img src={v.img} alt={v.name} className="vehicle-img" />
+            <img src={v.img} alt={v.name} className="vehicle-img" loading="lazy" decoding="async" />
             <div className="vehicle-name">{v.name}</div>
           </div>
         ))}

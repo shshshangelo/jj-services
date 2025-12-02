@@ -8,12 +8,9 @@ export default function BookingConfirmationModal({ isOpen, onClose, bookingData 
 
   const formatTime = (time) => {
     if (!time) return "—";
-    const [hStr, mStr] = time.split(":");
-    const h = parseInt(hStr, 10);
-    if (Number.isNaN(h)) return time;
-    const suffix = h >= 12 ? "PM" : "AM";
-    const hour12 = h % 12 === 0 ? 12 : h % 12;
-    return `${hour12}:${mStr} ${suffix}`;
+    const [hStr = '', mStr = ''] = time.split(":");
+    if (hStr === '' || mStr === '') return time;
+    return `${hStr.padStart(2, '0')}:${mStr.padStart(2, '0')}`;
   };
 
   const handleConfirm = () => {
@@ -66,7 +63,7 @@ export default function BookingConfirmationModal({ isOpen, onClose, bookingData 
                 </div>
                 <div className="confirmation-row">
                   <span className="confirmation-label">Passengers:</span>
-                  <span className="confirmation-value">{bookingData.passengers || 1}</span>
+                  <span className="confirmation-value">{bookingData.passengers ? bookingData.passengers : "—"}</span>
                 </div>
               </div>
 
