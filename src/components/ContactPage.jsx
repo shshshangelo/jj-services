@@ -1,5 +1,34 @@
 import React, { useState } from "react";
 
+function ContactSuccessModal({ isOpen, onClose, name }) {
+  if (!isOpen) return null;
+
+  const firstName = (name || "").trim().split(" ")[0] || "guest";
+
+  return (
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+        <div className="modal-header">
+          <h2>Message Sent</h2>
+          <button className="modal-close" onClick={onClose}>×</button>
+        </div>
+        <div className="modal-body">
+          <p style={{ fontSize: "16px", color: "#0f172a", marginBottom: "12px" }}>
+            Thank you, {firstName}!
+          </p>
+          <p style={{ fontSize: "14px", color: "#64748b", marginBottom: "20px" }}>
+            Your message has been sent successfully. Our team will review it and get back to you as soon as possible
+            via email or phone.
+          </p>
+        </div>
+        <div className="modal-footer">
+          <button className="btn-confirm" onClick={onClose}>Okay</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function ContactPage() {
   const [formData, setFormData] = useState({
     name: "",
@@ -7,18 +36,36 @@ export default function ContactPage() {
     phone: "",
     message: ""
   });
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [submittedName, setSubmittedName] = useState("");
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    if (name === "name") {
+      // Allow only letters and spaces; silently strip anything else
+      const cleaned = value.replace(/[^a-zA-Z\s]/g, "");
+      setFormData((prev) => ({ ...prev, name: cleaned }));
+      return;
+    }
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value
+    }));
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert("Thank you for your message! We'll get back to you soon.");
-    setFormData({ name: "", email: "", phone: "", message: "" });
-  };
+    if (!formData.name.trim()) {
+      return;
+    }
+    // Here you would typically send the formData to your backend or email service
+    console.log("Contact form submitted:", formData);
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
+    setSubmittedName(formData.name);
+    setIsModalOpen(true);
+    setFormData({ name: "", email: "", phone: "", message: "" });
   };
 
   return (
@@ -60,15 +107,32 @@ export default function ContactPage() {
 
               <div className="form-group">
                 <label htmlFor="phone">Phone</label>
-                <input
-                  type="tel"
-                  id="phone"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  required
-                  placeholder="+1 (555) 123-4567"
-                />
+                <div className="phone-input-wrapper">
+                  <span className="phone-prefix">+1</span>
+                  <input
+                    type="tel"
+                    id="phone"
+                    name="phone"
+                    className="input-field phone-input"
+                    value={formData.phone}
+                    onChange={(e) => {
+                      const digits = e.target.value.replace(/\D/g, "").slice(0, 10);
+                      let formatted = digits;
+                      if (digits.length > 0) {
+                        if (digits.length <= 3) {
+                          formatted = `(${digits}`;
+                        } else if (digits.length <= 6) {
+                          formatted = `(${digits.slice(0, 3)}) ${digits.slice(3)}`;
+                        } else {
+                          formatted = `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`;
+                        }
+                      }
+                      setFormData((prev) => ({ ...prev, phone: formatted }));
+                    }}
+                    required
+                    placeholder="(555) 123-4567"
+                  />
+                </div>
               </div>
 
               <div className="form-group">
@@ -135,6 +199,11 @@ export default function ContactPage() {
           </div>
         </div>
       </div>
+      <ContactSuccessModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        name={submittedName}
+      />
     </div>
   );
 }

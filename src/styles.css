@@ -177,11 +177,17 @@ main {
   text-decoration: none;
   font-size: 15px;
   font-weight: 500;
-  transition: color 0.2s ease;
+  transition: color 0.2s ease, border-color 0.2s ease;
+  border-bottom: 2px solid transparent;
 }
 
 .nav-links a:hover {
   color: var(--primary);
+}
+
+.nav-links a.active {
+  color: var(--primary);
+  border-bottom-color: var(--primary);
 }
 
 .contact-info {
@@ -470,11 +476,11 @@ input::placeholder {
 }
 
 .phone-prefix {
-  padding: 14px 12px;
+  padding: 10px 10px;
   background: #f8fafc;
   border: 2px solid var(--border);
   border-radius: 10px;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 600;
   color: var(--accent);
   white-space: nowrap;
@@ -1480,6 +1486,10 @@ input::placeholder {
   animation: pulse 2s infinite;
 }
 
+body.menu-open .back-to-top {
+  display: none !important;
+}
+
 .back-to-top:hover {
   background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
   transform: translateY(-5px) scale(1.1);
@@ -1836,7 +1846,7 @@ input::placeholder {
   box-shadow: var(--shadow-xl);
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   gap: 32px;
   flex-wrap: wrap;
 }
@@ -1844,10 +1854,11 @@ input::placeholder {
 .cta-banner-content {
   flex: 1;
   min-width: 300px;
+  text-align: center;
 }
 
 .cta-banner-content h2 {
-  font-size: 32px;
+  font-size: clamp(22px, 3.5vw, 30px);
   font-weight: 700;
   color: white;
   margin: 0 0 12px;
@@ -1855,15 +1866,20 @@ input::placeholder {
 }
 
 .cta-banner-content p {
-  font-size: 18px;
+  font-size: clamp(14px, 2.2vw, 18px);
   color: rgba(255, 255, 255, 0.9);
   margin: 0;
+  max-width: 36rem;
+  margin-left: auto;
+  margin-right: auto;
+  word-break: break-word;
 }
 
 .cta-banner-buttons {
   display: flex;
   gap: 16px;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 .cta-banner-btn {
@@ -2254,6 +2270,11 @@ input::placeholder {
     padding: 10px 0;
   }
 
+  .nav-links a.active {
+    color: #fbbf24;
+    border-bottom-color: rgba(251, 191, 36, 0.85);
+  }
+
   .nav-links.open {
     transform: translateX(0);
   }
@@ -2337,13 +2358,16 @@ input::placeholder {
   }
 
   .progress-bar-wrapper {
-    flex-wrap: wrap;
-    gap: 8px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    justify-items: center;
+    gap: 8px 12px;
+    margin-bottom: 24px;
   }
 
   .progress-step {
     flex: 0 0 auto;
-    min-width: 80px;
+    min-width: 0;
   }
 
   .progress-step:not(:last-child)::after {

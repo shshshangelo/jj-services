@@ -26,6 +26,8 @@ export default function Header() {
   const closeMenu = () => setMenuOpen(false);
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
+  const isActivePath = (path) => location.pathname === path;
+
   const handleNavLinkClick = () => {
     closeMenu();
     scrollToTop();
@@ -81,12 +83,48 @@ export default function Header() {
           >
             ×
           </button>
-          <Link to="/" onClick={(e) => { handleLogoClick(e); closeMenu(); }}>Home</Link>
-          <Link to="/vehicles" onClick={handleNavLinkClick}>Vehicles</Link>
-          <Link to="/services" onClick={handleNavLinkClick}>Services</Link>
-          <a href="/#about" onClick={handleAboutClick}>About Us</a>
-          <Link to="/contact" onClick={handleNavLinkClick}>Contact Us</Link>
-          <Link to="/booking" onClick={handleNavLinkClick}>Book Now</Link>
+          <Link
+            to="/"
+            className={isActivePath("/") ? "active" : ""}
+            onClick={(e) => { handleLogoClick(e); closeMenu(); }}
+          >
+            Home
+          </Link>
+          <Link
+            to="/vehicles"
+            className={isActivePath("/vehicles") ? "active" : ""}
+            onClick={handleNavLinkClick}
+          >
+            Vehicles
+          </Link>
+          <Link
+            to="/services"
+            className={isActivePath("/services") ? "active" : ""}
+            onClick={handleNavLinkClick}
+          >
+            Services
+          </Link>
+          <a
+            href="/#about"
+            className={isActivePath("/") ? "active" : ""}
+            onClick={handleAboutClick}
+          >
+            About Us
+          </a>
+          <Link
+            to="/contact"
+            className={isActivePath("/contact") ? "active" : ""}
+            onClick={handleNavLinkClick}
+          >
+            Contact Us
+          </Link>
+          <Link
+            to="/booking"
+            className={isActivePath("/booking") ? "active" : ""}
+            onClick={handleNavLinkClick}
+          >
+            Book Now
+          </Link>
           <div className="mobile-contact">
             <a href="tel:+18629029304">Call +1 (862) 902-9304</a>
           </div>

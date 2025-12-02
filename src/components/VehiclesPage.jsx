@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 const vehicles = [
   {
     name: "Sedan",
-    price: 55,
     img: "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
     description: "Perfect for business trips and airport transfers. Comfortable and efficient for up to 4 passengers.",
     features: [
@@ -18,7 +17,6 @@ const vehicles = [
   },
   {
     name: "SUV",
-    price: 80,
     img: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
     description: "Spacious and luxurious, ideal for groups or when you need extra luggage space. Premium comfort for up to 6 passengers.",
     features: [
@@ -33,7 +31,6 @@ const vehicles = [
   },
   {
     name: "Luxury Van",
-    price: 120,
     img: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
     description: "Premium comfort for larger groups with maximum space and amenities. Perfect for corporate events and special occasions.",
     features: [
@@ -49,7 +46,6 @@ const vehicles = [
   },
   {
     name: "Stretch Limousine",
-    price: 200,
     img: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
     description: "The ultimate in luxury transportation. Perfect for weddings, proms, anniversaries, and special celebrations.",
     features: [
@@ -65,7 +61,6 @@ const vehicles = [
   },
   {
     name: "Executive Sedan",
-    price: 75,
     img: "https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
     description: "Premium executive class sedan with enhanced comfort and amenities for business professionals.",
     features: [
@@ -81,7 +76,6 @@ const vehicles = [
   },
   {
     name: "Party Bus",
-    price: 250,
     img: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
     description: "The ultimate party experience on wheels. Perfect for bachelor/bachelorette parties, birthdays, and group celebrations.",
     features: [
@@ -115,7 +109,6 @@ export default function VehiclesPage() {
               <div className="vehicle-detail-content">
                 <div className="vehicle-detail-header">
                   <h2>{vehicle.name}</h2>
-                  <div className="vehicle-detail-price">SRP: ${vehicle.price}</div>
                 </div>
                 <p className="vehicle-detail-description">{vehicle.description}</p>
                 

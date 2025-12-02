@@ -57,7 +57,6 @@ function HomePage() {
               </div>
               <h3>Sedan</h3>
               <p>Perfect for business trips and airport transfers. Comfortable and efficient.</p>
-              <div className="showcase-price">SRP: $55</div>
             </div>
             <div className="showcase-card">
               <div className="showcase-image">
@@ -68,7 +67,6 @@ function HomePage() {
               </div>
               <h3>SUV</h3>
               <p>Spacious and luxurious, ideal for groups or extra luggage space.</p>
-              <div className="showcase-price">SRP: $80</div>
             </div>
             <div className="showcase-card">
               <div className="showcase-image">
@@ -79,7 +77,6 @@ function HomePage() {
               </div>
               <h3>Luxury Van</h3>
               <p>Premium comfort for larger groups with maximum space and amenities.</p>
-              <div className="showcase-price">SRP: $120</div>
             </div>
           </div>
           <div style={{ textAlign: 'center', marginTop: '40px' }}>
