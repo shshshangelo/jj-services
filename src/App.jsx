@@ -27,7 +27,7 @@ function HomePage() {
           <div className="hero-overlay"></div>
         </div>
         <div className="container hero-inner">
-          <h1>Professional Airport & Corporate Transfers</h1>
+          <h1>Premium Ground Transportation Services</h1>
           <p>
             Experience premium luxury transportation with J&J Limo Services. Safe, punctual, and comfortable 
             rides for airport transfers, corporate events, weddings, and special occasions. Our professional 

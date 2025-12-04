@@ -2,6 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 export default function ServicesPage() {
+  const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
+
   return (
     <div className="services-page">
       <div className="container">
@@ -77,8 +79,12 @@ export default function ServicesPage() {
           <h2>Ready to Book Your Ride?</h2>
           <p>Choose from our premium fleet and experience luxury transportation</p>
           <div className="cta-buttons">
-            <Link to="/booking" className="cta-primary">Book Now</Link>
-            <Link to="/vehicles" className="cta-secondary">View Vehicles</Link>
+            <Link to="/booking" className="cta-primary" onClick={scrollToTop}>
+              Book Now
+            </Link>
+            <Link to="/vehicles" className="cta-secondary" onClick={scrollToTop}>
+              View Vehicles
+            </Link>
           </div>
         </div>
       </div>

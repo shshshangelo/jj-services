@@ -145,6 +145,99 @@ body {
   overflow-x: hidden;
 }
 
+/* Typography - Titles and Headings */
+h1, h2, h3, h4, h5, h6,
+.hero h1,
+.section-title,
+.page-title,
+.step-title,
+.logo h1,
+.showcase-card h3,
+.service-card h3,
+.vehicle-detail-header h2,
+.vehicle-detail-section h3,
+.info-card h3,
+.footer-section h3,
+.services-cta h2,
+.cta-banner-content h2,
+.contact-form-section h2,
+.contact-form-section-centered h2,
+.faq-item h3,
+.testimonial-author,
+.summary-inner h4,
+.about-section h2,
+.contact-page h2,
+.vehicles-page h2,
+.services-page h2,
+.terms-page h2,
+.modal-header h2,
+.modal-content h2 {
+  font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+/* Body text and paragraphs - Applied globally */
+p,
+body,
+input,
+select,
+textarea,
+button,
+a,
+.nav-links a,
+.contact-info a,
+.footer-section p,
+.footer-section a,
+.service-card p,
+.showcase-card p,
+.vehicle-detail-description,
+.about-text p,
+.testimonial-text,
+.faq-item p,
+.info-card p,
+.step-subtitle,
+.section-subtitle,
+.page-subtitle,
+.about-section p,
+.contact-page p,
+.vehicles-page p,
+.services-page p,
+.terms-page p,
+.feature-item,
+.ideal-for,
+.label,
+.summary-row,
+.review-row,
+.addon-name,
+.vehicle-name,
+.stat-label,
+.stat-number,
+.muted,
+.book-vehicle-btn,
+.view-details-btn,
+.cta-primary,
+.cta-secondary,
+.view-all-services-btn,
+.book-vehicle-btn,
+.modal-body p,
+.modal-content p,
+.btn-confirm,
+.form-group label,
+.features-list li,
+.service-card ul li,
+.testimonial-stars,
+.footer-bottom p,
+.info-note,
+.brand-note,
+.total-box small,
+.summary-row small,
+.coordinates-display,
+.suggestion-main,
+.suggestion-details {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+}
+
 body.menu-open {
   overflow: hidden;
 }
@@ -207,7 +300,7 @@ main {
   font-weight: 700;
   color: var(--accent);
   margin: 0;
-  letter-spacing: -0.5px;
+  letter-spacing: -0.02em;
 }
 
 .logo {
@@ -377,9 +470,9 @@ main {
 
 .hero h1 {
   font-size: clamp(2.25rem, 6vw, 3.75rem);
-  font-weight: 700;
+  font-weight: 800;
   margin: 0 0 16px;
-  letter-spacing: -1px;
+  letter-spacing: -0.03em;
   line-height: 1.2;
 }
 
@@ -399,6 +492,7 @@ main {
   border: none;
   font-size: 16px;
   font-weight: 600;
+  font-family: 'Inter', sans-serif;
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   box-shadow: var(--shadow-lg);
@@ -534,7 +628,7 @@ main {
   font-size: 24px;
   font-weight: 700;
   color: var(--accent);
-  letter-spacing: -0.5px;
+  letter-spacing: -0.02em;
 }
 
 .step-subtitle {
@@ -775,8 +869,8 @@ input::placeholder {
   cursor: pointer;
   font-weight: 600;
   font-size: 15px;
+  font-family: 'Inter', sans-serif;
   transition: all 0.2s ease;
-  font-family: inherit;
 }
 
 .next-btn {
@@ -1149,11 +1243,11 @@ input::placeholder {
 
 .section-title {
   font-size: clamp(2rem, 4vw, 2.75rem);
-  font-weight: 700;
+  font-weight: 800;
   text-align: center;
   margin: 0 0 12px;
   color: var(--accent);
-  letter-spacing: -1px;
+  letter-spacing: -0.02em;
 }
 
 .section-subtitle {
@@ -1356,10 +1450,10 @@ input::placeholder {
 
 .page-title {
   font-size: 42px;
-  font-weight: 700;
+  font-weight: 800;
   margin: 0 0 16px;
   color: var(--accent);
-  letter-spacing: -1px;
+  letter-spacing: -0.02em;
 }
 
 .page-subtitle {
@@ -1514,6 +1608,7 @@ input::placeholder {
   color: white;
   font-size: 16px;
   font-weight: 600;
+  font-family: 'Inter', sans-serif;
   cursor: pointer;
   transition: all 0.2s ease;
   box-shadow: 0 4px 12px rgba(11, 108, 242, 0.3);

@@ -15,6 +15,7 @@ export default function LocationMapPreview({ pickupCoords, dropoffCoords, pickup
   const [pickupMarker, setPickupMarker] = useState(null);
   const [dropoffMarker, setDropoffMarker] = useState(null);
   const [isGeocoding, setIsGeocoding] = useState(false);
+  const [isGettingLocation, setIsGettingLocation] = useState(false);
 
   const selectActiveLocation = (location) => {
     setActiveLocation(location);
@@ -69,22 +70,30 @@ export default function LocationMapPreview({ pickupCoords, dropoffCoords, pickup
       }
 
       // Determine center and bounds
-      let center = [40.7128, -74.0060]; // Default: NYC (or use user's location if available)
+      let center = [40.7128, -74.0060]; // Default: NYC (will be updated if user location available)
       let bounds = null;
 
-      // Try to get user's location for initial map center
+      // Get user's location for initial map center - prioritize this
       if (navigator.geolocation && !pickupCoords && !dropoffCoords) {
         navigator.geolocation.getCurrentPosition(
           (position) => {
             if (isMounted && mapInstanceRef.current) {
-              mapInstanceRef.current.setView(
-                [position.coords.latitude, position.coords.longitude],
-                13
-              );
+              const userLat = position.coords.latitude;
+              const userLng = position.coords.longitude;
+              center = [userLat, userLng];
+              mapInstanceRef.current.setView([userLat, userLng], 13);
             }
           },
           () => {
             // Use default if geolocation fails
+            if (isMounted && mapInstanceRef.current) {
+              mapInstanceRef.current.setView(center, 13);
+            }
+          },
+          {
+            enableHighAccuracy: true,
+            timeout: 10000,
+            maximumAge: 0
           }
         );
       }
@@ -104,7 +113,32 @@ export default function LocationMapPreview({ pickupCoords, dropoffCoords, pickup
         center = [dropoffCoords.lat, dropoffCoords.lng];
       }
 
+      // Initialize map with center (will be updated if user location is available)
       const newMap = window.L.map(mapRef.current).setView(center, 13);
+      
+      // If no coordinates exist, automatically get user location and center map
+      if (!pickupCoords && !dropoffCoords && navigator.geolocation) {
+        setIsGettingLocation(true);
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            if (isMounted && newMap) {
+              const userLat = position.coords.latitude;
+              const userLng = position.coords.longitude;
+              newMap.setView([userLat, userLng], 13);
+              setIsGettingLocation(false);
+            }
+          },
+          () => {
+            // Keep default center if geolocation fails
+            setIsGettingLocation(false);
+          },
+          {
+            enableHighAccuracy: true,
+            timeout: 10000,
+            maximumAge: 0
+          }
+        );
+      }
 
       // Add OpenStreetMap tiles (no API key required)
       window.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -375,7 +409,7 @@ export default function LocationMapPreview({ pickupCoords, dropoffCoords, pickup
           </button>
         )}
         
-        {/* Loading indicator only */}
+        {/* Loading indicators */}
         {isGeocoding && (
           <div className="map-instruction-card">
             <div className="instruction-content">
@@ -385,6 +419,20 @@ export default function LocationMapPreview({ pickupCoords, dropoffCoords, pickup
               <div>
                 <h4>Getting address...</h4>
                 <p>Please wait while we find the location</p>
+              </div>
+            </div>
+          </div>
+        )}
+        
+        {isGettingLocation && !pickupCoords && !dropoffCoords && (
+          <div className="map-instruction-card">
+            <div className="instruction-content">
+              <div className="instruction-icon loading">
+                <div className="spinner"></div>
+              </div>
+              <div>
+                <h4>Finding your location...</h4>
+                <p>Centering map on your current position</p>
               </div>
             </div>
           </div>

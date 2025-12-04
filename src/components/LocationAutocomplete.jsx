@@ -5,6 +5,31 @@ export default function LocationAutocomplete({ label, value, onSelect, coordinat
   const [isSearching, setIsSearching] = useState(false);
   const debounceTimer = useRef(null);
 
+  // Get user's current location for biasing search results
+  const [userLocation, setUserLocation] = useState(null);
+
+  useEffect(() => {
+    // Get user location once when component mounts for better search accuracy
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setUserLocation({
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          });
+        },
+        () => {
+          // Silently fail - search will work without location bias
+        },
+        {
+          enableHighAccuracy: true,
+          timeout: 5000,
+          maximumAge: 300000 // Cache for 5 minutes
+        }
+      );
+    }
+  }, []);
+
   // Debounced search function
   const searchLocation = async (query) => {
     if (!query || query.length < 2) {
@@ -14,8 +39,14 @@ export default function LocationAutocomplete({ label, value, onSelect, coordinat
 
     setIsSearching(true);
     try {
-      // Use OpenStreetMap Nominatim API (no API key required)
-      const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=8&addressdetails=1`;
+      // Build URL with location bias if user location is available
+      let url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=8&addressdetails=1`;
+      
+      // Add location bias to prioritize results near user
+      if (userLocation) {
+        url += `&lat=${userLocation.lat}&lon=${userLocation.lng}&bounded=1`;
+      }
+      
       const response = await fetch(url, {
         headers: {
           'User-Agent': 'J&J Limo Services Booking App'
@@ -114,6 +145,9 @@ export default function LocationAutocomplete({ label, value, onSelect, coordinat
       async (position) => {
         const { latitude, longitude } = position.coords;
         
+        // Update user location state for future searches
+        setUserLocation({ lat: latitude, lng: longitude });
+        
         try {
           // Reverse geocode to get address
           const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&addressdetails=1`;
@@ -151,7 +185,20 @@ export default function LocationAutocomplete({ label, value, onSelect, coordinat
       },
       (error) => {
         setIsSearching(false);
-        alert('Unable to retrieve your location. Please enter it manually.');
+        let errorMessage = 'Unable to retrieve your location. ';
+        if (error.code === error.PERMISSION_DENIED) {
+          errorMessage += 'Please allow location access in your browser settings.';
+        } else if (error.code === error.POSITION_UNAVAILABLE) {
+          errorMessage += 'Location information is unavailable.';
+        } else {
+          errorMessage += 'Please enter it manually.';
+        }
+        alert(errorMessage);
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 0
       }
     );
   };
