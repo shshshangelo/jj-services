@@ -1,18 +1,20 @@
-import React, { lazy, Suspense } from "react";
+import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate, Link } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import BackToTop from "./components/BackToTop";
-import './styles.css';
-
-const BookingWizard = lazy(() => import('./BookingWizard'));
-const ContactPage = lazy(() => import('./components/ContactPage'));
-const TermsPage = lazy(() => import('./components/TermsPage'));
-const VehiclesPage = lazy(() => import('./components/VehiclesPage'));
-const ServicesPage = lazy(() => import('./components/ServicesPage'));
-const AboutPage = lazy(() => import('./components/AboutPage'));
+import "./styles.css";
+import { vehicles } from "./components/VehiclesPage";
+import BookingWizard from "./BookingWizard";
+import ContactPage from "./components/ContactPage";
+import TermsPage from "./components/TermsPage";
+import VehiclesPage from "./components/VehiclesPage";
+import ServicesPage from "./components/ServicesPage";
+import AboutPage from "./components/AboutPage";
 
 function HomePage() {
+  const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
+
   return (
     <>
       <section className="hero">
@@ -31,7 +33,7 @@ function HomePage() {
             rides for airport transfers, corporate events, weddings, and special occasions. Our professional 
             drivers are fully licensed and insured. Book your ride in seconds and travel in style.
           </p>
-          <Link to="/booking" className="cta">
+          <Link to="/booking" className="cta" onClick={scrollToTop}>
             Reserve Your Ride
           </Link>
         </div>
@@ -42,45 +44,25 @@ function HomePage() {
           <h2 className="section-title">Our Premium Fleet</h2>
           <p className="section-subtitle">Choose from our selection of luxury vehicles</p>
           <div className="vehicles-showcase">
-            <div className="showcase-card">
-              <div className="showcase-image">
-                  <img 
-                  src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" 
-                  alt="Luxury Sedan" 
+            {vehicles.slice(0, 3).map((vehicle) => (
+              <div key={vehicle.name} className="showcase-card">
+                <div className="showcase-image">
+                  <img
+                    src={vehicle.img}
+                    alt={vehicle.name}
                     loading="lazy"
                     decoding="async"
-                />
+                  />
+                </div>
+                <h3>{vehicle.name}</h3>
+                <p>{vehicle.description}</p>
               </div>
-              <h3>Sedan</h3>
-              <p>Perfect for business trips and airport transfers. Comfortable and efficient.</p>
-            </div>
-            <div className="showcase-card">
-              <div className="showcase-image">
-                  <img 
-                  src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" 
-                  alt="Luxury SUV" 
-                    loading="lazy"
-                    decoding="async"
-                />
-              </div>
-              <h3>SUV</h3>
-              <p>Spacious and luxurious, ideal for groups or extra luggage space.</p>
-            </div>
-            <div className="showcase-card">
-              <div className="showcase-image">
-                  <img 
-                  src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" 
-                  alt="Luxury Van" 
-                    loading="lazy"
-                    decoding="async"
-                />
-              </div>
-              <h3>Luxury Van</h3>
-              <p>Premium comfort for larger groups with maximum space and amenities.</p>
-            </div>
+            ))}
           </div>
           <div style={{ textAlign: 'center', marginTop: '40px' }}>
-            <Link to="/vehicles" className="view-all-services-btn">View Car Details →</Link>
+            <Link to="/vehicles" className="view-all-services-btn" onClick={scrollToTop}>
+              View Car Details →
+            </Link>
           </div>
         </div>
       </section>
@@ -122,7 +104,9 @@ function HomePage() {
             </div>
           </div>
           <div style={{ textAlign: 'center', marginTop: '40px' }}>
-            <Link to="/services" className="view-all-services-btn">View All Services →</Link>
+            <Link to="/services" className="view-all-services-btn" onClick={scrollToTop}>
+              View All Services →
+            </Link>
           </div>
         </div>
       </section>
@@ -178,32 +162,54 @@ function HomePage() {
 
       <section className="faq-section">
         <div className="container">
-          <h2 className="section-title">Frequently Asked Questions</h2>
-          <p className="section-subtitle">Everything you need to know about our services</p>
+          <h2 className="section-title">Booking Questions</h2>
+          <p className="section-subtitle">Quick answers about how our online booking works</p>
           <div className="faq-grid">
             <div className="faq-item">
-              <h3>How far in advance should I book?</h3>
-              <p>We recommend booking at least 24 hours in advance, though we can accommodate last-minute requests based on availability. For special events, booking 1-2 weeks ahead is ideal.</p>
+              <h3>How is my fare calculated?</h3>
+              <p>
+                The fare you see in the booking form is an <strong>estimated amount</strong> based on your
+                trip distance (km) and the vehicle you select. Final pricing is confirmed directly with
+                J&amp;J Limo Services before your ride.
+              </p>
             </div>
             <div className="faq-item">
-              <h3>What payment methods do you accept?</h3>
-              <p>We accept all major credit cards, debit cards, and cash. Corporate accounts can be set up for billing. Payment is typically due at the time of service.</p>
+              <h3>How far in advance should I book?</h3>
+              <p>
+                For regular airport and point‑to‑point trips, we recommend booking at least
+                <strong> 24 hours in advance</strong>. For weddings and special events, it&apos;s best to
+                reserve <strong>1–2 weeks ahead</strong> when possible.
+              </p>
+            </div>
+            <div className="faq-item">
+              <h3>Can I change my booking details later?</h3>
+              <p>
+                Yes. If you need to update your pickup time, location, or passenger count, simply contact
+                us using the details on the Contact page. Most changes can be made up to
+                <strong> 24 hours before pickup</strong>, subject to availability.
+              </p>
+            </div>
+            <div className="faq-item">
+              <h3>What if my flight is delayed?</h3>
+              <p>
+                For airport transfers, we monitor flight status and adjust pickup time when delays occur.
+                You won&apos;t be charged extra just because your flight landed later than scheduled.
+              </p>
             </div>
             <div className="faq-item">
               <h3>Do you provide child seats?</h3>
-              <p>Yes, we offer child seats and booster seats upon request. Please mention this when booking so we can ensure availability for your trip.</p>
+              <p>
+                Child seats and booster seats are available on request. Please mention this in your booking
+                or when you contact us so we can reserve the correct seats for your trip.
+              </p>
             </div>
             <div className="faq-item">
-              <h3>What happens if my flight is delayed?</h3>
-              <p>We track all flights for airport transfers. If your flight is delayed, we'll automatically adjust the pickup time at no extra charge. Our drivers monitor flight status in real-time.</p>
-            </div>
-            <div className="faq-item">
-              <h3>Are your drivers licensed and insured?</h3>
-              <p>Absolutely. All our drivers are fully licensed, background-checked, and our vehicles are fully insured. We maintain the highest safety standards in the industry.</p>
-            </div>
-            <div className="faq-item">
-              <h3>Can I cancel or modify my booking?</h3>
-              <p>Yes, you can cancel or modify your booking up to 24 hours before your scheduled pickup time at no charge. Cancellations within 24 hours may incur a fee.</p>
+              <h3>When and how do I pay for my booking?</h3>
+              <p>
+                Payment is usually collected on the day of your trip, after your booking has been confirmed.
+                We accept major credit and debit cards, and in many cases cash as well. If you have any
+                questions about payment options, just mention it in your booking or contact us directly.
+              </p>
             </div>
           </div>
         </div>
@@ -217,8 +223,20 @@ function HomePage() {
               <p>Book your ride today and enjoy premium comfort, professional service, and peace of mind.</p>
             </div>
             <div className="cta-banner-buttons">
-              <Link to="/booking" className="cta-banner-btn primary">Book Now</Link>
-              <Link to="/contact" className="cta-banner-btn secondary">Get a Quote</Link>
+              <Link
+                to="/booking"
+                className="cta-banner-btn primary"
+                onClick={scrollToTop}
+              >
+                Book Now
+              </Link>
+              <Link
+                to="/contact"
+                className="cta-banner-btn secondary"
+                onClick={scrollToTop}
+              >
+                Get a Quote
+              </Link>
             </div>
           </div>
         </div>
@@ -241,8 +259,7 @@ export default function App() {
       <div className="App">
         <Header />
         <main id="main-content">
-          <Suspense fallback={<div className="route-loader container">Loading…</div>}>
-            <Routes>
+          <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/booking" element={<BookingPage />} />
             <Route path="/vehicles" element={<VehiclesPage />} />
@@ -251,8 +268,7 @@ export default function App() {
             <Route path="/about" element={<AboutPage />} />
             <Route path="/terms" element={<TermsPage />} />
             <Route path="*" element={<Navigate to="/" replace />} />
-            </Routes>
-          </Suspense>
+          </Routes>
         </main>
         <Footer />
         <BackToTop />

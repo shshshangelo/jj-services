@@ -6,6 +6,16 @@
   overflow: hidden;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
   background: #ffffff;
+  /* Create a stacking context for the map so it never appears above the header/nav */
+  z-index: 0;
+}
+
+/* Make absolutely sure Leaflet panes never cover the header/navigation */
+.location-map-preview-modern .leaflet-container,
+.location-map-preview-modern .leaflet-pane,
+.location-map-preview-modern .leaflet-top,
+.location-map-preview-modern .leaflet-bottom {
+  z-index: 0 !important;
 }
 
 .map-wrapper {
@@ -14,6 +24,8 @@
   height: 500px;
   border-radius: 16px;
   overflow: hidden;
+  /* Keep all map content beneath the sticky header/nav */
+  z-index: 0;
 }
 
 .location-search-section {
@@ -164,6 +176,7 @@
   width: 100%;
   height: 100%;
   border-radius: 16px;
+  z-index: 0;
 }
 
 /* Close button */
@@ -618,6 +631,7 @@
 .custom-pin {
   background: transparent;
   border: none;
+  z-index: 0;
 }
 
 .pin-marker {

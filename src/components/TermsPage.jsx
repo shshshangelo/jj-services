@@ -13,7 +13,7 @@ export default function TermsPage() {
 
         <div className="contact-info-centered">
           <div className="contact-form-section">
-            <h2>1. Booking & Confirmation</h2>
+            <h2>1. Booking &amp; Confirmation</h2>
             <p>
               All bookings are subject to availability and are only confirmed once you receive a
               confirmation message from J&amp;J Limo Services via email, SMS, or phone. The details
@@ -24,11 +24,12 @@ export default function TermsPage() {
 
             <h2>2. Pricing & Payments</h2>
             <p>
-              Prices shown during the booking process are standard suggested retail prices (SRP) and
-              may vary based on route, time of day, traffic conditions, tolls, waiting time, and
-              special requests. Final pricing will be confirmed by our team before your trip. Unless
-              otherwise agreed, payment is due at the time of service using an accepted payment
-              method.
+              Prices shown during the online booking flow are <strong>estimated fares</strong> based
+              primarily on trip distance (km), the vehicle you select, and standard routing. Actual
+              charges may vary based on route changes, time of day, traffic conditions, tolls,
+              waiting time, and special requests. Final pricing will be confirmed by our team before
+              your trip. Unless otherwise agreed in writing, payment is typically collected on the
+              day of service using an accepted payment method (major credit/debit cards or cash).
             </p>
 
             <h2>3. Cancellations & Changes</h2>

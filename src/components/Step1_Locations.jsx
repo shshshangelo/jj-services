@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import LocationMapPreview from "./LocationMapPreview";
+import { estimateDistanceKm } from "../utils";
 
 export default function Step1_Locations({ next, data, setData }) {
   const [pickupCoords, setPickupCoords] = useState(data.pickupCoords || null);
@@ -86,6 +87,17 @@ export default function Step1_Locations({ next, data, setData }) {
       setDropoffResults([]);
     }
   };
+
+  // Whenever both pickup and dropoff are set, estimate distance in km.
+  // We intentionally depend only on the coordinates here to avoid a render loop.
+  useEffect(() => {
+    if (pickupCoords && dropoffCoords) {
+      const km = estimateDistanceKm(pickupCoords, dropoffCoords);
+      setData({ distanceKm: km });
+    } else {
+      setData({ distanceKm: 0 });
+    }
+  }, [pickupCoords, dropoffCoords]);
 
   const clearLocation = (type) => {
     if (type === 'pickup') {

@@ -1,93 +1,63 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const vehicles = [
+export const vehicles = [
   {
     name: "Sedan",
     img: "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-    description: "Perfect for business trips and airport transfers. Comfortable and efficient for up to 4 passengers.",
+    description:
+      "Perfect for solo travellers or small groups looking for a comfortable and efficient ride.",
     features: [
       "Up to 4 passengers",
-      "Comfortable leather seats",
+      "Comfortable seating",
       "Climate control",
       "Luggage space",
       "Professional driver"
     ],
-    ideal: "Business trips, Airport transfers, City tours"
+    ideal: "Business trips, airport transfers, city rides"
   },
   {
     name: "SUV",
     img: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-    description: "Spacious and luxurious, ideal for groups or when you need extra luggage space. Premium comfort for up to 6 passengers.",
+    description:
+      "Spacious and versatile, ideal when you need extra room for passengers or luggage.",
     features: [
       "Up to 6 passengers",
-      "Premium leather interior",
       "Extra luggage capacity",
+      "Comfortable interior",
       "Climate control",
-      "Entertainment system",
       "Professional driver"
     ],
-    ideal: "Group travel, Airport transfers, Family trips"
+    ideal: "Family trips, group travel, airport runs"
   },
   {
-    name: "Luxury Van",
-    img: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-    description: "Premium comfort for larger groups with maximum space and amenities. Perfect for corporate events and special occasions.",
-    features: [
-      "Up to 8 passengers",
-      "Luxury interior",
-      "Maximum luggage space",
-      "Premium amenities",
-      "Entertainment system",
-      "Refreshments available",
-      "Professional chauffeur"
-    ],
-    ideal: "Corporate events, Large groups, Special occasions"
-  },
-  {
-    name: "Stretch Limousine",
-    img: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-    description: "The ultimate in luxury transportation. Perfect for weddings, proms, anniversaries, and special celebrations.",
-    features: [
-      "Up to 10 passengers",
-      "Premium bar and refreshments",
-      "LED lighting and sound system",
-      "Leather seating",
-      "Privacy partition",
-      "Professional chauffeur",
-      "Complimentary champagne"
-    ],
-    ideal: "Weddings, Proms, Anniversaries, Special events"
-  },
-  {
-    name: "Executive Sedan",
+    name: "Executive",
     img: "https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-    description: "Premium executive class sedan with enhanced comfort and amenities for business professionals.",
+    description:
+      "Premium executive-class vehicle with enhanced comfort and amenities for business travel.",
     features: [
       "Up to 4 passengers",
-      "Executive leather seats",
-      "WiFi connectivity",
+      "Executive seating",
+      "WiFi (where available)",
       "Charging ports",
-      "Newspaper and refreshments",
-      "Professional chauffeur",
-      "Quiet, comfortable ride"
+      "Bottled water and refreshments",
+      "Professional chauffeur"
     ],
-    ideal: "Business meetings, Corporate travel, Executive transport"
+    ideal: "Corporate travel, client meetings, VIP transfers"
   },
   {
-    name: "Party Bus",
+    name: "Bus",
     img: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-    description: "The ultimate party experience on wheels. Perfect for bachelor/bachelorette parties, birthdays, and group celebrations.",
+    description:
+      "Comfortable large-capacity vehicle for big groups, events, and transfers.",
     features: [
-      "Up to 20 passengers",
-      "Premium sound system",
-      "LED dance floor lighting",
-      "Bar and refreshments",
-      "Multiple seating areas",
-      "Professional driver",
-      "Entertainment system"
+      "From 12 to 20+ passengers (depending on configuration)",
+      "Ample luggage space",
+      "Comfortable seating",
+      "Sound system",
+      "Professional driver"
     ],
-    ideal: "Bachelor parties, Bachelorette parties, Birthdays, Group celebrations"
+    ideal: "Group outings, events, airport transfers, tours"
   }
 ];
 

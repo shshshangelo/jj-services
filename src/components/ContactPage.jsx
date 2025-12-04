@@ -38,14 +38,36 @@ export default function ContactPage() {
   });
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [submittedName, setSubmittedName] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const formatFullName = (value) => {
+    // Allow letters, spaces, dot, and hyphen; strip everything else (including @)
+    const cleaned = value.replace(/[^a-zA-Z.\-\s]/g, '');
+
+    // Auto-capitalize first letter of each word, but keep spaces as user types
+    return cleaned.replace(/\b([a-zA-Z])([a-zA-Z.]*)/g, (_, first, rest) => {
+      return first.toUpperCase() + rest.toLowerCase();
+    });
+  };
+
+  const formatEmail = (value) => {
+    // Disallow spaces; allow common email characters only
+    const noSpaces = value.replace(/\s+/g, '');
+    return noSpaces.replace(/[^a-zA-Z0-9@._-]/g, '');
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
 
     if (name === "name") {
-      // Allow only letters and spaces; silently strip anything else
-      const cleaned = value.replace(/[^a-zA-Z\s]/g, "");
+      const cleaned = formatFullName(value);
       setFormData((prev) => ({ ...prev, name: cleaned }));
+      return;
+    }
+
+    if (name === "email") {
+      const cleanedEmail = formatEmail(value);
+      setFormData((prev) => ({ ...prev, email: cleanedEmail }));
       return;
     }
 
@@ -57,15 +79,21 @@ export default function ContactPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!formData.name.trim()) {
+    if (!formData.name.trim() || isSubmitting) {
       return;
     }
-    // Here you would typically send the formData to your backend or email service
-    console.log("Contact form submitted:", formData);
 
-    setSubmittedName(formData.name);
-    setIsModalOpen(true);
-    setFormData({ name: "", email: "", phone: "", message: "" });
+    setIsSubmitting(true);
+
+    // Simulate async send; replace with real API call later
+    setTimeout(() => {
+      console.log("Contact form submitted:", formData);
+
+      setSubmittedName(formData.name);
+      setIsModalOpen(true);
+      setFormData({ name: "", email: "", phone: "", message: "" });
+      setIsSubmitting(false);
+    }, 1200);
   };
 
   return (
@@ -148,8 +176,8 @@ export default function ContactPage() {
                 ></textarea>
               </div>
 
-              <button type="submit" className="submit-btn">
-                Send Message
+              <button type="submit" className="submit-btn" disabled={isSubmitting}>
+                {isSubmitting ? "Sending..." : "Send Message"}
               </button>
             </form>
         </div>
@@ -199,6 +227,20 @@ export default function ContactPage() {
           </div>
         </div>
       </div>
+      {isSubmitting && (
+        <div className="modal-overlay contact-loading-overlay">
+          <div
+            className="modal-content contact-loading-modal"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="modal-body contact-loading-body">
+              <div className="page-loading-spinner" />
+              <p>Sending your message…</p>
+            </div>
+          </div>
+        </div>
+      )}
+
       <ContactSuccessModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}

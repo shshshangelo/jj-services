@@ -3,6 +3,7 @@ import "./BookingConfirmationModal.css";
 
 export default function BookingConfirmationModal({ isOpen, onClose, bookingData }) {
   const [isSuccess, setIsSuccess] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   if (!isOpen) return null;
 
@@ -14,8 +15,16 @@ export default function BookingConfirmationModal({ isOpen, onClose, bookingData 
   };
 
   const handleConfirm = () => {
-    console.log("Booking confirmed:", bookingData);
-    setIsSuccess(true);
+    if (isSubmitting) return;
+
+    setIsSubmitting(true);
+
+    // Simulate processing/loading before showing success state
+    setTimeout(() => {
+      console.log("Booking confirmed:", bookingData);
+      setIsSubmitting(false);
+      setIsSuccess(true);
+    }, 1200);
   };
 
   const handleSuccessClose = () => {
@@ -65,6 +74,12 @@ export default function BookingConfirmationModal({ isOpen, onClose, bookingData 
                   <span className="confirmation-label">Passengers:</span>
                   <span className="confirmation-value">{bookingData.passengers ? bookingData.passengers : "—"}</span>
                 </div>
+                <div className="confirmation-row">
+                  <span className="confirmation-label">Distance:</span>
+                  <span className="confirmation-value">
+                    {bookingData.distanceKm ? `${bookingData.distanceKm.toFixed(1)} km` : "—"}
+                  </span>
+                </div>
               </div>
 
               <div className="confirmation-section">
@@ -77,11 +92,15 @@ export default function BookingConfirmationModal({ isOpen, onClose, bookingData 
                   <span className="confirmation-label">Phone:</span>
                   <span className="confirmation-value">{bookingData.phone || "—"}</span>
                 </div>
+                <div className="confirmation-row">
+                  <span className="confirmation-label">Email:</span>
+                  <span className="confirmation-value">{bookingData.email || "—"}</span>
+                </div>
               </div>
 
               <div className="confirmation-total">
                 <div className="total-row">
-                  <span className="total-label">Total Amount (US SRP):</span>
+                  <span className="total-label">Estimated Fare (based on distance in km):</span>
                   <span className="total-amount">${bookingData.price || 0}</span>
                 </div>
               </div>
@@ -97,14 +116,19 @@ export default function BookingConfirmationModal({ isOpen, onClose, bookingData 
                   >
                     terms and conditions
                   </a>
-                  . A confirmation text or call will follow shortly.
+                  . A confirmation text or call will follow shortly. Payment is typically collected on
+                  the day of service via card or cash, as agreed with J&amp;J Limo Services.
                 </p>
               </div>
             </div>
 
             <div className="modal-footer">
-              <button className="btn-cancel" onClick={onClose}>Cancel</button>
-              <button className="btn-confirm" onClick={handleConfirm}>Confirm Booking</button>
+              <button className="btn-cancel" onClick={onClose} disabled={isSubmitting}>
+                Cancel
+              </button>
+              <button className="btn-confirm" onClick={handleConfirm} disabled={isSubmitting}>
+                {isSubmitting ? "Confirming..." : "Confirm Booking"}
+              </button>
             </div>
           </>
         ) : (

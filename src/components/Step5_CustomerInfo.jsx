@@ -1,6 +1,22 @@
 import React from "react";
 
 export default function Step5_CustomerInfo({ next, back, data, setData }) {
+  const formatFullName = (value) => {
+    // Allow letters, spaces, dot, and hyphen; strip everything else (including @)
+    const cleaned = value.replace(/[^a-zA-Z.\-\s]/g, '');
+
+    // Auto-capitalize first letter of each word, but keep spaces as user types
+    return cleaned.replace(/\b([a-zA-Z])([a-zA-Z.]*)/g, (_, first, rest) => {
+      return first.toUpperCase() + rest.toLowerCase();
+    });
+  };
+
+  const formatEmail = (value) => {
+    // Disallow spaces; allow common email characters only
+    const noSpaces = value.replace(/\s+/g, '');
+    return noSpaces.replace(/[^a-zA-Z0-9@._-]/g, '');
+  };
+
   const formatPhoneNumber = (value) => {
     // Remove all non-digits
     const phoneNumber = value.replace(/\D/g, '');
@@ -37,7 +53,10 @@ export default function Step5_CustomerInfo({ next, back, data, setData }) {
   return (
     <div className="step-card">
       <h2 className="step-title">Your Contact Information</h2>
-      <p className="step-subtitle">We'll use this to confirm your booking</p>
+      <p className="step-subtitle">
+        Enter your full name, email, and mobile number. We&apos;ll use this information only to
+        send your booking confirmation and contact you about this trip.
+      </p>
 
       <label className="label">Full Name *</label>
       <input
@@ -45,10 +64,23 @@ export default function Step5_CustomerInfo({ next, back, data, setData }) {
         className="input-field"
         value={data.customerName || ''}
         onChange={(e) => {
-          const onlyLetters = e.target.value.replace(/[0-9]/g, '');
-          setData({ customerName: onlyLetters });
+          const formatted = formatFullName(e.target.value);
+          setData({ customerName: formatted });
         }}
         placeholder="Enter your full name"
+        required
+      />
+
+      <label className="label">Email *</label>
+      <input
+        type="email"
+        className="input-field"
+        value={data.email || ''}
+        onChange={(e) => {
+          const cleaned = formatEmail(e.target.value);
+          setData({ email: cleaned });
+        }}
+        placeholder="your.email@example.com"
         required
       />
 
@@ -73,7 +105,13 @@ export default function Step5_CustomerInfo({ next, back, data, setData }) {
         <button 
           className="next-btn" 
           onClick={next}
-          disabled={!data.customerName || !data.phone || data.phone.replace(/\D/g, '').length < 10}
+          disabled={
+            !data.customerName ||
+            !data.phone ||
+            data.phone.replace(/\D/g, '').length < 10 ||
+            !data.email ||
+            !data.email.includes('@')
+          }
         >
           Continue
         </button>
