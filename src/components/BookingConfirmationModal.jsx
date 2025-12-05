@@ -74,12 +74,6 @@ export default function BookingConfirmationModal({ isOpen, onClose, bookingData 
                   <span className="confirmation-label">Passengers:</span>
                   <span className="confirmation-value">{bookingData.passengers ? bookingData.passengers : "—"}</span>
                 </div>
-                <div className="confirmation-row">
-                  <span className="confirmation-label">Distance:</span>
-                  <span className="confirmation-value">
-                    {bookingData.distanceKm ? `${bookingData.distanceKm.toFixed(1)} km` : "—"}
-                  </span>
-                </div>
               </div>
 
               <div className="confirmation-section">
@@ -98,15 +92,11 @@ export default function BookingConfirmationModal({ isOpen, onClose, bookingData 
                 </div>
               </div>
 
-              <div className="confirmation-total">
-                <div className="total-row">
-                  <span className="total-label">Estimated Fare (based on distance in km):</span>
-                  <span className="total-amount">${bookingData.price || 0}</span>
-                </div>
-              </div>
-
-              <div className="confirmation-note">
-                <p>
+              <div className="confirmation-note" style={{ background: "#f0f9ff", border: "2px solid #0b6cf2", borderRadius: "12px", padding: "20px", marginTop: "20px" }}>
+                <p style={{ margin: "0 0 12px 0", fontWeight: 600, color: "#0f172a", fontSize: "16px" }}>
+                  Pricing & Payment:
+                </p>
+                <p style={{ margin: "16px 0 0 0", fontSize: "14px", color: "#64748b", lineHeight: "1.6" }}>
                   By confirming, you agree to our{" "}
                   <a
                     href="/terms"
@@ -116,8 +106,7 @@ export default function BookingConfirmationModal({ isOpen, onClose, bookingData 
                   >
                     terms and conditions
                   </a>
-                  . A confirmation text or call will follow shortly. Payment is typically collected on
-                  the day of service via card or cash, as agreed with J&amp;J Limo Services.
+                  . A confirmation text or call will follow shortly.
                 </p>
               </div>
             </div>

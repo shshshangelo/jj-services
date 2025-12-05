@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 export const vehicles = [
   {
     name: "Sedan",
-    img: "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+    img: "/assets/Sedan.png",
     description:
       "Perfect for solo travellers or small groups looking for a comfortable and efficient ride.",
     features: [
@@ -18,7 +18,7 @@ export const vehicles = [
   },
   {
     name: "SUV",
-    img: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+    img: "/assets/SUV.png",
     description:
       "Spacious and versatile, ideal when you need extra room for passengers or luggage.",
     features: [
@@ -32,7 +32,7 @@ export const vehicles = [
   },
   {
     name: "Executive",
-    img: "https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+    img: "/assets/Executive.png",
     description:
       "Premium executive-class vehicle with enhanced comfort and amenities for business travel.",
     features: [
@@ -46,8 +46,8 @@ export const vehicles = [
     ideal: "Corporate travel, client meetings, VIP transfers"
   },
   {
-    name: "Bus",
-    img: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+    name: "Sprinter Bus",
+    img: "/assets/Sprinter Bus.png",
     description:
       "Comfortable large-capacity vehicle for big groups, events, and transfers.",
     features: [

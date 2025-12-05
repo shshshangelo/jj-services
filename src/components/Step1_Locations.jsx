@@ -88,6 +88,57 @@ export default function Step1_Locations({ next, data, setData }) {
     }
   };
 
+  // Automatically get user's location and fill pickup when permission is granted
+  useEffect(() => {
+    // Only auto-fill if pickup is not already set and geolocation is available
+    if (pickupCoords || !navigator.geolocation) return;
+
+    let isMounted = true;
+
+    // Request location permission and auto-fill pickup
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        if (!isMounted) return;
+        
+        const { latitude, longitude } = position.coords;
+        
+        try {
+          // Reverse geocode to get address
+          const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&addressdetails=1`;
+          const response = await fetch(url, {
+            headers: {
+              'User-Agent': 'J&J Limo Services Booking App'
+            }
+          });
+          const geocodeData = await response.json();
+          
+          if (geocodeData.display_name && isMounted && !pickupCoords) {
+            // Auto-fill pickup location
+            handlePickupCoords(
+              { lat: latitude, lng: longitude },
+              geocodeData.display_name
+            );
+          }
+        } catch (err) {
+          console.error('Auto-fill location error:', err);
+          // Silently fail - user can still enter manually
+        }
+      },
+      () => {
+        // Permission denied or error - silently fail, user can enter manually
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 0
+      }
+    );
+
+    return () => {
+      isMounted = false;
+    };
+  }, []); // Only run once on mount
+
   // Whenever both pickup and dropoff are set, estimate distance in km.
   // We intentionally depend only on the coordinates here to avoid a render loop.
   useEffect(() => {

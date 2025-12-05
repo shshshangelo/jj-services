@@ -24,20 +24,18 @@ export default function TermsPage() {
 
             <h2>2. Pricing & Payments</h2>
             <p>
-              Prices shown during the online booking flow are <strong>estimated fares</strong> based
-              primarily on trip distance (km), the vehicle you select, and standard routing. Actual
-              charges may vary based on route changes, time of day, traffic conditions, tolls,
-              waiting time, and special requests. Final pricing will be confirmed by our team before
-              your trip. Unless otherwise agreed in writing, payment is typically collected on the
-              day of service using an accepted payment method (major credit/debit cards or cash).
+              Our driver will contact you directly to discuss the total payment amount based on your trip details, 
+              vehicle selection, route, time of day, traffic conditions, tolls, waiting time, and any special requests. 
+              Final pricing will be confirmed by our team before your trip. Unless otherwise agreed in writing, 
+              payment is typically collected on the day of service using an accepted payment method (major credit/debit cards or cash).
             </p>
 
             <h2>3. Cancellations & Changes</h2>
             <p>
               You may modify or cancel your booking up to 24 hours before the scheduled pickup time
               without penalty. Cancellations made within 24 hours of pickup may be subject to a
-              cancellation fee up to the full fare. Changes to pickup time, locations, or vehicle
-              type are subject to availability and may affect the final price.
+              cancellation fee. Changes to pickup time, locations, or vehicle
+              type are subject to availability and may affect the final price, which will be discussed with you.
             </p>
 
             <h2>4. Delays, No‑Shows & Waiting Time</h2>
@@ -86,8 +84,12 @@ export default function TermsPage() {
               damages arising out of the use of our services.
             </p>
 
-            <h2>9. Privacy</h2>
+            <h2>9. Location Services & Privacy</h2>
             <p>
+              To provide you with the best booking experience, our website may request access to your device&apos;s location. 
+              If you grant location permission, we will automatically fill in your pickup location to save you time. 
+              Your location data is used solely for the purpose of facilitating your booking and is not stored or shared with third parties. 
+              You can always manually enter your pickup and dropoff locations if you prefer not to share your location. 
               Information you provide during booking (such as your name, contact details, and trip
               information) is used solely to manage your reservation, improve our service, and
               communicate with you about your trip. We do not sell your personal data. For more

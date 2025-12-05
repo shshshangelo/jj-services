@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate, Link } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -12,6 +12,139 @@ import VehiclesPage from "./components/VehiclesPage";
 import ServicesPage from "./components/ServicesPage";
 import AboutPage from "./components/AboutPage";
 
+function TestimonialsCarousel() {
+  const testimonials = [
+    {
+      text: "Excellent service! The driver was professional and on time. Highly recommend for airport transfers.",
+      author: "Sarah M.",
+      stars: "★★★★★"
+    },
+    {
+      text: "Used their limo service for my wedding. Absolutely perfect! Made our special day even more memorable.",
+      author: "Michael R.",
+      stars: "★★★★★"
+    },
+    {
+      text: "Reliable, professional, and comfortable. Best limo service in the area. Will definitely use again!",
+      author: "Jennifer L.",
+      stars: "★★★★★"
+    },
+    {
+      text: "Outstanding customer service from booking to drop-off. The vehicle was spotless and the driver was courteous.",
+      author: "David K.",
+      stars: "★★★★★"
+    },
+    {
+      text: "Perfect for corporate events! Punctual, professional, and made a great impression on our clients.",
+      author: "Amanda T.",
+      stars: "★★★★★"
+    },
+    {
+      text: "The Executive vehicle was luxurious and comfortable. Great experience for our anniversary celebration.",
+      author: "Robert P.",
+      stars: "★★★★★"
+    },
+    {
+      text: "Used the Sprinter Bus for our group trip. Plenty of space and everyone was comfortable throughout the journey.",
+      author: "Maria G.",
+      stars: "★★★★★"
+    },
+    {
+      text: "Best limo service I've ever used. The SUV was spacious and perfect for our family vacation.",
+      author: "James W.",
+      stars: "★★★★★"
+    },
+    {
+      text: "Professional drivers, clean vehicles, and excellent communication. Highly recommend J&J Limo Services!",
+      author: "Lisa H.",
+      stars: "★★★★★"
+    },
+    {
+      text: "Made our prom night unforgettable! The limo was beautiful and the service was top-notch.",
+      author: "Emily C.",
+      stars: "★★★★★"
+    }
+  ];
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+
+  useEffect(() => {
+    if (isPaused) return;
+
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % testimonials.length);
+    }, 4000); // Auto-slide every 4 seconds
+
+    return () => clearInterval(interval);
+  }, [isPaused, testimonials.length]);
+
+  const goToSlide = (index) => {
+    setCurrentIndex(index);
+  };
+
+  const goToPrevious = () => {
+    setCurrentIndex((prevIndex) => 
+      prevIndex === 0 ? testimonials.length - 1 : prevIndex - 1
+    );
+  };
+
+  const goToNext = () => {
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % testimonials.length);
+  };
+
+  return (
+    <div 
+      className="testimonials-carousel"
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
+    >
+      <div className="testimonials-carousel-container">
+        <div 
+          className="testimonials-carousel-track"
+          style={{
+            transform: `translateX(-${currentIndex * 100}%)`
+          }}
+        >
+          {testimonials.map((testimonial, index) => (
+            <div key={index} className="testimonial-card">
+              <div className="testimonial-stars">{testimonial.stars}</div>
+              <p className="testimonial-text">"{testimonial.text}"</p>
+              <p className="testimonial-author">- {testimonial.author}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+      
+      <button 
+        className="carousel-btn carousel-btn-prev" 
+        onClick={goToPrevious}
+        aria-label="Previous testimonial"
+      >
+        ‹
+      </button>
+      <button 
+        className="carousel-btn carousel-btn-next" 
+        onClick={goToNext}
+        aria-label="Next testimonial"
+      >
+        ›
+      </button>
+
+      <div className="carousel-dots">
+        {testimonials.map((_, index) => (
+          <button
+            key={index}
+            className={`carousel-dot ${index === currentIndex ? 'active' : ''}`}
+            onClick={() => goToSlide(index)}
+            aria-label={`Go to testimonial ${index + 1}`}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function HomePage() {
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
@@ -20,7 +153,7 @@ function HomePage() {
       <section className="hero">
         <div className="hero-image-wrapper">
           <img 
-            src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2000&q=80" 
+            src="/assets/background.png" 
             alt="Luxury limousine" 
             className="hero-background-image"
           />
@@ -140,23 +273,7 @@ function HomePage() {
         <div className="container">
           <h2 className="section-title">What Our Customers Say</h2>
           <p className="section-subtitle">Trusted by thousands of satisfied customers</p>
-          <div className="testimonials-grid">
-            <div className="testimonial-card">
-              <div className="testimonial-stars">★★★★★</div>
-              <p className="testimonial-text">"Excellent service! The driver was professional and on time. Highly recommend for airport transfers."</p>
-              <p className="testimonial-author">- Sarah M.</p>
-            </div>
-            <div className="testimonial-card">
-              <div className="testimonial-stars">★★★★★</div>
-              <p className="testimonial-text">"Used their limo service for my wedding. Absolutely perfect! Made our special day even more memorable."</p>
-              <p className="testimonial-author">- Michael R.</p>
-            </div>
-            <div className="testimonial-card">
-              <div className="testimonial-stars">★★★★★</div>
-              <p className="testimonial-text">"Reliable, professional, and comfortable. Best limo service in the area. Will definitely use again!"</p>
-              <p className="testimonial-author">- Jennifer L.</p>
-            </div>
-          </div>
+          <TestimonialsCarousel />
         </div>
       </section>
 
@@ -166,11 +283,10 @@ function HomePage() {
           <p className="section-subtitle">Quick answers about how our online booking works</p>
           <div className="faq-grid">
             <div className="faq-item">
-              <h3>How is my fare calculated?</h3>
+              <h3>How is pricing determined?</h3>
               <p>
-                The fare you see in the booking form is an <strong>estimated amount</strong> based on your
-                trip distance (km) and the vehicle you select. Final pricing is confirmed directly with
-                J&amp;J Limo Services before your ride.
+                Our driver will contact you directly to discuss the total payment amount based on your trip details, 
+                vehicle selection, and any special requirements. Payment will be arranged before your trip.
               </p>
             </div>
             <div className="faq-item">

@@ -38,7 +38,7 @@ export default function LocationMapPreview({ pickupCoords, dropoffCoords, pickup
     return activeLocation;
   };
 
-  // Reverse geocode coordinates to get address
+  // Reverse geocode coordinates to get address using OpenStreetMap Nominatim (free, no API key)
   const reverseGeocode = async (lat, lng) => {
     try {
       const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&addressdetails=1`;
@@ -60,7 +60,7 @@ export default function LocationMapPreview({ pickupCoords, dropoffCoords, pickup
 
     let isMounted = true;
 
-    // Initialize Leaflet map (no API key required)
+    // Initialize Leaflet map (free, no API key required)
     const initializeMap = () => {
       if (!window.L || !isMounted || !mapRef.current) return;
       
@@ -140,7 +140,7 @@ export default function LocationMapPreview({ pickupCoords, dropoffCoords, pickup
         );
       }
 
-      // Add OpenStreetMap tiles (no API key required)
+      // Add OpenStreetMap tiles (free, no API key required)
       window.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '© OpenStreetMap contributors',
         maxZoom: 19

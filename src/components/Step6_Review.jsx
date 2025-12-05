@@ -42,10 +42,6 @@ export default function Step6_Review({ back, data }) {
           <div className="review-row">
             <strong>Dropoff:</strong> {data.dropoff || (data.dropoffCoords ? `${data.dropoffCoords.lat.toFixed(6)}, ${data.dropoffCoords.lng.toFixed(6)}` : "—")}
           </div>
-          <div className="review-row">
-            <strong>Distance:</strong>{" "}
-            {data.distanceKm ? `${data.distanceKm.toFixed(1)} km` : "—"}
-          </div>
           <div className="review-row"><strong>Date:</strong> {data.date || "—"}</div>
           <div className="review-row"><strong>Time:</strong> {formatTime(data.time)}</div>
        
@@ -60,13 +56,16 @@ export default function Step6_Review({ back, data }) {
           <div className="review-row"><strong>Email:</strong> {data.email || "—"}</div>
         </div>
 
-        <div className="total-box">
-          <div>
-            <strong>Estimated fare (distance-based)</strong>
-            <div className="muted">
-              Calculated from your trip distance (km) and selected vehicle.</div>
+        <div className="total-box" style={{ background: "#f0f9ff", border: "2px solid #0b6cf2", borderRadius: "12px", padding: "20px", marginTop: "24px" }}>
+          <div style={{ textAlign: "center", width: "100%" }}>
+            <strong style={{ fontSize: "18px", color: "#0f172a", display: "block", marginBottom: "8px" }}>
+              Pricing Information
+            </strong>
+            <div className="muted" style={{ fontSize: "14px", color: "#64748b", lineHeight: "1.6" }}>
+              Our driver will contact you shortly to discuss the total payment amount and confirm all booking details. 
+              Payment will be arranged directly with you before your trip.
+            </div>
           </div>
-          <div className="total-value">${data.price || 0}</div>
         </div>
 
         <div className="btn-row">
