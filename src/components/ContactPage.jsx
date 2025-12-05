@@ -5,6 +5,12 @@ function ContactSuccessModal({ isOpen, onClose, name }) {
 
   const firstName = (name || "").trim().split(" ")[0] || "guest";
 
+  const handleOkay = () => {
+    onClose();
+    // Redirect to home page
+    window.location.href = "/";
+  };
+
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
@@ -22,7 +28,7 @@ function ContactSuccessModal({ isOpen, onClose, name }) {
           </p>
         </div>
         <div className="modal-footer">
-          <button className="btn-confirm" onClick={onClose}>Okay</button>
+          <button className="btn-confirm" onClick={handleOkay}>Okay</button>
         </div>
       </div>
     </div>
@@ -108,7 +114,10 @@ export default function ContactPage() {
             <h2>Send us a Message</h2>
             <form onSubmit={handleSubmit} className="contact-form">
               <div className="form-group">
-                <label htmlFor="name">Name</label>
+                <label htmlFor="name">
+                  Name
+                  <span className={`required-asterisk ${formData.name.trim() ? 'hidden' : ''}`}>*</span>
+                </label>
                 <input
                   type="text"
                   id="name"
@@ -121,7 +130,10 @@ export default function ContactPage() {
               </div>
 
               <div className="form-group">
-                <label htmlFor="email">Email</label>
+                <label htmlFor="email">
+                  Email
+                  <span className={`required-asterisk ${formData.email.trim() ? 'hidden' : ''}`}>*</span>
+                </label>
                 <input
                   type="email"
                   id="email"
@@ -134,7 +146,10 @@ export default function ContactPage() {
               </div>
 
               <div className="form-group">
-                <label htmlFor="phone">Phone</label>
+                <label htmlFor="phone">
+                  Phone
+                  <span className={`required-asterisk ${formData.phone.trim() ? 'hidden' : ''}`}>*</span>
+                </label>
                 <div className="phone-input-wrapper">
                   <span className="phone-prefix">+1</span>
                   <input
@@ -164,7 +179,10 @@ export default function ContactPage() {
               </div>
 
               <div className="form-group">
-                <label htmlFor="message">Message</label>
+                <label htmlFor="message">
+                  Message
+                  <span className={`required-asterisk ${formData.message.trim() ? 'hidden' : ''}`}>*</span>
+                </label>
                 <textarea
                   id="message"
                   name="message"
@@ -228,15 +246,10 @@ export default function ContactPage() {
         </div>
       </div>
       {isSubmitting && (
-        <div className="modal-overlay contact-loading-overlay">
-          <div
-            className="modal-content contact-loading-modal"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="modal-body contact-loading-body">
-              <div className="page-loading-spinner" />
-              <p>Sending your message…</p>
-            </div>
+        <div className="page-loading-overlay">
+          <div className="page-loading-card">
+            <div className="page-loading-spinner" />
+            <p>Sending your message…</p>
           </div>
         </div>
       )}

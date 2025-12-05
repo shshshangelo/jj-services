@@ -175,7 +175,10 @@ export default function Step1_Locations({ next, data, setData }) {
       <div className="location-search-section">
         <div className="location-search-card">
           <div className="location-search-header">
-            <label>Pickup Location</label>
+            <label>
+              Pickup Location
+              <span className={`required-asterisk ${pickupCoords ? 'hidden' : ''}`}>*</span>
+            </label>
             {pickupCoords && (
               <button type="button" className="link-btn" onClick={() => clearLocation('pickup')}>
                 Clear
@@ -229,7 +232,10 @@ export default function Step1_Locations({ next, data, setData }) {
 
         <div className="location-search-card">
           <div className="location-search-header">
-            <label>Dropoff Location</label>
+            <label>
+              Dropoff Location
+              <span className={`required-asterisk ${dropoffCoords ? 'hidden' : ''}`}>*</span>
+            </label>
             {dropoffCoords && (
               <button type="button" className="link-btn" onClick={() => clearLocation('dropoff')}>
                 Clear

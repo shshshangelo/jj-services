@@ -85,6 +85,7 @@ export default function BookingConfirmationModal({ isOpen, onClose, bookingData 
   const handleSuccessClose = () => {
     setIsSuccess(false);
     onClose();
+    // Redirect to home page
     window.location.href = "/";
   };
 
@@ -139,7 +140,7 @@ export default function BookingConfirmationModal({ isOpen, onClose, bookingData 
                 </div>
                 <div className="confirmation-row">
                   <span className="confirmation-label">Phone:</span>
-                  <span className="confirmation-value">{bookingData.phone || "—"}</span>
+                  <span className="confirmation-value">{bookingData.phone ? `+1 ${bookingData.phone}` : "—"}</span>
                 </div>
                 <div className="confirmation-row">
                   <span className="confirmation-label">Email:</span>
@@ -161,7 +162,7 @@ export default function BookingConfirmationModal({ isOpen, onClose, bookingData 
                   >
                     terms and conditions
                   </a>
-                  . A confirmation text or call will follow shortly.
+                  . 
                 </p>
               </div>
             </div>

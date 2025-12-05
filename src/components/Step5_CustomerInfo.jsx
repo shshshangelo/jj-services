@@ -41,15 +41,6 @@ export default function Step5_CustomerInfo({ next, back, data, setData }) {
     setData({ phone: formatted });
   };
 
-  const handlePhoneBlur = (e) => {
-    const phoneNumber = e.target.value.replace(/\D/g, '');
-    if (phoneNumber.length === 10) {
-      // Format as +1 (XXX) XXX-XXXX
-      const formatted = `+1 (${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3, 6)}-${phoneNumber.slice(6)}`;
-      setData({ phone: formatted });
-    }
-  };
-
   return (
     <div className="step-card">
       <h2 className="step-title">Your Contact Information</h2>
@@ -58,7 +49,10 @@ export default function Step5_CustomerInfo({ next, back, data, setData }) {
         send your booking confirmation and contact you about this trip.
       </p>
 
-      <label className="label">Full Name *</label>
+      <label className="label">
+        Full Name
+        <span className={`required-asterisk ${data.customerName?.trim() ? 'hidden' : ''}`}>*</span>
+      </label>
       <input
         type="text"
         className="input-field"
@@ -71,7 +65,10 @@ export default function Step5_CustomerInfo({ next, back, data, setData }) {
         required
       />
 
-      <label className="label">Email *</label>
+      <label className="label">
+        Email
+        <span className={`required-asterisk ${data.email?.trim() ? 'hidden' : ''}`}>*</span>
+      </label>
       <input
         type="email"
         className="input-field"
@@ -84,7 +81,10 @@ export default function Step5_CustomerInfo({ next, back, data, setData }) {
         required
       />
 
-      <label className="label">Phone Number *</label>
+      <label className="label">
+        Phone Number
+        <span className={`required-asterisk ${data.phone?.trim() ? 'hidden' : ''}`}>*</span>
+      </label>
       <div className="phone-input-wrapper">
         <span className="phone-prefix">+1</span>
         <input
@@ -92,7 +92,6 @@ export default function Step5_CustomerInfo({ next, back, data, setData }) {
           className="input-field phone-input"
           value={data.phone || ''}
           onChange={handlePhoneChange}
-          onBlur={handlePhoneBlur}
           placeholder="(555) 123-4567"
           maxLength={17}
           required

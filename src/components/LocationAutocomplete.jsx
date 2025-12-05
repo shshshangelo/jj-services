@@ -185,13 +185,13 @@ export default function LocationAutocomplete({ label, value, onSelect, coordinat
       },
       (error) => {
         setIsSearching(false);
-        let errorMessage = 'Unable to retrieve your location. ';
+        let errorMessage = 'We are unable to retrieve your location. ';
         if (error.code === error.PERMISSION_DENIED) {
           errorMessage += 'Please allow location access in your browser settings.';
         } else if (error.code === error.POSITION_UNAVAILABLE) {
           errorMessage += 'Location information is unavailable.';
         } else {
-          errorMessage += 'Please enter it manually.';
+          errorMessage += 'Please enter your location manually.';
         }
         alert(errorMessage);
       },

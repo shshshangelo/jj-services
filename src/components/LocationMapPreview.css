@@ -58,6 +58,16 @@
   text-transform: uppercase;
 }
 
+.location-search-card label .required-asterisk {
+  color: #ef4444;
+  margin-left: 4px;
+  font-weight: 700;
+}
+
+.location-search-card label .required-asterisk.hidden {
+  display: none;
+}
+
 .link-btn {
   background: none;
   border: none;

@@ -37,6 +37,10 @@ export default function BookingConfirmationTemplate({ bookingData, bookingRef })
     <div className="booking-confirmation-template" id="booking-confirmation-template">
       <style>{`
         @media print {
+          @page {
+            size: auto;
+            margin: 12mm;
+          }
           body * {
             visibility: hidden;
           }
@@ -49,6 +53,11 @@ export default function BookingConfirmationTemplate({ bookingData, bookingRef })
             left: 0;
             top: 0;
             width: 100%;
+            height: 100%;
+            page-break-after: avoid;
+            page-break-inside: avoid;
+            display: flex;
+            flex-direction: column;
           }
           .no-print {
             display: none !important;
@@ -57,69 +66,75 @@ export default function BookingConfirmationTemplate({ bookingData, bookingRef })
         .booking-confirmation-template {
           max-width: 800px;
           margin: 0 auto;
-          padding: 40px;
+          padding: 20px;
           background: white;
           color: #0f172a;
           font-family: 'Inter', 'Arial', sans-serif;
+          display: flex;
+          flex-direction: column;
+          min-height: fit-content;
         }
         .confirmation-header {
           text-align: center;
-          border-bottom: 3px solid #0b6cf2;
-          padding-bottom: 30px;
-          margin-bottom: 30px;
+          border-bottom: 2px solid #0b6cf2;
+          padding-bottom: 15px;
+          margin-bottom: 15px;
+          flex-shrink: 0;
         }
         .confirmation-logo {
-          max-width: 200px;
+          max-width: 120px;
           height: auto;
-          margin-bottom: 20px;
+          margin-bottom: 10px;
         }
         .confirmation-title {
-          font-size: 32px;
+          font-size: 24px;
           font-weight: 800;
           color: #0f172a;
-          margin: 10px 0;
+          margin: 5px 0;
         }
         .confirmation-subtitle {
-          font-size: 16px;
+          font-size: 13px;
           color: #64748b;
-          margin: 5px 0;
+          margin: 3px 0;
         }
         .confirmation-ref {
           background: #f0f9ff;
           border: 2px solid #0b6cf2;
-          border-radius: 8px;
-          padding: 15px;
-          margin: 20px 0;
+          border-radius: 6px;
+          padding: 10px;
+          margin: 12px 0;
           text-align: center;
         }
         .confirmation-ref-label {
-          font-size: 12px;
+          font-size: 10px;
           color: #64748b;
           text-transform: uppercase;
           letter-spacing: 1px;
-          margin-bottom: 5px;
+          margin-bottom: 3px;
         }
         .confirmation-ref-number {
-          font-size: 24px;
+          font-size: 18px;
           font-weight: 700;
           color: #0b6cf2;
           font-family: 'Courier New', monospace;
         }
         .confirmation-section {
-          margin: 30px 0;
+          margin: 12px 0;
+          page-break-inside: avoid;
+          flex-shrink: 0;
         }
         .confirmation-section-title {
-          font-size: 20px;
+          font-size: 16px;
           font-weight: 700;
           color: #0f172a;
-          margin-bottom: 15px;
-          padding-bottom: 10px;
+          margin-bottom: 8px;
+          padding-bottom: 6px;
           border-bottom: 2px solid #e2e8f0;
         }
         .confirmation-row {
           display: flex;
           justify-content: space-between;
-          padding: 12px 0;
+          padding: 6px 0;
           border-bottom: 1px solid #f1f5f9;
         }
         .confirmation-row:last-child {
@@ -128,32 +143,34 @@ export default function BookingConfirmationTemplate({ bookingData, bookingRef })
         .confirmation-label {
           font-weight: 600;
           color: #64748b;
-          font-size: 14px;
+          font-size: 12px;
           flex: 0 0 40%;
         }
         .confirmation-value {
           color: #0f172a;
-          font-size: 14px;
+          font-size: 12px;
           flex: 1;
           text-align: right;
         }
         .confirmation-footer {
-          margin-top: 40px;
-          padding-top: 30px;
-          border-top: 3px solid #0b6cf2;
+          margin-top: auto;
+          padding-top: 15px;
+          border-top: 2px solid #0b6cf2;
           text-align: center;
+          page-break-inside: avoid;
+          flex-shrink: 0;
         }
         .confirmation-footer-title {
-          font-size: 18px;
+          font-size: 14px;
           font-weight: 700;
           color: #0f172a;
-          margin-bottom: 15px;
+          margin-bottom: 8px;
         }
         .confirmation-footer-info {
-          font-size: 14px;
+          font-size: 11px;
           color: #64748b;
-          line-height: 1.8;
-          margin: 8px 0;
+          line-height: 1.5;
+          margin: 4px 0;
         }
         .confirmation-footer-info a {
           color: #0b6cf2;
@@ -161,26 +178,110 @@ export default function BookingConfirmationTemplate({ bookingData, bookingRef })
         }
         .confirmation-note {
           background: #f8fafc;
-          border-left: 4px solid #0b6cf2;
-          padding: 20px;
-          margin: 30px 0;
-          border-radius: 8px;
+          border-left: 3px solid #0b6cf2;
+          padding: 12px;
+          margin: 12px 0;
+          border-radius: 6px;
+          page-break-inside: avoid;
+          flex-shrink: 0;
         }
         .confirmation-note-title {
           font-weight: 700;
           color: #0f172a;
-          margin-bottom: 10px;
-          font-size: 16px;
+          margin-bottom: 6px;
+          font-size: 13px;
         }
         .confirmation-note-text {
-          font-size: 14px;
+          font-size: 11px;
           color: #64748b;
-          line-height: 1.6;
+          line-height: 1.5;
           margin: 0;
         }
         @media print {
           .booking-confirmation-template {
-            padding: 20px;
+            padding: 12mm;
+            max-width: 100%;
+            width: 100%;
+            box-sizing: border-box;
+          }
+          .confirmation-header {
+            padding-bottom: 8px;
+            margin-bottom: 8px;
+          }
+          .confirmation-logo {
+            max-width: 90px;
+            margin-bottom: 6px;
+          }
+          .confirmation-title {
+            font-size: 18px;
+            margin: 2px 0;
+          }
+          .confirmation-subtitle {
+            font-size: 10px;
+            margin: 1px 0;
+          }
+          .confirmation-ref {
+            padding: 8px;
+            margin: 8px 0;
+          }
+          .confirmation-ref-label {
+            font-size: 9px;
+          }
+          .confirmation-ref-number {
+            font-size: 16px;
+          }
+          .confirmation-section {
+            margin: 8px 0;
+          }
+          .confirmation-section-title {
+            font-size: 14px;
+            margin-bottom: 6px;
+            padding-bottom: 4px;
+          }
+          .confirmation-row {
+            padding: 3px 0;
+          }
+          .confirmation-label,
+          .confirmation-value {
+            font-size: 11px;
+          }
+          .confirmation-note {
+            padding: 10px;
+            margin: 8px 0;
+          }
+          .confirmation-note-title {
+            font-size: 12px;
+            margin-bottom: 4px;
+          }
+          .confirmation-note-text {
+            font-size: 10px;
+          }
+          .confirmation-footer {
+            margin-top: 10px;
+            padding-top: 8px;
+          }
+          .confirmation-footer-title {
+            font-size: 12px;
+            margin-bottom: 6px;
+          }
+          .confirmation-footer-info {
+            font-size: 10px;
+            margin: 3px 0;
+          }
+        }
+        
+        /* Auto-adjust for different paper sizes */
+        @media print and (min-width: 210mm) {
+          /* A4 and larger */
+          .booking-confirmation-template {
+            padding: 15mm;
+          }
+        }
+        
+        @media print and (max-width: 216mm) {
+          /* Letter size and smaller */
+          .booking-confirmation-template {
+            padding: 10mm;
           }
         }
       `}</style>
@@ -241,7 +342,7 @@ export default function BookingConfirmationTemplate({ bookingData, bookingRef })
         </div>
         <div className="confirmation-row">
           <span className="confirmation-label">Phone:</span>
-          <span className="confirmation-value">{bookingData.phone || "—"}</span>
+          <span className="confirmation-value">{bookingData.phone ? `+1 ${bookingData.phone}` : "—"}</span>
         </div>
         <div className="confirmation-row">
           <span className="confirmation-label">Email:</span>

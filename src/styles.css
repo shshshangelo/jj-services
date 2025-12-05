@@ -646,6 +646,16 @@ main {
   font-weight: 600;
 }
 
+.label .required-asterisk {
+  color: #ef4444;
+  margin-left: 4px;
+  font-weight: 700;
+}
+
+.label .required-asterisk.hidden {
+  display: none;
+}
+
 input[type="text"],
 input[type="date"],
 input[type="time"],
@@ -1584,6 +1594,16 @@ input::placeholder {
   font-size: 14px;
   font-weight: 600;
   color: var(--accent);
+}
+
+.form-group label .required-asterisk {
+  color: #ef4444;
+  margin-left: 4px;
+  font-weight: 700;
+}
+
+.form-group label .required-asterisk.hidden {
+  display: none;
 }
 
 .form-group input,

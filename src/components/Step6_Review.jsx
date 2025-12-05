@@ -52,7 +52,7 @@ export default function Step6_Review({ back, data }) {
         <div className="review-section">
           <h3 className="review-section-title">Contact Information</h3>
           <div className="review-row"><strong>Name:</strong> {data.customerName || "—"}</div>
-          <div className="review-row"><strong>Phone:</strong> {data.phone || "—"}</div>
+          <div className="review-row"><strong>Phone:</strong> {data.phone ? `+1 ${data.phone}` : "—"}</div>
           <div className="review-row"><strong>Email:</strong> {data.email || "—"}</div>
         </div>
 

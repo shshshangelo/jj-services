@@ -4,9 +4,11 @@ export default function Step2_DateTime({ next, back, data, setData }) {
   const today = new Date().toISOString().split("T")[0];
 
   const handlePassengersChange = (e) => {
-    const raw = e.target.value.replace(/\D/g, "");
+    const raw = e.target.value.replace(/\D/g, "").slice(0, 2); // Limit to 2 digits
     const num = raw ? parseInt(raw, 10) : "";
-    setData({ passengers: num === "" ? "" : Math.max(1, num) });
+    // Limit to maximum 99
+    const maxPassengers = num === "" ? "" : Math.min(99, Math.max(1, num));
+    setData({ passengers: maxPassengers });
   };
 
   const isValidFutureDate = () => {
@@ -74,7 +76,10 @@ export default function Step2_DateTime({ next, back, data, setData }) {
         We’ll only let you continue if the time is in the future.
       </p>
 
-      <label className="label">Date</label>
+      <label className="label">
+        Date
+        <span className={`required-asterisk ${data.date ? 'hidden' : ''}`}>*</span>
+      </label>
       <input
         type="date"
         className="input-field"
@@ -83,10 +88,13 @@ export default function Step2_DateTime({ next, back, data, setData }) {
         onChange={handleDateChange}
       />
       {data.date && !isValidFutureDate() && (
-        <p className="location-error">Please choose today or a future date.</p>
+        <p className="location-error">Please select today or a future date.</p>
       )}
 
-      <label className="label">Time</label>
+      <label className="label">
+        Time
+        <span className={`required-asterisk ${data.time ? 'hidden' : ''}`}>*</span>
+      </label>
       <input
         type="time"
         className="input-field"
@@ -94,13 +102,17 @@ export default function Step2_DateTime({ next, back, data, setData }) {
         onChange={(e) => setData({ time: e.target.value })}
       />
       {data.time && isValidFutureDate() && !isValidFutureDateTime() && (
-        <p className="location-error">Please choose a time in the future.</p>
+        <p className="location-error">Please select a time in the future.</p>
       )}
 
-      <label className="label">Passengers</label>
+      <label className="label">
+        Passengers
+        <span className={`required-asterisk ${data.passengers ? 'hidden' : ''}`}>*</span>
+      </label>
       <input
         type="number"
         min={1}
+        max={99}
         className="input-field"
         value={data.passengers || ""}
         onChange={handlePassengersChange}
