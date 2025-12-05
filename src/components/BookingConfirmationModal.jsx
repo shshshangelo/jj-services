@@ -1,9 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import "./BookingConfirmationModal.css";
+import BookingConfirmationTemplate from "./BookingConfirmationTemplate";
 
 export default function BookingConfirmationModal({ isOpen, onClose, bookingData }) {
   const [isSuccess, setIsSuccess] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [bookingRef, setBookingRef] = useState("");
+  const printRef = useRef(null);
+
+  // Generate booking reference number
+  const generateBookingRef = () => {
+    const prefix = "JJ";
+    const timestamp = Date.now().toString().slice(-8);
+    const random = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
+    return `${prefix}-${timestamp}-${random}`;
+  };
 
   if (!isOpen) return null;
 
@@ -19,12 +30,56 @@ export default function BookingConfirmationModal({ isOpen, onClose, bookingData 
 
     setIsSubmitting(true);
 
+    // Generate booking reference
+    const ref = generateBookingRef();
+    setBookingRef(ref);
+
     // Simulate processing/loading before showing success state
     setTimeout(() => {
       console.log("Booking confirmed:", bookingData);
+      console.log("Booking Reference:", ref);
       setIsSubmitting(false);
       setIsSuccess(true);
     }, 1200);
+  };
+
+  const handlePrint = () => {
+    // Create a new window with the template for printing
+    const printWindow = window.open('', '_blank');
+    const templateHTML = printRef.current ? printRef.current.innerHTML : '';
+    
+    printWindow.document.write(`
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <title>Booking Confirmation - ${bookingRef}</title>
+          <style>
+            @media print {
+              @page {
+                margin: 20mm;
+              }
+            }
+            body {
+              margin: 0;
+              padding: 0;
+              font-family: 'Inter', 'Arial', sans-serif;
+            }
+          </style>
+        </head>
+        <body>
+          ${templateHTML}
+        </body>
+      </html>
+    `);
+    printWindow.document.close();
+    setTimeout(() => {
+      printWindow.print();
+    }, 250);
+  };
+
+  const handleDownloadPDF = () => {
+    // Same as print - browser will handle PDF generation
+    handlePrint();
   };
 
   const handleSuccessClose = () => {
@@ -133,10 +188,52 @@ export default function BookingConfirmationModal({ isOpen, onClose, bookingData 
                 Your booking has been successfully submitted. Our team will contact you shortly to confirm all details.
                 Please also check your email and SMS for a confirmation message.
               </p>
+              {bookingRef && (
+                <div style={{ 
+                  background: "#f0f9ff", 
+                  border: "2px solid #0b6cf2", 
+                  borderRadius: "12px", 
+                  padding: "16px", 
+                  marginBottom: "20px",
+                  textAlign: "center"
+                }}>
+                  <div style={{ fontSize: "12px", color: "#64748b", marginBottom: "5px" }}>
+                    Booking Reference Number
+                  </div>
+                  <div style={{ fontSize: "20px", fontWeight: 700, color: "#0b6cf2", fontFamily: "monospace" }}>
+                    {bookingRef}
+                  </div>
+                </div>
+              )}
+              <div style={{ display: "flex", gap: "12px", justifyContent: "center", flexWrap: "wrap" }}>
+                <button 
+                  className="btn-confirm" 
+                  onClick={handlePrint}
+                  style={{ minWidth: "140px" }}
+                >
+                  🖨️ Print Confirmation
+                </button>
+                <button 
+                  className="btn-confirm" 
+                  onClick={handleDownloadPDF}
+                  style={{ minWidth: "140px", background: "#10b981" }}
+                >
+                  📄 Download PDF
+                </button>
+              </div>
             </div>
             <div className="modal-footer">
-              <button className="btn-confirm" onClick={handleSuccessClose}>Okay</button>
+              <button className="btn-confirm" onClick={handleSuccessClose}>Done</button>
             </div>
+            
+            {/* Hidden template for printing */}
+            {bookingRef && (
+              <div style={{ position: "absolute", left: "-9999px", top: "-9999px", visibility: "hidden" }}>
+                <div ref={printRef}>
+                  <BookingConfirmationTemplate bookingData={bookingData} bookingRef={bookingRef} />
+                </div>
+              </div>
+            )}
           </>
         )}
       </div>
