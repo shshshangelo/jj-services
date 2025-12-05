@@ -1,16 +1,31 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense, lazy } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate, Link } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import BackToTop from "./components/BackToTop";
 import "./styles.css";
 import { vehicles } from "./components/VehiclesPage";
-import BookingWizard from "./BookingWizard";
-import ContactPage from "./components/ContactPage";
-import TermsPage from "./components/TermsPage";
-import VehiclesPage from "./components/VehiclesPage";
-import ServicesPage from "./components/ServicesPage";
-import AboutPage from "./components/AboutPage";
+
+// Lazy load routes for code splitting - only load when needed
+const BookingWizard = lazy(() => import("./BookingWizard"));
+const ContactPage = lazy(() => import("./components/ContactPage"));
+const TermsPage = lazy(() => import("./components/TermsPage"));
+const VehiclesPage = lazy(() => import("./components/VehiclesPage"));
+const ServicesPage = lazy(() => import("./components/ServicesPage"));
+const AboutPage = lazy(() => import("./components/AboutPage"));
+
+// Loading component for Suspense fallback
+const LoadingSpinner = () => (
+  <div style={{ 
+    display: 'flex', 
+    justifyContent: 'center', 
+    alignItems: 'center', 
+    minHeight: '50vh',
+    padding: '40px'
+  }}>
+    <div className="page-loading-spinner" style={{ width: '40px', height: '40px' }}></div>
+  </div>
+);
 
 function TestimonialsCarousel() {
   const testimonials = [
@@ -156,6 +171,9 @@ function HomePage() {
             src="/assets/background.png" 
             alt="Luxury limousine" 
             className="hero-background-image"
+            loading="eager"
+            fetchPriority="high"
+            decoding="async"
           />
           <div className="hero-overlay"></div>
         </div>
@@ -364,7 +382,9 @@ function HomePage() {
 function BookingPage() {
   return (
     <section id="booking" className="booking-section">
-      <BookingWizard />
+      <Suspense fallback={<LoadingSpinner />}>
+        <BookingWizard />
+      </Suspense>
     </section>
   );
 }
@@ -375,16 +395,18 @@ export default function App() {
       <div className="App">
         <Header />
         <main id="main-content">
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/booking" element={<BookingPage />} />
-            <Route path="/vehicles" element={<VehiclesPage />} />
-            <Route path="/services" element={<ServicesPage />} />
-            <Route path="/contact" element={<ContactPage />} />
-            <Route path="/about" element={<AboutPage />} />
-            <Route path="/terms" element={<TermsPage />} />
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
+          <Suspense fallback={<LoadingSpinner />}>
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/booking" element={<BookingPage />} />
+              <Route path="/vehicles" element={<VehiclesPage />} />
+              <Route path="/services" element={<ServicesPage />} />
+              <Route path="/contact" element={<ContactPage />} />
+              <Route path="/about" element={<AboutPage />} />
+              <Route path="/terms" element={<TermsPage />} />
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+          </Suspense>
         </main>
         <Footer />
         <BackToTop />

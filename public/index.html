@@ -3,64 +3,146 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>J&J Limo Services</title>
+    
+    <!-- Primary SEO Meta Tags -->
+    <title>J&J Limo Services | Premium Airport Transfers & Luxury Transportation</title>
+    <meta
+      name="title"
+      content="J&J Limo Services | Premium Airport Transfers & Luxury Transportation"
+    />
     <meta
       name="description"
-      content="J&J Limo Services provides premium airport transfers, corporate travel, and luxury event transportation across New Jersey and New York. Book professional chauffeurs 24/7."
+      content="J&J Limo Services provides premium airport transfers, corporate travel, and luxury event transportation. Book professional chauffeurs 24/7. Sedan, SUV, Executive, and Sprinter Bus available."
     />
     <meta
       name="keywords"
-      content="limo service, airport transfer, corporate transportation, luxury car service, NJ limo, NY limo, chauffeur service"
+      content="limo service, airport transfer, corporate transportation, luxury car service, chauffeur service, premium transportation, executive car service, wedding transportation, event transportation, luxury sedan, luxury SUV, sprinter bus"
     />
     <meta name="author" content="J&J Limo Services" />
-    <meta name="robots" content="index, follow" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="language" content="English" />
+    <meta name="revisit-after" content="7 days" />
+    <meta name="rating" content="general" />
+    
+    <!-- Geographic Targeting (if needed later) -->
+    <!-- <meta name="geo.region" content="US" /> -->
+    <!-- <meta name="geo.placename" content="New Jersey" /> -->
+    
+    <!-- Mobile Optimization -->
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="J&J Limo Services" />
+    
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#0b6cf2" />
 
-    <!-- Open Graph -->
+    <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://jj-limo-services.com/" />
+    <meta property="og:url" content="#" />
     <meta property="og:title" content="J&J Limo Services | Luxury Airport & Corporate Transfers" />
     <meta
       property="og:description"
       content="Reserve premium sedans, SUVs, and limousines for airport pickups, corporate events, weddings, and more. Professional chauffeurs available 24/7."
     />
-    <meta property="og:image" content="https://jj-limo-services.com/assets/social-share.jpg" />
+    <meta property="og:image" content="%PUBLIC_URL%/assets/web-logo.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="J&J Limo Services" />
 
-    <!-- Twitter -->
+    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="J&J Limo Services | Luxury Airport & Corporate Transfers" />
     <meta
       name="twitter:description"
       content="Book safe, punctual, and luxurious transportation with J&J Limo Services. Available 24/7."
     />
-    <meta name="twitter:image" content="https://jj-limo-services.com/assets/social-share.jpg" />
+    <meta name="twitter:image" content="%PUBLIC_URL%/assets/web-logo.png" />
+    <meta name="twitter:image:alt" content="J&J Limo Services Logo" />
 
-    <link rel="canonical" href="https://jj-limo-services.com/" />
+    <link rel="canonical" href="#" />
     <link rel="icon" type="image/svg+xml" href="%PUBLIC_URL%/assets/favicon.svg" />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/assets/favicon.svg" />
     
-    <!-- Google Fonts -->
+    <!-- Preload critical resources -->
+    <link rel="preload" href="%PUBLIC_URL%/assets/web-logo.png" as="image" />
+    <link rel="preload" href="%PUBLIC_URL%/assets/background.png" as="image" />
+    
+    <!-- DNS prefetch for external resources -->
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+    <link rel="dns-prefetch" href="https://nominatim.openstreetmap.org" />
+    
+    <!-- Google Fonts with display=swap for better performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 
+    <!-- Structured Data for SEO -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
         "@type": "LocalBusiness",
+        "@id": "#",
         "name": "J&J Limo Services",
-        "url": "https://jj-limo-services.com/",
-        "logo": "https://jj-limo-services.com/assets/favicon.svg",
-        "image": "https://jj-limo-services.com/assets/social-share.jpg",
-        "description": "Professional airport transfers and luxury transportation for corporate travel, weddings, and events across NJ & NY.",
+        "alternateName": "J&J Limo",
+        "url": "#",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "%PUBLIC_URL%/assets/web-logo.png",
+          "width": 1200,
+          "height": 630
+        },
+        "image": {
+          "@type": "ImageObject",
+          "url": "%PUBLIC_URL%/assets/web-logo.png",
+          "width": 1200,
+          "height": 630
+        },
+        "description": "Professional airport transfers and luxury transportation for corporate travel, weddings, and events. Available 24/7 with premium vehicles including Sedan, SUV, Executive, and Sprinter Bus.",
         "telephone": "+1-862-902-9304",
-        "address": {
-          "@type": "PostalAddress",
-          "addressRegion": "NJ",
-          "addressCountry": "USA"
+        "email": "Jjlimoservices21@gmail.com",
+        "priceRange": "$$",
+        "serviceArea": {
+          "@type": "GeoCircle",
+          "geoMidpoint": {
+            "@type": "GeoCoordinates"
+          }
+        },
+        "hasOfferCatalog": {
+          "@type": "OfferCatalog",
+          "name": "Transportation Services",
+          "itemListElement": [
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "Airport Transfer Service",
+                "description": "Professional airport pickup and drop-off service"
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "Corporate Transportation",
+                "description": "Executive transportation for business travel"
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "Event Transportation",
+                "description": "Luxury transportation for weddings and special events"
+              }
+            }
+          ]
         },
         "sameAs": [
-          "https://www.facebook.com/jjlimoservices",
-          "https://www.instagram.com/jjlimoservices"
+          "#",
+          "#"
         ],
         "openingHoursSpecification": [
           {
@@ -77,7 +159,51 @@
             "opens": "00:00",
             "closes": "23:59"
           }
+        ],
+        "areaServed": {
+          "@type": "Country",
+          "name": "United States"
+        }
+      }
+    </script>
+    
+    <!-- Additional Organization Schema -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "J&J Limo Services",
+        "url": "#",
+        "logo": "%PUBLIC_URL%/assets/web-logo.png",
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "telephone": "+1-862-902-9304",
+          "contactType": "Customer Service",
+          "email": "Jjlimoservices21@gmail.com",
+          "availableLanguage": "English"
+        },
+        "sameAs": [
+          "#",
+          "#"
         ]
+      }
+    </script>
+    
+    <!-- Service Schema -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        "serviceType": "Transportation Service",
+        "provider": {
+          "@type": "LocalBusiness",
+          "name": "J&J Limo Services"
+        },
+        "areaServed": {
+          "@type": "Country",
+          "name": "United States"
+        },
+        "description": "Premium limousine and luxury vehicle transportation services including airport transfers, corporate travel, and event transportation."
       }
     </script>
   </head>

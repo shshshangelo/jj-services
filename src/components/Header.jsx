@@ -41,7 +41,7 @@ export default function Header() {
     <header className="header">
       <div className="container header-inner">
         <div className="logo">
-          <img src="/assets/logo.svg" alt="J&J Limo Services" className="logo-mark" />
+          <img src="/assets/web-logo.png" alt="J&J Limo Services" className="logo-mark" />
           <span className="sr-only">J&J Limo Services</span>
         </div>
 
@@ -58,7 +58,7 @@ export default function Header() {
 
         <nav className={`nav-links ${menuOpen ? 'open' : ''}`} role="navigation" aria-label="Main navigation">
           <div className="mobile-logo">
-            <img src="/assets/logo.svg" alt="J&J Limo Services" />
+            <img src="/assets/web-logo.png" alt="J&J Limo Services" />
           </div>
           <button
             className="mobile-close"

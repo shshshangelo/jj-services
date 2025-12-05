@@ -288,7 +288,7 @@ export default function BookingConfirmationTemplate({ bookingData, bookingRef })
 
       <div className="confirmation-header">
         <img 
-          src="/assets/logo.svg" 
+          src="/assets/web-logo.png" 
           alt="J&J Limo Services Logo" 
           className="confirmation-logo"
         />
