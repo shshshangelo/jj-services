@@ -301,13 +301,6 @@ function HomePage() {
           <p className="section-subtitle">Quick answers about how our online booking works</p>
           <div className="faq-grid">
             <div className="faq-item">
-              <h3>How is pricing determined?</h3>
-              <p>
-                Our driver will contact you directly to discuss the total payment amount based on your trip details, 
-                vehicle selection, and any special requirements. Payment will be arranged before your trip.
-              </p>
-            </div>
-            <div className="faq-item">
               <h3>How far in advance should I book?</h3>
               <p>
                 For regular airport and point‑to‑point trips, we recommend booking at least
@@ -335,14 +328,6 @@ function HomePage() {
               <p>
                 Child seats and booster seats are available on request. Please mention this in your booking
                 or when you contact us so we can reserve the correct seats for your trip.
-              </p>
-            </div>
-            <div className="faq-item">
-              <h3>When and how do I pay for my booking?</h3>
-              <p>
-                Payment is usually collected on the day of your trip, after your booking has been confirmed.
-                We accept major credit and debit cards, and in many cases cash as well. If you have any
-                questions about payment options, just mention it in your booking or contact us directly.
               </p>
             </div>
           </div>

@@ -7,6 +7,7 @@ export default function BookingConfirmationModal({ isOpen, onClose, bookingData 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [bookingRef, setBookingRef] = useState("");
   const printRef = useRef(null);
+  const printContainerRef = useRef(null);
 
   // Generate booking reference number
   const generateBookingRef = () => {
@@ -78,8 +79,97 @@ export default function BookingConfirmationModal({ isOpen, onClose, bookingData 
   };
 
   const handleDownloadPDF = () => {
-    // Same as print - browser will handle PDF generation
-    handlePrint();
+    // Open confirmation in a new window for viewing/downloading
+    const viewWindow = window.open('', '_blank');
+    const templateHTML = printRef.current ? printRef.current.innerHTML : '';
+    
+    viewWindow.document.write(`
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <title>Booking Confirmation - ${bookingRef}</title>
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+          <style>
+            @media print {
+              @page {
+                margin: 20mm;
+              }
+            }
+            body {
+              margin: 0;
+              padding: 20px;
+              font-family: 'Inter', 'Arial', sans-serif;
+              background: #f8fafc;
+            }
+            .view-actions {
+              position: fixed;
+              top: 10px;
+              right: 10px;
+              z-index: 1000;
+              display: flex;
+              gap: 10px;
+              flex-wrap: wrap;
+            }
+            .view-btn {
+              padding: 10px 20px;
+              background: #0b6cf2;
+              color: white;
+              border: none;
+              border-radius: 6px;
+              cursor: pointer;
+              font-weight: 600;
+              font-size: 14px;
+            }
+            .view-btn:hover {
+              background: #0956c4;
+            }
+            .view-btn.jpeg {
+              background: #f59e0b;
+            }
+            .view-btn.jpeg:hover {
+              background: #d97706;
+            }
+            @media print {
+              .view-actions {
+                display: none;
+              }
+            }
+          </style>
+        </head>
+        <body>
+          <div class="view-actions">
+            <button class="view-btn" onclick="window.print()">🖨️ Print / Save as PDF</button>
+            <button class="view-btn jpeg" onclick="downloadJPEG()">🖼️ Download as JPEG</button>
+            <button class="view-btn" onclick="window.close()" style="background: #64748b;">Close</button>
+          </div>
+          <div id="confirmation-content">
+            ${templateHTML}
+          </div>
+          <script>
+            async function downloadJPEG() {
+              try {
+                const content = document.getElementById('confirmation-content');
+                const canvas = await html2canvas(content, {
+                  backgroundColor: '#ffffff',
+                  scale: 2,
+                  logging: false,
+                  useCORS: true
+                });
+                const dataUrl = canvas.toDataURL('image/jpeg', 0.95);
+                const link = document.createElement('a');
+                link.download = 'Booking-Confirmation-${bookingRef}.jpg';
+                link.href = dataUrl;
+                link.click();
+              } catch (error) {
+                console.error('Error generating JPEG:', error);
+                alert('Failed to generate JPEG. Please try again.');
+              }
+            }
+          </script>
+        </body>
+      </html>
+    `);
+    viewWindow.document.close();
   };
 
   const handleSuccessClose = () => {
@@ -209,17 +299,10 @@ export default function BookingConfirmationModal({ isOpen, onClose, bookingData 
               <div style={{ display: "flex", gap: "12px", justifyContent: "center", flexWrap: "wrap" }}>
                 <button 
                   className="btn-confirm" 
-                  onClick={handlePrint}
-                  style={{ minWidth: "140px" }}
-                >
-                  🖨️ Print Confirmation
-                </button>
-                <button 
-                  className="btn-confirm" 
                   onClick={handleDownloadPDF}
                   style={{ minWidth: "140px", background: "#10b981" }}
                 >
-                  📄 Download PDF
+                  📄 View Booking Information
                 </button>
               </div>
             </div>
@@ -229,7 +312,7 @@ export default function BookingConfirmationModal({ isOpen, onClose, bookingData 
             
             {/* Hidden template for printing */}
             {bookingRef && (
-              <div style={{ position: "absolute", left: "-9999px", top: "-9999px", visibility: "hidden" }}>
+              <div ref={printContainerRef} style={{ position: "absolute", left: "-9999px", top: "-9999px", visibility: "hidden" }}>
                 <div ref={printRef}>
                   <BookingConfirmationTemplate bookingData={bookingData} bookingRef={bookingRef} />
                 </div>

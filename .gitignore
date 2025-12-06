@@ -21,3 +21,7 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# PHP config files with sensitive data
+public/contact_config.php
+public/contact_submissions.txt

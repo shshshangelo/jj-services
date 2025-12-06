@@ -1,0 +1,18 @@
+<?php
+/**
+ * Email Configuration
+ * 
+ * Copy this file to contact_config.php and fill in your credentials
+ * DO NOT commit contact_config.php to git!
+ */
+
+return [
+    'smtp_host' => 'mail.jj-limoservices.com',
+    'smtp_port' => 587,
+    'smtp_username' => 'alerts@jj-limoservices.com',
+    'smtp_password' => 'Sherlyjoe28',
+    'from_email' => 'noreply@jj-limoservices.com',
+    'from_name' => 'J&J Limo Services',
+    'to_email' => 'alerts@jj-limoservices.com'
+];
+
