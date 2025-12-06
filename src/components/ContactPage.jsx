@@ -138,7 +138,9 @@ export default function ContactPage() {
 
       // Check if response is ok
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        const errorText = await response.text().catch(() => 'Unknown error');
+        console.error('API Error:', response.status, errorText);
+        throw new Error(`HTTP error! status: ${response.status} - ${errorText}`);
       }
 
       // Handle both JSON (Vercel) and text (PHP) responses
@@ -165,23 +167,40 @@ export default function ContactPage() {
         setFormData({ name: "", email: "", phone: "", message: "" });
       } else {
         // Error - show alert with more details
-        console.error('PHP returned error:', result);
-        throw new Error(`Server returned: ${result}`);
+        console.error('Server returned error:', result);
+        const errorMsg = (typeof result === 'object' && result.error) 
+          ? result.error 
+          : `Server returned: ${JSON.stringify(result)}`;
+        throw new Error(errorMsg);
       }
     } catch (error) {
       console.error('Error submitting contact form:', error);
+      console.error('Error details:', {
+        message: error.message,
+        stack: error.stack,
+        name: error.name
+      });
       
-      // Check if it's a network error (PHP not accessible)
-      if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
-        // In development or if PHP is not accessible, show success anyway
+      // Check if it's a network error or 404 (endpoint not available)
+      const isNetworkError = error.message.includes('Failed to fetch') || 
+                            error.message.includes('NetworkError') ||
+                            error.message.includes('404') ||
+                            error.message.includes('Cannot POST');
+      
+      if (isNetworkError && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) {
+        // In local development, if API/PHP isn't available, show success anyway
         // (This allows testing the UI flow)
-        console.warn('PHP endpoint not accessible, simulating success for UI testing');
+        console.warn('Backend endpoint not accessible locally, simulating success for UI testing');
+        console.warn('Note: This is normal for local testing. Emails will work when deployed.');
         setSubmittedName(formData.name);
         setIsModalOpen(true);
         setFormData({ name: "", email: "", phone: "", message: "" });
       } else {
-        // Real error - show alert
-        alert('Failed to send message. Please try again or contact us directly at +1 (862) 902-9304');
+        // Real error - show alert with more helpful message
+        const errorMessage = error.message.includes('HTTP error')
+          ? 'The server is not responding. This might be a temporary issue. Please try again in a moment.'
+          : 'Failed to send message. Please try again or contact us directly at +1 (862) 902-9304';
+        alert(errorMessage);
       }
     } finally {
       setIsSubmitting(false);
