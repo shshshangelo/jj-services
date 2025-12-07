@@ -19,6 +19,7 @@ Your HostGator `public_html` folder should look like this:
 ```
 public_html/
 ├── index.html              (from build folder)
+├── .htaccess               (from build folder - IMPORTANT for routing!)
 ├── assets/                 (from build/assets)
 ├── static/                 (from build/static)
 ├── favicon.ico             (from build)
@@ -44,7 +45,8 @@ public_html/
 3. **Navigate to `public_html`** folder
 4. **Upload React Build Files:**
    - Upload everything from your local `build/` folder to `public_html/`
-   - This includes: `index.html`, `assets/`, `static/`, `favicon.ico`, etc.
+   - This includes: `index.html`, `.htaccess`, `assets/`, `static/`, `favicon.ico`, etc.
+   - **IMPORTANT**: Make sure `.htaccess` is uploaded (it may be hidden - enable "Show Hidden Files" in File Manager)
 
 5. **Create `api` folder:**
    - In `public_html`, create a new folder named `api`
@@ -126,13 +128,14 @@ No changes needed - it works automatically!
 ## Quick Checklist
 
 - [ ] Run `npm run build`
-- [ ] Upload all files from `build/` to `public_html/`
+- [ ] Upload all files from `build/` to `public_html/` (including `.htaccess`)
 - [ ] Create `api/` folder in `public_html/`
 - [ ] Upload `send-email.php` to `public_html/api/`
 - [ ] Upload `PHPMailer/` folder to `public_html/`
 - [ ] Set file permissions (644 for files, 755 for folders)
 - [ ] Test the contact form
 - [ ] Verify emails are received
+- [ ] Test page refreshes on routes like `/about`, `/contact`, etc. (should not show 404)
 
 ## Troubleshooting
 
@@ -181,4 +184,18 @@ No changes needed - it works automatically!
 - The business email should still be sent successfully
 - Customer confirmation email failures are logged but don't break the form
 - Check cPanel Error Logs for specific rejection reasons
+
+#### Issue: "404 Error when refreshing pages like /about, /contact, etc."
+**This happens because:**
+- React Router uses client-side routing
+- When you refresh `/about`, the server looks for a file at that path
+- The file doesn't exist because React handles routing on the client side
+
+**Solution:**
+1. Make sure `.htaccess` file is uploaded to `public_html/`
+2. The `.htaccess` file redirects all requests to `index.html` so React Router can handle them
+3. In cPanel File Manager, enable "Show Hidden Files" to see `.htaccess`
+4. Verify `.htaccess` is in `public_html/` (same folder as `index.html`)
+5. If `.htaccess` is missing, upload it from your `build/` folder
+6. After uploading, test by refreshing pages like `/about` or `/contact`
 
