@@ -364,7 +364,7 @@ export default function BookingConfirmationTemplate({ bookingData, bookingRef })
           <strong>Phone:</strong> <a href="tel:+18629029304">+1 (862) 902-9304</a>
         </div>
         <div className="confirmation-footer-info">
-          <strong>Email:</strong> <a href="mailto:Jjlimoservices21@gmail.com">Jjlimoservices21@gmail.com</a>
+          <strong>Email:</strong> <a href="mailto:alerts@jj-limoservices.com">alerts@jj-limoservices.com</a>
         </div>
         <div className="confirmation-footer-info">
           <strong>Service:</strong> 24/7 Available

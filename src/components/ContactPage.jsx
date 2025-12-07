@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./BookingConfirmationModal.css";
 
 function ContactSuccessModal({ isOpen, onClose, name }) {
@@ -80,10 +80,28 @@ export default function ContactPage() {
     }));
   };
 
+  // PHONE FORMATTER OUTSIDE handleSubmit (correct)
+  const handlePhoneChange = (e) => {
+    let digits = e.target.value.replace(/\D/g, "").slice(0, 10);
+    let formatted = "";
+
+    if (digits.length > 0) {
+      if (digits.length <= 3) {
+        formatted = "(" + digits;
+      } else if (digits.length <= 6) {
+        formatted = "(" + digits.slice(0, 3) + ") " + digits.slice(3);
+      } else {
+        formatted =
+          "(" + digits.slice(0, 3) + ") " + digits.slice(3, 6) + "-" + digits.slice(6);
+      }
+    }
+
+    setFormData((prev) => ({ ...prev, phone: formatted }));
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Double-check all fields are complete (button should be disabled, but extra safety)
     const phoneDigits = formData.phone.replace(/\D/g, "");
     if (!formData.name.trim() || !formData.email.trim() || phoneDigits.length !== 10 || !formData.message.trim() || isSubmitting) {
       if (phoneDigits.length !== 10) {
@@ -94,44 +112,83 @@ export default function ContactPage() {
 
     setIsSubmitting(true);
 
-    // Simulate form submission (no backend)
-    setTimeout(() => {
-      console.log("Contact form submitted:", formData);
-      
-      setSubmittedName(formData.name);
-      setIsModalOpen(true);
-      setFormData({ name: "", email: "", phone: "", message: "" });
-      setIsSubmitting(false);
-    }, 1200);
+    // Detect if running on localhost for development
+    const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    const apiUrl = isLocalhost 
+      ? 'http://localhost:8000/api/send-email.php' 
+      : 'https://jj-limoservices.com/api/send-email.php';
+
+    // Include +1 prefix in phone number when sending
+    const phoneWithPrefix = phoneDigits.length === 10 ? `+1${phoneDigits}` : formData.phone;
+    
+    fetch(apiUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        ...formData,
+        phone: phoneWithPrefix
+      })
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        return res.json();
+      })
+      .then((data) => {
+        if (data.success) {
+          setSubmittedName(formData.name);
+          setIsModalOpen(true);
+          setFormData({ name: "", email: "", phone: "", message: "" });
+        } else {
+          const errorMsg = data.error || "Unknown error occurred";
+          alert(`Failed to send message: ${errorMsg}`);
+          console.error("Email error:", errorMsg);
+        }
+      })
+      .catch((err) => {
+        console.error("Fetch error:", err);
+        alert(`Error sending message: ${err.message}`);
+      })
+      .finally(() => setIsSubmitting(false));
   };
 
-  // Phone formatting — ALL WITH ( )
-  const handlePhoneChange = (e) => {
-    let digits = e.target.value.replace(/\D/g, "").slice(0, 10);
-    let formatted = "";
-
-    if (digits.length > 0) {
-      if (digits.length <= 3) {
-        formatted = "(" + digits;
-      } 
-      else if (digits.length <= 6) {
-        formatted = "(" + digits.slice(0, 3) + ") " + digits.slice(3);
-      } 
-      else {
-        formatted = "(" + digits.slice(0, 3) + ") " + digits.slice(3, 6) + "-" + digits.slice(6);
-      }
-    }
-
-    setFormData((prev) => ({ ...prev, phone: formatted }));
-  };
-
-  // Check if form is complete - all fields filled and phone has exactly 10 digits
   const phoneDigits = formData.phone.replace(/\D/g, "");
   const isFormComplete =
     formData.name.trim() !== "" &&
     formData.email.trim() !== "" &&
     formData.message.trim() !== "" &&
     phoneDigits.length === 10;
+
+  // Contact Map Component with Google Maps (static embed - no API key needed)
+  const ContactMap = () => {
+    const address = "2 Watson Avenue, West Orange, NJ 07052";
+    // Use Google Maps embed URL (no API key required for basic embed)
+    const encodedAddress = encodeURIComponent(address);
+    const mapUrl = `https://www.google.com/maps?q=${encodedAddress}&output=embed`;
+
+    return (
+      <div className="contact-map-container">
+        <h2 style={{ textAlign: 'center', marginBottom: '24px', fontSize: '24px', fontWeight: 700, color: 'var(--accent)' }}>
+          Find Us
+        </h2>
+        <div className="contact-map" style={{ height: '400px', borderRadius: '16px', overflow: 'hidden' }}>
+          <iframe
+            width="100%"
+            height="100%"
+            style={{ border: 0, borderRadius: '16px' }}
+            loading="lazy"
+            allowFullScreen
+            referrerPolicy="no-referrer-when-downgrade"
+            src={mapUrl}
+            title="J&J Limo Services Location"
+          ></iframe>
+        </div>
+      </div>
+    );
+  };
 
   return (
     <div className="contact-page">
@@ -148,7 +205,7 @@ export default function ContactPage() {
           <form onSubmit={handleSubmit} className="contact-form">
 
             <div className="form-group">
-              <label>Name <span style={{ color: 'red' }}>*</span></label>
+              <label>Name {formData.name.trim() === '' && <span style={{ color: 'red' }}>*</span>}</label>
               <input
                 type="text"
                 name="name"
@@ -160,7 +217,7 @@ export default function ContactPage() {
             </div>
 
             <div className="form-group">
-              <label>Email <span style={{ color: 'red' }}>*</span></label>
+              <label>Email {formData.email.trim() === '' && <span style={{ color: 'red' }}>*</span>}</label>
               <input
                 type="email"
                 name="email"
@@ -172,7 +229,7 @@ export default function ContactPage() {
             </div>
 
             <div className="form-group">
-              <label>Phone <span style={{ color: 'red' }}>*</span></label>
+              <label>Phone {phoneDigits.length !== 10 && <span style={{ color: 'red' }}>*</span>}</label>
               <div className="phone-input-wrapper">
                 <span className="phone-prefix">+1</span>
                 <input
@@ -187,7 +244,7 @@ export default function ContactPage() {
             </div>
 
             <div className="form-group">
-              <label>Message <span style={{ color: 'red' }}>*</span></label>
+              <label>Message {formData.message.trim() === '' && <span style={{ color: 'red' }}>*</span>}</label>
               <textarea
                 name="message"
                 value={formData.message}
@@ -203,9 +260,49 @@ export default function ContactPage() {
               className="submit-btn"
               disabled={!isFormComplete || isSubmitting}
             >
-              {isSubmitting ? "Sending..." : "Send Message"}
+              {isSubmitting ? (
+                <>
+                  <span className="button-spinner"></span>
+                  Sending...
+                </>
+              ) : (
+                "Send Message"
+              )}
             </button>
           </form>
+        </div>
+
+        <div className="contact-info-centered">
+          <div className="contact-info-section">
+            <div className="info-card">
+              <div className="info-icon">📞</div>
+              <h3>Phone</h3>
+              <p>
+                <a href="tel:+18629029304">+1 (862) 902-9304</a>
+              </p>
+              <p className="info-note">24/7 Available</p>
+            </div>
+
+            <div className="info-card">
+              <div className="info-icon">✉️</div>
+              <h3>Email</h3>
+              <p>
+                <a href="mailto:alerts@jj-limoservices.com">alerts@jj-limoservices.com</a>
+              </p>
+              <p className="info-note">We'll respond within 24 hours</p>
+            </div>
+
+            <div className="info-card">
+              <div className="info-icon">📍</div>
+              <h3>Location</h3>
+              <p>2 Watson Avenue</p>
+              <p>West Orange, NJ 07052</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="contact-info-centered">
+          <ContactMap />
         </div>
 
         {isSubmitting && (

@@ -1556,6 +1556,33 @@ input::placeholder {
   margin-top: 8px;
 }
 
+.contact-map-container {
+  max-width: 1000px;
+  margin: 0 auto 60px;
+}
+
+.contact-map {
+  background: var(--card);
+  border-radius: 16px;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border);
+  width: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+.contact-map .leaflet-container {
+  border-radius: 16px;
+  z-index: 1 !important;
+}
+
+.contact-map-container h2 {
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0 0 24px;
+  color: var(--accent);
+}
+
 .contact-form-section {
   background: var(--card);
   padding: 32px 32px 8px 32px;
@@ -1640,6 +1667,10 @@ input::placeholder {
   box-shadow: 0 4px 12px rgba(11, 108, 242, 0.3);
   align-self: flex-start;
   margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 
 .submit-btn:hover:not(:disabled) {
@@ -1659,6 +1690,23 @@ input::placeholder {
 .submit-btn:disabled:hover {
   transform: none;
   box-shadow: none;
+}
+
+.button-spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .map-section {

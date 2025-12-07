@@ -18,7 +18,7 @@ export default function Footer() {
               <a href="tel:+18629029304">+1 (862) 902-9304</a>
             </p>
             <p>
-              <a href="mailto:Jjlimoservices21@gmail.com">Jjlimoservices21@gmail.com</a>
+              <a href="mailto:alerts@jj-limoservices.com">alerts@jj-limoservices.com</a>
             </p>
           </div>
           <div className="footer-section">

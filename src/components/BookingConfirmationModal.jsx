@@ -277,7 +277,7 @@ export default function BookingConfirmationModal({ isOpen, onClose, bookingData 
               </p>
               <p style={{ fontSize: "14px", color: "#64748b", marginBottom: "20px" }}>
                 Your booking has been successfully submitted. Our team will contact you shortly to confirm all details.
-                Please also check your email and SMS for a confirmation message.
+                Please also check your email for a confirmation message.
               </p>
               {bookingRef && (
                 <div style={{ 

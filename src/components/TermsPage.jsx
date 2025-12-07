@@ -16,7 +16,7 @@ export default function TermsPage() {
             <h2>1. Booking &amp; Confirmation</h2>
             <p>
               All bookings are subject to availability and are only confirmed once you receive a
-              confirmation message from J&amp;J Limo Services via email, SMS, or phone. The details
+              confirmation message from J&amp;J Limo Services via email or phone. The details
               you provide during the booking process (pickup time, locations, passenger count, and
               vehicle type) must be accurate. Please review your confirmation carefully and contact
               us immediately if you notice any errors.

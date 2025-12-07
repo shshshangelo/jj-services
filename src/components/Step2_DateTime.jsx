@@ -37,35 +37,35 @@ export default function Step2_DateTime({ next, back, data, setData }) {
   };
 
   const handleDateChange = (e) => {
-    // Sanitize date input and ensure year component is max 4 digits.
-    const raw = String(e.target.value || "");
-    if (!raw) return setData({ date: "" });
-
-    // Allow digits and dashes only
-    const cleaned = raw.replace(/[^0-9-]/g, "");
-
-    let normalized = cleaned;
-
-    if (cleaned.includes("-")) {
-      const parts = cleaned.split("-").map((p) => p);
-      parts[0] = (parts[0] || "").slice(0, 4); // year
-      if (parts.length > 1) parts[1] = (parts[1] || "").slice(0, 2); // month
-      if (parts.length > 2) parts[2] = (parts[2] || "").slice(0, 2); // day
-      // Rebuild but keep trailing parts if present
-      normalized = parts.filter((p, i) => p !== "" || i === 0).join("-");
-    } else {
-      // digits-only input: try to map YYYYMMDD -> YYYY-MM-DD progressively
-      const digits = cleaned;
-      if (digits.length <= 4) {
-        normalized = digits.slice(0, 4); // partial year
-      } else if (digits.length <= 6) {
-        normalized = `${digits.slice(0,4)}-${digits.slice(4)}`; // YYYY-MM
-      } else {
-        normalized = `${digits.slice(0,4)}-${digits.slice(4,6)}-${digits.slice(6,8)}`; // YYYY-MM-DD
-      }
+    // Only accept values from the date picker (format: YYYY-MM-DD)
+    const value = e.target.value;
+    if (!value) {
+      setData({ date: "" });
+      return;
     }
+    // Validate format - should be YYYY-MM-DD from picker
+    if (/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+      setData({ date: value });
+    } else {
+      // If invalid format, revert to previous value
+      e.target.value = data.date || "";
+    }
+  };
 
-    setData({ date: normalized });
+  const handleTimeChange = (e) => {
+    // Only accept values from the time picker (format: HH:MM)
+    const value = e.target.value;
+    if (!value) {
+      setData({ time: "" });
+      return;
+    }
+    // Validate format - should be HH:MM from picker
+    if (/^\d{2}:\d{2}$/.test(value)) {
+      setData({ time: value });
+    } else {
+      // If invalid format, revert to previous value
+      e.target.value = data.time || "";
+    }
   };
 
   return (
@@ -86,6 +86,22 @@ export default function Step2_DateTime({ next, back, data, setData }) {
         value={data.date}
         min={today}
         onChange={handleDateChange}
+        onKeyDown={(e) => {
+          // Prevent typing - only allow navigation and picker opening
+          if (e.key !== 'Tab' && e.key !== 'Enter' && !e.key.startsWith('Arrow') && e.key !== 'Escape') {
+            e.preventDefault();
+          }
+        }}
+        onInput={(e) => {
+          // Prevent manual input - only allow picker selection
+          const value = e.target.value;
+          if (value && !/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+            e.target.value = data.date || "";
+          }
+        }}
+        onPaste={(e) => {
+          e.preventDefault();
+        }}
       />
       {data.date && !isValidFutureDate() && (
         <p className="location-error">Please select today or a future date.</p>
@@ -99,7 +115,23 @@ export default function Step2_DateTime({ next, back, data, setData }) {
         type="time"
         className="input-field"
         value={data.time}
-        onChange={(e) => setData({ time: e.target.value })}
+        onChange={handleTimeChange}
+        onKeyDown={(e) => {
+          // Prevent typing - only allow navigation and picker opening
+          if (e.key !== 'Tab' && e.key !== 'Enter' && !e.key.startsWith('Arrow') && e.key !== 'Escape') {
+            e.preventDefault();
+          }
+        }}
+        onInput={(e) => {
+          // Prevent manual input - only allow picker selection
+          const value = e.target.value;
+          if (value && !/^\d{2}:\d{2}$/.test(value)) {
+            e.target.value = data.time || "";
+          }
+        }}
+        onPaste={(e) => {
+          e.preventDefault();
+        }}
       />
       {data.time && isValidFutureDate() && !isValidFutureDateTime() && (
         <p className="location-error">Please select a time in the future.</p>
