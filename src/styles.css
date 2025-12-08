@@ -1347,10 +1347,9 @@ input::placeholder {
 
 .showcase-image img {
   width: 100%;
-  height: auto;
-  max-height: 400px;
-  /* Auto-fit the image to container */
-  object-fit: contain;
+  height: 100%;
+  /* Fill container while keeping aspect ratio */
+  object-fit: cover;
   transition: transform 0.3s ease;
 }
 

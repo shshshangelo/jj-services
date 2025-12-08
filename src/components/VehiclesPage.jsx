@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 export const vehicles = [
   {
     name: "Sedan",
-    img: "/assets/Sedan.png",
+    img: "/thumbnail/Sedan.jpeg",
     description:
       "Perfect for solo travellers or small groups looking for a comfortable and efficient ride.",
     features: [
@@ -18,7 +18,7 @@ export const vehicles = [
   },
   {
     name: "SUV",
-    img: "/assets/SUV.png",
+    img: "/thumbnail/SUV.jpeg",
     description:
       "Spacious and versatile, ideal when you need extra room for passengers or luggage.",
     features: [
@@ -32,7 +32,7 @@ export const vehicles = [
   },
   {
     name: "Executive",
-    img: "/assets/Executive.png",
+    img: "/thumbnail/Executive.jpeg",
     description:
       "Premium executive-class vehicle with enhanced comfort and amenities for business travel.",
     features: [
@@ -47,7 +47,7 @@ export const vehicles = [
   },
   {
     name: "Sprinter Bus",
-    img: "/assets/Sprinter Bus.png",
+    img: "/thumbnail/Sprinter.jpeg",
     description:
       "Comfortable large-capacity vehicle for big groups, events, and transfers.",
     features: [

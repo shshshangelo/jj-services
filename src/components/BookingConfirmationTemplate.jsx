@@ -331,6 +331,14 @@ export default function BookingConfirmationTemplate({ bookingData, bookingRef })
           <span className="confirmation-label">Number of Passengers:</span>
           <span className="confirmation-value">{bookingData.passengers || "—"}</span>
         </div>
+        <div className="confirmation-row">
+          <span className="confirmation-label">Distance:</span>
+          <span className="confirmation-value">{bookingData.distanceKm ? `${bookingData.distanceKm.toFixed(2)} km` : "—"}</span>
+        </div>
+        <div className="confirmation-row">
+          <span className="confirmation-label">Total Fare:</span>
+          <span className="confirmation-value">{bookingData.price > 0 ? `$${bookingData.price.toFixed(2)}` : "—"}</span>
+        </div>
       </div>
 
       <div className="confirmation-section">

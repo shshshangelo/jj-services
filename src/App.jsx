@@ -376,10 +376,11 @@ function HomePage() {
               </p>
             </div>
             <div className="faq-item">
-              <h3>What if my flight is delayed?</h3>
+              <h3>How are prices calculated?</h3>
               <p>
-                For airport transfers, we monitor flight status and adjust pickup time when delays occur.
-                You won&apos;t be charged extra just because your flight landed later than scheduled.
+                We use a simple per-kilometer fare based on vehicle type: Sedan $3.25/km, SUV $3.75/km,
+                Executive $4.50/km, and Sprinter Bus $5.25/km. These rates are displayed directly in
+                the booking flow and applied automatically to your trip distance. 
               </p>
             </div>
             <div className="faq-item">

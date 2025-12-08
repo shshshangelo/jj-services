@@ -7,6 +7,13 @@ import CustomerInfo from "./components/CustomerInfo";
 import Review from "./components/Review";
 import ProgressBar from "./components/ProgressBar";
 
+const VEHICLE_RATES = {
+  Sedan: 3.25,       // per km
+  SUV: 3.75,
+  Executive: 4.5,
+  "Sprinter Bus": 5.25
+};
+
 const STORAGE_KEY = "jj_limo_booking_data";
 const STEP_STORAGE_KEY = "jj_limo_booking_step";
 
@@ -105,6 +112,18 @@ export default function BookingWizard() {
   useEffect(() => {
     saveBookingData(data);
   }, [data]);
+
+  // Recalculate price whenever distance or vehicle changes
+  useEffect(() => {
+    if (!data.vehicle || !data.distanceKm) {
+      setData((d) => ({ ...d, price: 0 }));
+      return;
+    }
+    const rate = VEHICLE_RATES[data.vehicle] || 0;
+    const total = data.distanceKm * rate;
+    const rounded = Math.max(0, Math.round(total * 100) / 100); // 2 decimals
+    setData((d) => ({ ...d, price: rounded }));
+  }, [data.vehicle, data.distanceKm]);
 
   // Save step to localStorage whenever it changes
   useEffect(() => {

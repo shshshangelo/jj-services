@@ -23,6 +23,14 @@ export default function LocationMapPreview({ pickupCoords, dropoffCoords, pickup
     dropoffCoordsRef.current = dropoffCoords;
   }, [pickupCoords, dropoffCoords]);
 
+  // When both locations are cleared, reset active location to pickup so map clicks work
+  useEffect(() => {
+    if (!pickupCoords && !dropoffCoords) {
+      setActiveLocation('pickup');
+      activeLocationRef.current = 'pickup';
+    }
+  }, [pickupCoords, dropoffCoords]);
+
   useEffect(() => {
     activeLocationRef.current = activeLocation;
   }, [activeLocation]);

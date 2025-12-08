@@ -148,6 +148,15 @@ export default function DateTime({ next, back, data, setData }) {
         className="input-field"
         value={data.passengers || ""}
         onChange={handlePassengersChange}
+        inputMode="numeric"
+        pattern="[0-9]*"
+        onKeyDown={(e) => {
+          // Prevent non-numeric characters like minus, plus, exponent, and dot
+          const blockedKeys = ['e', 'E', '+', '-', '.', ','];
+          if (blockedKeys.includes(e.key)) {
+            e.preventDefault();
+          }
+        }}
         placeholder="Enter number of passengers"
       />
 

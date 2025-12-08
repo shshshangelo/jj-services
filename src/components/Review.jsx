@@ -47,6 +47,7 @@ export default function Review({ back, data }) {
        
           <div className="review-row"><strong>Vehicle:</strong> {data.vehicle || "—"}</div>
           <div className="review-row"><strong>Passengers:</strong> {data.passengers}</div>
+          <div className="review-row"><strong>Distance:</strong> {data.distanceKm ? `${data.distanceKm.toFixed(2)} km` : "—"}</div>
         </div>
 
         <div className="review-section">
@@ -59,11 +60,13 @@ export default function Review({ back, data }) {
         <div className="total-box" style={{ background: "#f0f9ff", border: "2px solid #0b6cf2", borderRadius: "12px", padding: "20px", marginTop: "24px" }}>
           <div style={{ textAlign: "center", width: "100%" }}>
             <strong style={{ fontSize: "18px", color: "#0f172a", display: "block", marginBottom: "8px" }}>
-              Pricing Information
+              Total Fare
             </strong>
+            <div style={{ fontSize: "32px", fontWeight: 800, color: "#0b6cf2", marginBottom: "8px" }}>
+              {data.price > 0 ? `$${data.price.toFixed(2)}` : "—"}
+            </div>
             <div className="muted" style={{ fontSize: "14px", color: "#64748b", lineHeight: "1.6" }}>
-              Our driver will contact you shortly to discuss the total payment amount and confirm all booking details. 
-              Payment will be arranged directly with you before your trip.
+              Calculated as distance × vehicle rate (final fare).
             </div>
           </div>
         </div>
