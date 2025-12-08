@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate, Link } from "react-ro
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import BackToTop from "./components/BackToTop";
+import CookieConsent from "./components/CookieConsent";
 import "./styles.css";
 import { vehicles } from "./components/VehiclesPage";
 
@@ -262,6 +263,63 @@ function HomePage() {
         </div>
       </section>
 
+      <section id="why-choose-us" className="why-choose-section">
+        <div className="container">
+          <h2 className="section-title">Why Choose J&J Limo Services?</h2>
+          <p className="section-subtitle">Experience the difference that sets us apart from the rest</p>
+          <div className="why-choose-grid">
+            <div className="why-choose-card">
+              <div className="why-choose-icon">⭐</div>
+              <h3>Premium Quality</h3>
+              <p>
+                Our fleet consists of meticulously maintained luxury vehicles. Every ride is a first-class experience 
+                with top-tier comfort and style.
+              </p>
+            </div>
+            <div className="why-choose-card">
+              <div className="why-choose-icon">👔</div>
+              <h3>Professional Drivers</h3>
+              <p>
+                All our chauffeurs are fully licensed, insured, and background-checked. They're trained in 
+                customer service and safety protocols to ensure your peace of mind.
+              </p>
+            </div>
+            <div className="why-choose-card">
+              <div className="why-choose-icon">⏰</div>
+              <h3>Punctual & Reliable</h3>
+              <p>
+                We understand that time is valuable. Our drivers arrive on time, every time. We track flights 
+                and monitor traffic to ensure you never miss an appointment.
+              </p>
+            </div>
+            <div className="why-choose-card">
+              <div className="why-choose-icon">🛡️</div>
+              <h3>Fully Insured</h3>
+              <p>
+                Your safety is our priority. All vehicles are fully insured and regularly inspected. We maintain 
+                comprehensive coverage for your protection and peace of mind.
+              </p>
+            </div>
+            <div className="why-choose-card">
+              <div className="why-choose-icon">📱</div>
+              <h3>Easy Booking</h3>
+              <p>
+                Book your ride in seconds with our user-friendly online platform. Get instant confirmations, 
+                real-time updates, and manage your bookings effortlessly.
+              </p>
+            </div>
+            <div className="why-choose-card">
+              <div className="why-choose-icon">💎</div>
+              <h3>Competitive Pricing</h3>
+              <p>
+                Premium service doesn't mean premium prices. We offer transparent, competitive rates with no 
+                hidden fees. Quality transportation that fits your budget.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* About section moved to dedicated /about page */}
 
       <section className="stats-section">
@@ -330,6 +388,21 @@ function HomePage() {
                 or when you contact us so we can reserve the correct seats for your trip.
               </p>
             </div>
+            <div className="faq-item">
+              <h3>What payment methods do you accept?</h3>
+              <p>
+                We accept cash, credit cards, and debit cards. Payment is typically collected on the day of your trip.
+                For corporate accounts or special events, we can arrange invoicing and payment terms in advance.
+              </p>
+            </div>
+            <div className="faq-item">
+              <h3>Is there a cancellation fee?</h3>
+              <p>
+                Cancellations made at least <strong>24 hours before</strong> your scheduled pickup time are free of charge.
+                Cancellations made less than 24 hours in advance may be subject to a cancellation fee. Please contact us
+                as soon as possible if you need to cancel or reschedule your booking.
+              </p>
+            </div>
           </div>
         </div>
       </section>
@@ -395,6 +468,7 @@ export default function App() {
         </main>
         <Footer />
         <BackToTop />
+        <CookieConsent />
       </div>
     </Router>
   );

@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function Step5_CustomerInfo({ next, back, data, setData }) {
+export default function CustomerInfo({ next, back, data, setData }) {
   const formatFullName = (value) => {
     // Allow letters, spaces, dot, and hyphen; strip everything else (including @)
     const cleaned = value.replace(/[^a-zA-Z.\-\s]/g, '');
@@ -118,3 +118,4 @@ export default function Step5_CustomerInfo({ next, back, data, setData }) {
     </div>
   );
 }
+

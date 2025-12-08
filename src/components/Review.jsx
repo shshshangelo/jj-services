@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import BookingConfirmationModal from "./BookingConfirmationModal";
 
-export default function Step6_Review({ back, data }) {
+export default function Review({ back, data }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -99,3 +99,4 @@ export default function Step6_Review({ back, data }) {
     </>
   );
 }
+

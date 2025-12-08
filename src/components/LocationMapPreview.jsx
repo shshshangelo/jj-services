@@ -81,7 +81,7 @@ export default function LocationMapPreview({ pickupCoords, dropoffCoords, pickup
               const userLat = position.coords.latitude;
               const userLng = position.coords.longitude;
               center = [userLat, userLng];
-              mapInstanceRef.current.setView([userLat, userLng], 13);
+              mapInstanceRef.current.setView([userLat, userLng], 17);
             }
           },
           () => {
@@ -92,8 +92,8 @@ export default function LocationMapPreview({ pickupCoords, dropoffCoords, pickup
           },
           {
             enableHighAccuracy: true,
-            timeout: 10000,
-            maximumAge: 0
+            timeout: 15000,
+            maximumAge: 60000
           }
         );
       }
@@ -124,7 +124,7 @@ export default function LocationMapPreview({ pickupCoords, dropoffCoords, pickup
             if (isMounted && newMap) {
               const userLat = position.coords.latitude;
               const userLng = position.coords.longitude;
-              newMap.setView([userLat, userLng], 13);
+              newMap.setView([userLat, userLng], 17);
               setIsGettingLocation(false);
             }
           },
@@ -134,8 +134,8 @@ export default function LocationMapPreview({ pickupCoords, dropoffCoords, pickup
           },
           {
             enableHighAccuracy: true,
-            timeout: 10000,
-            maximumAge: 0
+            timeout: 15000,
+            maximumAge: 60000
           }
         );
       }
@@ -150,7 +150,7 @@ export default function LocationMapPreview({ pickupCoords, dropoffCoords, pickup
 
       // Fit bounds if both locations exist
       if (bounds) {
-        newMap.fitBounds(bounds, { padding: [50, 50] });
+        newMap.fitBounds(bounds, { padding: [5, 5] });
       }
 
       // Create large, modern pin icons like delivery apps
@@ -383,12 +383,12 @@ export default function LocationMapPreview({ pickupCoords, dropoffCoords, pickup
       // Fit bounds to show both locations
       map.fitBounds(
         [[pickupCoords.lat, pickupCoords.lng], [dropoffCoords.lat, dropoffCoords.lng]],
-        { padding: [50, 50] }
+        { padding: [5, 5] }
       );
     } else if (pickupCoords) {
-      map.setView([pickupCoords.lat, pickupCoords.lng], 13);
+      map.setView([pickupCoords.lat, pickupCoords.lng], 17);
     } else if (dropoffCoords) {
-      map.setView([dropoffCoords.lat, dropoffCoords.lng], 13);
+      map.setView([dropoffCoords.lat, dropoffCoords.lng], 17);
     }
   }, [pickupCoords, dropoffCoords]);
 

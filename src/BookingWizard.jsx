@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from 'react-router-dom';
-import Step1_Locations from "./components/Step1_Locations";
-import Step2_DateTime from "./components/Step2_DateTime";
-import Step3_Vehicle from "./components/Step3_Vehicle";
-import Step5_CustomerInfo from "./components/Step5_CustomerInfo";
-import Step6_Review from "./components/Step6_Review";
+import Locations from "./components/Locations";
+import DateTime from "./components/DateTime";
+import Vehicle from "./components/Vehicle";
+import CustomerInfo from "./components/CustomerInfo";
+import Review from "./components/Review";
 import ProgressBar from "./components/ProgressBar";
 
 export default function BookingWizard() {
@@ -85,19 +85,19 @@ export default function BookingWizard() {
           <ProgressBar step={step} />
 
           {step === 1 && (
-            <Step1_Locations next={next} data={data} setData={setDataPatch} />
+            <Locations next={next} data={data} setData={setDataPatch} />
           )}
           {step === 2 && (
-            <Step2_DateTime next={next} back={back} data={data} setData={setDataPatch} />
+            <DateTime next={next} back={back} data={data} setData={setDataPatch} />
           )}
           {step === 3 && (
-            <Step3_Vehicle next={next} back={back} data={data} setData={setDataPatch} />
+            <Vehicle next={next} back={back} data={data} setData={setDataPatch} />
           )}
           {step === 4 && (
-            <Step5_CustomerInfo next={next} back={back} data={data} setData={setDataPatch} />
+            <CustomerInfo next={next} back={back} data={data} setData={setDataPatch} />
           )}
           {step === 5 && (
-            <Step6_Review back={back} data={data} />
+            <Review back={back} data={data} />
           )}
         </div>
       </div>

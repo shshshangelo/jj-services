@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function Step2_DateTime({ next, back, data, setData }) {
+export default function DateTime({ next, back, data, setData }) {
   const today = new Date().toISOString().split("T")[0];
 
   const handlePassengersChange = (e) => {
@@ -73,7 +73,7 @@ export default function Step2_DateTime({ next, back, data, setData }) {
       <h2 className="step-title">Select Date & Time</h2>
       <p className="step-subtitle">
         Choose the date and time for your trip, then tell us how many passengers will be traveling.
-        We’ll only let you continue if the time is in the future.
+        We'll only let you continue if the time is in the future.
       </p>
 
       <label className="label">
@@ -164,3 +164,4 @@ export default function Step2_DateTime({ next, back, data, setData }) {
     </div>
   );
 }
+

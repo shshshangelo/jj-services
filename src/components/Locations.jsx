@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import LocationMapPreview from "./LocationMapPreview";
 import { estimateDistanceKm } from "../utils";
 
-export default function Step1_Locations({ next, data, setData }) {
+export default function Locations({ next, data, setData }) {
   const [pickupCoords, setPickupCoords] = useState(data.pickupCoords || null);
   const [dropoffCoords, setDropoffCoords] = useState(data.dropoffCoords || null);
   const [pickupSearch, setPickupSearch] = useState(data.pickup || "");
@@ -129,8 +129,8 @@ export default function Step1_Locations({ next, data, setData }) {
       },
       {
         enableHighAccuracy: true,
-        timeout: 10000,
-        maximumAge: 0
+        timeout: 15000,
+        maximumAge: 60000
       }
     );
 
@@ -311,3 +311,4 @@ export default function Step1_Locations({ next, data, setData }) {
     </div>
   );
 }
+

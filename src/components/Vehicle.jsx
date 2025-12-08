@@ -19,7 +19,7 @@ const vehicles = [
   }
 ];
 
-export default function Step3_Vehicle({ next, back, data, setData }) {
+export default function Vehicle({ next, back, data, setData }) {
   const handleVehicleSelect = (vehicle) => {
     setData({
       vehicle: vehicle.name
@@ -53,3 +53,4 @@ export default function Step3_Vehicle({ next, back, data, setData }) {
     </div>
   );
 }
+

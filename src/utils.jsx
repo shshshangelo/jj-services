@@ -15,3 +15,34 @@ export function estimateDistanceKm(a, b) {
   const d = R * c;
   return d; // in km
 }
+
+// Cookie consent utilities
+export function getCookieConsent() {
+  try {
+    const consent = localStorage.getItem('cookieConsent');
+    if (!consent) return null;
+    return JSON.parse(consent);
+  } catch (error) {
+    console.error('Error reading cookie consent:', error);
+    return null;
+  }
+}
+
+export function hasCookieConsent(type = 'all') {
+  const consent = getCookieConsent();
+  if (!consent) return false;
+  
+  if (type === 'all') {
+    return consent.accepted === true;
+  }
+  
+  return consent.preferences?.[type] === true;
+}
+
+export function canUseAnalytics() {
+  return hasCookieConsent('analytics');
+}
+
+export function canUseMarketing() {
+  return hasCookieConsent('marketing');
+}
