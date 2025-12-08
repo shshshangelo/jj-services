@@ -97,7 +97,6 @@ export default function CustomerInfo({ next, back, data, setData }) {
           required
         />
       </div>
-      <small className="input-hint">US phone number format: +1 (XXX) XXX-XXXX</small>
 
       <div className="btn-row">
         <button className="back-btn" onClick={back}>Back</button>

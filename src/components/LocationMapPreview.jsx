@@ -17,10 +17,6 @@ export default function LocationMapPreview({ pickupCoords, dropoffCoords, pickup
   const [isGeocoding, setIsGeocoding] = useState(false);
   const [isGettingLocation, setIsGettingLocation] = useState(false);
 
-  const selectActiveLocation = (location) => {
-    setActiveLocation(location);
-  };
-
   // Sync refs with props
   useEffect(() => {
     pickupCoordsRef.current = pickupCoords;
@@ -30,13 +26,6 @@ export default function LocationMapPreview({ pickupCoords, dropoffCoords, pickup
   useEffect(() => {
     activeLocationRef.current = activeLocation;
   }, [activeLocation]);
-
-  // Determine which location to set next
-  const getNextLocationToSet = () => {
-    if (!pickupCoords) return 'pickup';
-    if (!dropoffCoords) return 'dropoff';
-    return activeLocation;
-  };
 
   // Reverse geocode coordinates to get address using OpenStreetMap Nominatim (free, no API key)
   const reverseGeocode = async (lat, lng) => {
@@ -199,7 +188,7 @@ export default function LocationMapPreview({ pickupCoords, dropoffCoords, pickup
 
       // Add route line if both locations exist
       if (pickupCoords && dropoffCoords) {
-        const routeLine = window.L.polyline(
+        window.L.polyline(
           [[pickupCoords.lat, pickupCoords.lng], [dropoffCoords.lat, dropoffCoords.lng]],
           { color: '#0b6cf2', weight: 3, dashArray: '10, 10' }
         ).addTo(newMap);
@@ -299,9 +288,11 @@ export default function LocationMapPreview({ pickupCoords, dropoffCoords, pickup
         mapInstanceRef.current = null;
       }
     };
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Map initialization should only run once on mount
 
   // Update markers when coordinates change
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (!mapInstanceRef.current || !window.L) return;
     const map = mapInstanceRef.current;
@@ -375,7 +366,7 @@ export default function LocationMapPreview({ pickupCoords, dropoffCoords, pickup
     });
 
     if (pickupCoords && dropoffCoords) {
-      const routeLine = window.L.polyline(
+      window.L.polyline(
         [[pickupCoords.lat, pickupCoords.lng], [dropoffCoords.lat, dropoffCoords.lng]],
         { color: '#0b6cf2', weight: 3, dashArray: '10, 10' }
       ).addTo(map);
@@ -390,6 +381,7 @@ export default function LocationMapPreview({ pickupCoords, dropoffCoords, pickup
     } else if (dropoffCoords) {
       map.setView([dropoffCoords.lat, dropoffCoords.lng], 17);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pickupCoords, dropoffCoords]);
 
   return (

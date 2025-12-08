@@ -293,8 +293,7 @@ export default function BookingConfirmationTemplate({ bookingData, bookingRef })
           className="confirmation-logo"
         />
         <h1 className="confirmation-title">Booking Confirmation</h1>
-        <p className="confirmation-subtitle">J&J Limo Services</p>
-        <p className="confirmation-subtitle">Premium Ground Transportation</p>
+        <p className="confirmation-subtitle">Luxury Transportation You Can Trust</p>
       </div>
 
       <div className="confirmation-ref">
@@ -367,7 +366,7 @@ export default function BookingConfirmationTemplate({ bookingData, bookingRef })
           <strong>Email:</strong> <a href="mailto:alerts@jj-limoservices.com">alerts@jj-limoservices.com</a>
         </div>
         <div className="confirmation-footer-info">
-          <strong>Service:</strong> 24/7 Available
+          <strong>Official Website:</strong> <a href="https://jj-limoservices.com">jj-limoservices.com</a>
         </div>
         <div className="confirmation-footer-info" style={{ marginTop: '20px', fontSize: '12px', color: '#94a3b8' }}>
           Confirmation generated on {currentDate}

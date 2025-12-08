@@ -7,10 +7,73 @@ import CustomerInfo from "./components/CustomerInfo";
 import Review from "./components/Review";
 import ProgressBar from "./components/ProgressBar";
 
-export default function BookingWizard() {
-  const [step, setStep] = useState(1);
+const STORAGE_KEY = "jj_limo_booking_data";
+const STEP_STORAGE_KEY = "jj_limo_booking_step";
 
-  const [data, setData] = useState({
+// Helper functions for localStorage
+const saveBookingData = (data) => {
+  try {
+    // Convert coordinates to serializable format
+    const serializableData = {
+      ...data,
+      pickupCoords: data.pickupCoords ? { lat: data.pickupCoords.lat, lng: data.pickupCoords.lng } : null,
+      dropoffCoords: data.dropoffCoords ? { lat: data.dropoffCoords.lat, lng: data.dropoffCoords.lng } : null,
+    };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(serializableData));
+  } catch (error) {
+    console.error("Error saving booking data:", error);
+  }
+};
+
+const loadBookingData = () => {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      const data = JSON.parse(saved);
+      // Restore coordinates as objects
+      return {
+        ...data,
+        pickupCoords: data.pickupCoords ? { lat: data.pickupCoords.lat, lng: data.pickupCoords.lng } : null,
+        dropoffCoords: data.dropoffCoords ? { lat: data.dropoffCoords.lat, lng: data.dropoffCoords.lng } : null,
+      };
+    }
+  } catch (error) {
+    console.error("Error loading booking data:", error);
+  }
+  return null;
+};
+
+export const clearBookingData = () => {
+  try {
+    localStorage.removeItem(STORAGE_KEY);
+    localStorage.removeItem(STEP_STORAGE_KEY);
+  } catch (error) {
+    console.error("Error clearing booking data:", error);
+  }
+};
+
+export default function BookingWizard() {
+  // Load saved data on mount
+  const savedData = loadBookingData();
+  const savedStep = (() => {
+    try {
+      const step = localStorage.getItem(STEP_STORAGE_KEY);
+      if (step) {
+        const stepNum = parseInt(step, 10);
+        // Validate step is between 1 and 5
+        if (stepNum >= 1 && stepNum <= 5) {
+          return stepNum;
+        }
+      }
+    } catch (error) {
+      console.error("Error loading saved step:", error);
+    }
+    return 1;
+  })();
+  
+  const [step, setStep] = useState(savedStep);
+
+  const [data, setData] = useState(savedData || {
     pickup: "",
     dropoff: "",
     pickupCoords: null,
@@ -38,6 +101,16 @@ export default function BookingWizard() {
     }
   }, [location?.state]);
 
+  // Save data to localStorage whenever it changes
+  useEffect(() => {
+    saveBookingData(data);
+  }, [data]);
+
+  // Save step to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem(STEP_STORAGE_KEY, step.toString());
+  }, [step]);
+
   const next = () => setStep((s) => Math.min(5, s + 1));
   const back = () => setStep((s) => Math.max(1, s - 1));
 
@@ -54,29 +127,6 @@ export default function BookingWizard() {
       window.scrollTo({ top: targetTop, behavior: "smooth" });
     }
   }, [step]);
-
-  const formatTime = (time) => {
-    // Display time in 24-hour (military) format `HH:MM`
-    if (!time) return "—";
-    const [hStr = '', mStr = ''] = time.split(":");
-    if (hStr === '' || mStr === '') return time;
-    return `${hStr.padStart(2, '0')}:${mStr.padStart(2, '0')}`;
-  };
-
-  // Strict validation - check if all required steps are completed
-  const isBookingComplete = () => {
-    return data.pickupCoords && 
-           data.dropoffCoords && 
-           data.date && 
-           data.time && 
-           data.vehicle && 
-           data.passengers > 0 &&
-           data.customerName &&
-           data.phone &&
-           data.phone.replace(/\D/g, '').length >= 10 &&
-           data.email &&
-           data.email.includes("@");
-  };
 
   return (
     <div className="wizard-area">

@@ -137,6 +137,7 @@ export default function Locations({ next, data, setData }) {
     return () => {
       isMounted = false;
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // Only run once on mount
 
   // Whenever both pickup and dropoff are set, estimate distance in km.
@@ -148,6 +149,7 @@ export default function Locations({ next, data, setData }) {
     } else {
       setData({ distanceKm: 0 });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pickupCoords, dropoffCoords]);
 
   const clearLocation = (type) => {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, Suspense, lazy } from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate, Link } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import BackToTop from "./components/BackToTop";
@@ -14,6 +14,7 @@ const TermsPage = lazy(() => import("./components/TermsPage"));
 const VehiclesPage = lazy(() => import("./components/VehiclesPage"));
 const ServicesPage = lazy(() => import("./components/ServicesPage"));
 const AboutPage = lazy(() => import("./components/AboutPage"));
+const NotFoundPage = lazy(() => import("./components/NotFoundPage"));
 
 // Loading component for Suspense fallback
 const LoadingSpinner = () => (
@@ -462,7 +463,7 @@ export default function App() {
               <Route path="/contact" element={<ContactPage />} />
               <Route path="/about" element={<AboutPage />} />
               <Route path="/terms" element={<TermsPage />} />
-              <Route path="*" element={<Navigate to="/" replace />} />
+              <Route path="*" element={<NotFoundPage />} />
             </Routes>
           </Suspense>
         </main>

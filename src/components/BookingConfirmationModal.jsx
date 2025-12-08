@@ -41,41 +41,15 @@ export default function BookingConfirmationModal({ isOpen, onClose, bookingData 
       console.log("Booking Reference:", ref);
       setIsSubmitting(false);
       setIsSuccess(true);
+      
+      // Clear saved booking data from localStorage after successful booking
+      try {
+        localStorage.removeItem("jj_limo_booking_data");
+        localStorage.removeItem("jj_limo_booking_step");
+      } catch (error) {
+        console.error("Error clearing booking data:", error);
+      }
     }, 1200);
-  };
-
-  const handlePrint = () => {
-    // Create a new window with the template for printing
-    const printWindow = window.open('', '_blank');
-    const templateHTML = printRef.current ? printRef.current.innerHTML : '';
-    
-    printWindow.document.write(`
-      <!DOCTYPE html>
-      <html>
-        <head>
-          <title>Booking Confirmation - ${bookingRef}</title>
-          <style>
-            @media print {
-              @page {
-                margin: 20mm;
-              }
-            }
-            body {
-              margin: 0;
-              padding: 0;
-              font-family: 'Inter', 'Arial', sans-serif;
-            }
-          </style>
-        </head>
-        <body>
-          ${templateHTML}
-        </body>
-      </html>
-    `);
-    printWindow.document.close();
-    setTimeout(() => {
-      printWindow.print();
-    }, 250);
   };
 
   const handleDownloadPDF = () => {
