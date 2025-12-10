@@ -165,7 +165,11 @@ export default function DateTime({ next, back, data, setData }) {
         <button
           className="next-btn"
           onClick={next}
-          disabled={!isValidFutureDateTime()}
+          disabled={
+            !isValidFutureDateTime() ||
+            !data.passengers ||
+            Number(data.passengers) <= 0
+          }
         >
           Next
         </button>

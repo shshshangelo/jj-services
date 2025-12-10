@@ -24,18 +24,49 @@ export default function TermsPage() {
 
             <h2>2. Pricing & Payments</h2>
             <p>
-              Our driver will contact you directly to discuss the total payment amount based on your trip details, 
-              vehicle selection, route, time of day, traffic conditions, tolls, waiting time, and any special requests. 
-              Final pricing will be confirmed by our team before your trip. Unless otherwise agreed in writing, 
-              payment is typically collected on the day of service using an accepted payment method (major credit/debit cards or cash).
+              <strong>Fare Calculation:</strong> The quoted fare shown during booking is an estimate based on the distance, 
+              vehicle type, and route information you provide. Final pricing may vary based on actual distance traveled, 
+              traffic conditions, tolls, waiting time, route changes, and any additional services requested. Our team will 
+              contact you to confirm the final fare before your trip.
+            </p>
+            <p>
+              <strong>Payment Methods:</strong> We accept major credit cards (Visa, Mastercard, American Express, Discover), 
+              debit cards, and cash. Payment is typically collected on the day of service, either at the start or end of your trip, 
+              as agreed upon with your driver. For corporate accounts or advance bookings, alternative payment arrangements may be 
+              available upon request.
+            </p>
+            <p>
+              <strong>Payment Terms:</strong> Unless otherwise agreed in writing, payment is due at the time of service. 
+              For trips requiring a deposit or advance payment, you will be notified during the booking confirmation process. 
+              All prices are quoted in USD and are subject to applicable taxes and fees.
+            </p>
+            <p>
+              <strong>Additional Charges:</strong> Additional fees may apply for: extended waiting time beyond the included grace period, 
+              extra stops not included in the original booking, tolls and parking fees, airport fees (where applicable), 
+              late-night or holiday surcharges, and cleaning fees for excessive spillage or damage to the vehicle.
+            </p>
+            <p>
+              <strong>Refunds & Disputes:</strong> Refunds are considered on a case-by-case basis and are subject to our cancellation 
+              policy. If you have concerns about your fare or service, please contact us within 48 hours of your trip completion. 
+              We will review your request and respond within 5 business days.
             </p>
 
             <h2>3. Cancellations & Changes</h2>
             <p>
-              You may modify or cancel your booking up to 24 hours before the scheduled pickup time
-              without penalty. Cancellations made within 24 hours of pickup may be subject to a
-              cancellation fee. Changes to pickup time, locations, or vehicle
-              type are subject to availability and may affect the final price, which will be discussed with you.
+              <strong>Cancellation Policy:</strong> You may cancel your booking up to 24 hours before the scheduled pickup time 
+              without penalty. Cancellations made within 24 hours of the scheduled pickup time may be subject to a cancellation fee 
+              of up to 50% of the quoted fare. Cancellations made less than 2 hours before pickup or no-shows will be charged the full 
+              quoted fare. Refunds for cancellations will be processed within 5-10 business days to the original payment method.
+            </p>
+            <p>
+              <strong>Modifications:</strong> Changes to pickup time, locations, vehicle type, or passenger count are subject to 
+              availability and must be requested at least 24 hours before the scheduled pickup. Last-minute changes may incur additional 
+              fees. Any modifications that affect the final price will be discussed with you and confirmed before the trip.
+            </p>
+            <p>
+              <strong>Service Cancellations:</strong> In rare cases, J&amp;J Limo Services may need to cancel a booking due to 
+              circumstances beyond our control (severe weather, vehicle mechanical issues, driver emergencies). In such cases, we will 
+              provide a full refund or work with you to reschedule at no additional cost.
             </p>
 
             <h2>4. Delays, No‑Shows & Waiting Time</h2>

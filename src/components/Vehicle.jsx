@@ -3,19 +3,19 @@ import React from "react";
 const vehicles = [
   {
     name: "Sedan",
-    img: "/assets/Sedan.png"
+    img: "/thumbnail/Sedan.jpeg"
   },
   {
     name: "SUV",
-    img: "/assets/SUV.png"
+    img: "/thumbnail/SUV.jpeg"
   },
   {
     name: "Executive",
-    img: "/assets/Executive.png"
+    img: "/thumbnail/Executive.jpeg"
   },
   {
     name: "Sprinter Bus",
-    img: "/assets/Sprinter Bus.png"
+    img: "/thumbnail/Sprinter.jpeg"
   }
 ];
 
@@ -45,6 +45,10 @@ export default function Vehicle({ next, back, data, setData }) {
           </div>
         ))}
       </div>
+
+      <p style={{ color: "#d14343", fontWeight: 600, marginTop: "8px" }}>
+        Note: No smoking, vaping, illicit substances, or open alcohol in the vehicle. A cleaning fee will apply for spills or damage.
+      </p>
 
       <div className="btn-row">
         <button className="back-btn" onClick={back}>Back</button>

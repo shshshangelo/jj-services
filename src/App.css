@@ -246,9 +246,11 @@ a {
 }
 
 .vehicle-img {
-  width: 100px;
-  height: auto;
-  margin-bottom: 10px;
+  width: 180px;
+  height: 120px;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto 12px;
 }
 
 .vehicle-name, .addon-name {

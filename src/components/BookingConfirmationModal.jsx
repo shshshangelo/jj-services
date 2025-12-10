@@ -23,37 +23,88 @@ export default function BookingConfirmationModal({ isOpen, onClose, bookingData 
     if (!time) return "—";
     const [hStr = '', mStr = ''] = time.split(":");
     if (hStr === '' || mStr === '') return time;
-    return `${hStr.padStart(2, '0')}:${mStr.padStart(2, '0')}`;
+    const h = parseInt(hStr, 10);
+    if (Number.isNaN(h)) return time;
+    const suffix = h >= 12 ? "PM" : "AM";
+    const hour12 = h % 12 === 0 ? 12 : h % 12;
+    return `${hour12}:${mStr} ${suffix}`;
   };
 
-  const handleConfirm = () => {
+  const formatDate = (dateStr) => {
+    if (!dateStr) return "—";
+    try {
+      const date = new Date(dateStr);
+      if (Number.isNaN(date.getTime())) return dateStr;
+      return date.toLocaleDateString('en-US', { 
+        weekday: 'long', 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric' 
+      });
+    } catch {
+      return dateStr;
+    }
+  };
+
+  const sendBookingEmail = async (ref) => {
+    try {
+      const isLocalhost = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
+      const endpoint = isLocalhost
+        ? "http://localhost:8000/api/send-booking-email.php"
+        : "https://jj-limoservices.com/api/send-booking-email.php";
+
+      // Ensure phone has +1 prefix if user entered 10 digits
+      const phoneDigits = (bookingData.phone || "").replace(/\D/g, "");
+      const phoneWithPrefix =
+        phoneDigits.length === 10 ? `+1${phoneDigits}` : bookingData.phone || "";
+
+      const payload = {
+        ...bookingData,
+        phone: phoneWithPrefix,
+        bookingRef: ref
+      };
+      const response = await fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+      const result = await response.json();
+      if (!response.ok || !result.success) {
+        throw new Error(result.error || "Failed to send booking email");
+      }
+      return true;
+    } catch (error) {
+      console.error("Booking email failed:", error);
+      return false;
+    }
+  };
+
+  const handleConfirm = async () => {
     if (isSubmitting) return;
 
     setIsSubmitting(true);
 
-    // Generate booking reference
     const ref = generateBookingRef();
     setBookingRef(ref);
 
-    // Simulate processing/loading before showing success state
-    setTimeout(() => {
-      console.log("Booking confirmed:", bookingData);
-      console.log("Booking Reference:", ref);
-      setIsSubmitting(false);
-      setIsSuccess(true);
-      
-      // Clear saved booking data from localStorage after successful booking
-      try {
-        localStorage.removeItem("jj_limo_booking_data");
-        localStorage.removeItem("jj_limo_booking_step");
-      } catch (error) {
-        console.error("Error clearing booking data:", error);
-      }
-    }, 1200);
+    const emailSent = await sendBookingEmail(ref);
+
+    console.log("Booking confirmed:", bookingData);
+    console.log("Booking Reference:", ref, "Email sent:", emailSent);
+    setIsSubmitting(false);
+    setIsSuccess(true);
+    
+    // Clear saved booking data from localStorage after successful booking
+    try {
+      localStorage.removeItem("jj_limo_booking_data");
+      localStorage.removeItem("jj_limo_booking_step");
+    } catch (error) {
+      console.error("Error clearing booking data:", error);
+    }
   };
 
   const handleDownloadPDF = () => {
-    // Open confirmation in a new window for viewing/downloading
+    // Open confirmation in a new window for viewing/download
     const viewWindow = window.open('', '_blank');
     const templateHTML = printRef.current ? printRef.current.innerHTML : '';
     
@@ -64,11 +115,6 @@ export default function BookingConfirmationModal({ isOpen, onClose, bookingData 
           <title>Booking Confirmation - ${bookingRef}</title>
           <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
           <style>
-            @media print {
-              @page {
-                margin: 20mm;
-              }
-            }
             body {
               margin: 0;
               padding: 20px;
@@ -97,24 +143,24 @@ export default function BookingConfirmationModal({ isOpen, onClose, bookingData 
             .view-btn:hover {
               background: #0956c4;
             }
-            .view-btn.jpeg {
-              background: #f59e0b;
+            .view-btn.primary {
+              background: #0b6cf2;
             }
-            .view-btn.jpeg:hover {
-              background: #d97706;
+            .view-btn.primary:hover {
+              background: #0956c4;
             }
-            @media print {
-              .view-actions {
-                display: none;
-              }
+            .view-btn.close-btn {
+              background: #64748b;
+            }
+            .view-btn.close-btn:hover {
+              background: #475569;
             }
           </style>
         </head>
         <body>
           <div class="view-actions">
-            <button class="view-btn" onclick="window.print()">🖨️ Print / Save as PDF</button>
-            <button class="view-btn jpeg" onclick="downloadJPEG()">🖼️ Download as JPEG</button>
-            <button class="view-btn" onclick="window.close()" style="background: #64748b;">Close</button>
+            <button class="view-btn primary" onclick="downloadJPEG()">Download</button>
+            <button class="view-btn close-btn" onclick="window.close()">X</button>
           </div>
           <div id="confirmation-content">
             ${templateHTML}
@@ -136,7 +182,7 @@ export default function BookingConfirmationModal({ isOpen, onClose, bookingData 
                 link.click();
               } catch (error) {
                 console.error('Error generating JPEG:', error);
-                alert('Failed to generate JPEG. Please try again.');
+                alert('Failed to generate file. Please try again.');
               }
             }
           </script>
@@ -158,6 +204,14 @@ export default function BookingConfirmationModal({ isOpen, onClose, bookingData 
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
         {!isSuccess ? (
           <>
+            {isSubmitting && (
+              <div className="page-loading-overlay">
+                <div className="page-loading-card">
+                  <div className="page-loading-spinner" />
+                  <p style={{ animation: 'none', transform: 'none' }}>Confirming your booking…</p>
+                </div>
+              </div>
+            )}
             <div className="modal-header">
               <h2>Confirm Your Booking</h2>
               <button className="modal-close" onClick={onClose}>×</button>
@@ -180,7 +234,7 @@ export default function BookingConfirmationModal({ isOpen, onClose, bookingData 
                 </div>
                 <div className="confirmation-row">
                   <span className="confirmation-label">Date:</span>
-                  <span className="confirmation-value">{bookingData.date || "—"}</span>
+                  <span className="confirmation-value">{formatDate(bookingData.date)}</span>
                 </div>
                 <div className="confirmation-row">
                   <span className="confirmation-label">Time:</span>
@@ -213,11 +267,8 @@ export default function BookingConfirmationModal({ isOpen, onClose, bookingData 
               </div>
 
               <div className="confirmation-note" style={{ background: "#f0f9ff", border: "2px solid #0b6cf2", borderRadius: "12px", padding: "20px", marginTop: "20px" }}>
-                <p style={{ margin: "0 0 12px 0", fontWeight: 600, color: "#0f172a", fontSize: "16px" }}>
-                  Pricing & Payment:
-                </p>
-                <p style={{ margin: "16px 0 0 0", fontSize: "14px", color: "#64748b", lineHeight: "1.6" }}>
-                  By confirming, you agree to our{" "}
+                <p style={{ margin: "0", fontSize: "14px", color: "#64748b", lineHeight: "1.6" }}>
+                  By confirming this booking, you acknowledge that you have read, understood, and agree to our{" "}
                   <a
                     href="/terms"
                     target="_blank"
@@ -236,7 +287,31 @@ export default function BookingConfirmationModal({ isOpen, onClose, bookingData 
                 Cancel
               </button>
               <button className="btn-confirm" onClick={handleConfirm} disabled={isSubmitting}>
-                {isSubmitting ? "Confirming..." : "Confirm Booking"}
+                {isSubmitting ? (
+                  <>
+                    <span 
+                      className="button-spinner" 
+                      style={{
+                        width: '18px',
+                        height: '18px',
+                        minWidth: '18px',
+                        minHeight: '18px',
+                        border: '2px solid rgba(255, 255, 255, 0.3)',
+                        borderTopColor: 'white',
+                        borderRadius: '50%',
+                        animation: 'spin 0.7s linear infinite',
+                        display: 'block',
+                        flexShrink: 0,
+                        margin: 0,
+                        padding: 0,
+                        boxSizing: 'border-box'
+                      }}
+                    ></span>
+                    <span className="confirming-text" style={{ animation: 'none', transform: 'none', display: 'inline-block', position: 'relative', zIndex: 1 }}>Confirming...</span>
+                  </>
+                ) : (
+                  "Confirm Booking"
+                )}
               </button>
             </div>
           </>
@@ -274,9 +349,9 @@ export default function BookingConfirmationModal({ isOpen, onClose, bookingData 
                 <button 
                   className="btn-confirm" 
                   onClick={handleDownloadPDF}
-                  style={{ minWidth: "140px", background: "#10b981" }}
+                  style={{ minWidth: "160px", background: "#10b981" }}
                 >
-                  📄 View Booking Information
+                  View Booking Information
                 </button>
               </div>
             </div>

@@ -3,15 +3,9 @@ import BookingConfirmationModal from "./BookingConfirmationModal";
 
 export default function Review({ back, data }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleConfirmClick = () => {
-    // Show a short loading state to simulate processing before showing confirmation
-    setIsSubmitting(true);
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setIsModalOpen(true);
-    }, 1200);
+    setIsModalOpen(true);
   };
 
   const formatTime = (time) => {
@@ -22,6 +16,22 @@ export default function Review({ back, data }) {
     const suffix = h >= 12 ? "PM" : "AM";
     const hour12 = h % 12 === 0 ? 12 : h % 12;
     return `${hour12}:${mStr} ${suffix}`;
+  };
+
+  const formatDate = (dateStr) => {
+    if (!dateStr) return "—";
+    try {
+      const date = new Date(dateStr);
+      if (Number.isNaN(date.getTime())) return dateStr;
+      return date.toLocaleDateString('en-US', { 
+        weekday: 'long', 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric' 
+      });
+    } catch {
+      return dateStr;
+    }
   };
 
   return (
@@ -42,7 +52,7 @@ export default function Review({ back, data }) {
           <div className="review-row">
             <strong>Dropoff:</strong> {data.dropoff || (data.dropoffCoords ? `${data.dropoffCoords.lat.toFixed(6)}, ${data.dropoffCoords.lng.toFixed(6)}` : "—")}
           </div>
-          <div className="review-row"><strong>Date:</strong> {data.date || "—"}</div>
+          <div className="review-row"><strong>Date:</strong> {formatDate(data.date)}</div>
           <div className="review-row"><strong>Time:</strong> {formatTime(data.time)}</div>
        
           <div className="review-row"><strong>Vehicle:</strong> {data.vehicle || "—"}</div>
@@ -72,27 +82,17 @@ export default function Review({ back, data }) {
         </div>
 
         <div className="btn-row">
-          <button className="back-btn" onClick={back} disabled={isSubmitting}>
+          <button className="back-btn" onClick={back}>
             Back
           </button>
           <button
             className="next-btn"
             onClick={handleConfirmClick}
-            disabled={isSubmitting}
           >
-            {isSubmitting ? "Confirming..." : "Confirm"}
+            Confirm
           </button>
         </div>
       </div>
-
-      {isSubmitting && (
-        <div className="page-loading-overlay">
-          <div className="page-loading-card">
-            <div className="page-loading-spinner" />
-            <p>Confirming your booking…</p>
-          </div>
-        </div>
-      )}
 
       <BookingConfirmationModal
         isOpen={isModalOpen}

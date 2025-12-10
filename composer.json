@@ -1,0 +1,14 @@
+{
+  "name": "jj-services/booking-system",
+  "description": "J&J Limo Services Booking System",
+  "require": {
+    "php": ">=7.4",
+    "dompdf/dompdf": "^2.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "PHPMailer\\PHPMailer\\": "PHPMailer/src/"
+    }
+  }
+}
+

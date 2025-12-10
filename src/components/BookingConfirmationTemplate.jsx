@@ -33,6 +33,11 @@ export default function BookingConfirmationTemplate({ bookingData, bookingRef })
     day: 'numeric' 
   });
 
+  const currentTime = new Date().toLocaleTimeString('en-US', {
+    hour: 'numeric',
+    minute: '2-digit'
+  });
+
   return (
     <div className="booking-confirmation-template" id="booking-confirmation-template">
       <style>{`
@@ -360,8 +365,7 @@ export default function BookingConfirmationTemplate({ bookingData, bookingRef })
       <div className="confirmation-note">
         <div className="confirmation-note-title">Important Information</div>
         <p className="confirmation-note-text">
-          Our driver will contact you directly to discuss the total payment amount and confirm all booking details. 
-          Payment will be arranged directly with you before your trip. Please keep this confirmation for your records.
+          If any changes are needed, please contact us. Please keep this confirmation for your records.
         </p>
       </div>
 
@@ -377,7 +381,7 @@ export default function BookingConfirmationTemplate({ bookingData, bookingRef })
           <strong>Official Website:</strong> <a href="https://jj-limoservices.com">jj-limoservices.com</a>
         </div>
         <div className="confirmation-footer-info" style={{ marginTop: '20px', fontSize: '12px', color: '#94a3b8' }}>
-          Confirmation generated on {currentDate}
+          Confirmation generated on {currentDate} at {currentTime}
         </div>
       </div>
     </div>

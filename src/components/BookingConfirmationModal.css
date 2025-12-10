@@ -193,16 +193,87 @@
 .btn-confirm {
   background: #0b6cf2;
   color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  animation: none !important;
 }
 
 .btn-confirm:hover {
   background: #0956c4;
 }
 
+.btn-confirm *:not(.button-spinner) {
+  animation: none !important;
+  transform: none !important;
+}
+
+.btn-confirm span:not(.button-spinner),
+.btn-confirm .confirming-text,
+.confirming-text {
+  animation: none !important;
+  transform: none !important;
+  display: inline-block !important;
+  will-change: auto !important;
+}
+
+.btn-confirm > span:not(.button-spinner) {
+  animation: none !important;
+  transform: none !important;
+}
+
+/* Extra specific rule to prevent confirming text from spinning */
+button.btn-confirm .confirming-text,
+button.btn-confirm span.confirming-text,
+.btn-confirm .confirming-text {
+  animation: none !important;
+  transform: none !important;
+  transform-origin: center !important;
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+/* Ensure button itself doesn't rotate */
+.btn-confirm:disabled {
+  animation: none !important;
+  transform: none !important;
+}
+
+.btn-confirm .button-spinner {
+  width: 18px;
+  height: 18px;
+  min-width: 18px;
+  min-height: 18px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  display: block;
+  flex-shrink: 0;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  transform-origin: center;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .btn-confirm:disabled,
 .btn-cancel:disabled {
   opacity: 0.65;
   cursor: default;
+}
+
+.btn-confirm:disabled {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 
 @media (max-width: 640px) {
