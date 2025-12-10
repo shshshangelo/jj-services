@@ -9,10 +9,10 @@ import ProgressBar from "./components/ProgressBar";
 
 // Premium per-km estimates (higher-tier, roughly aligned to premium US limo market)
 const VEHICLE_RATES = {
-  Sedan: 4.35,
-  SUV: 5.60,
-  Executive: 6.85,
-  "Sprinter Bus": 8.70
+  Sedan: 6.50,
+  SUV: 8.50,
+  Executive: 10.50,
+  "Sprinter Bus": 12.50
 };
 
 const STORAGE_KEY = "jj_limo_booking_data";
