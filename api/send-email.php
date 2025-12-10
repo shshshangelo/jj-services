@@ -83,6 +83,7 @@ try {
     $mail->CharSet = 'UTF-8';
     
     // Important: From address MUST match authenticated username
+    // PHPMailer will automatically encode the display name properly for UTF-8
     $mail->setFrom('alerts@jj-limoservices.com', 'J&J Limo Services');
     $mail->addAddress('alerts@jj-limoservices.com');
     $mail->addReplyTo($email, $name);
@@ -261,6 +262,7 @@ try {
     $customerMail->SMTPDebug = 0; // Set to 2 for debugging, 0 for production
     $customerMail->CharSet = 'UTF-8';
     
+    // PHPMailer will automatically encode the display name properly for UTF-8
     $customerMail->setFrom('alerts@jj-limoservices.com', 'J&J Limo Services');
     $customerMail->addAddress($email, $name);
     $customerMail->addReplyTo('alerts@jj-limoservices.com', 'J&J Limo Services');
