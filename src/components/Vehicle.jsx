@@ -3,7 +3,7 @@ import React from "react";
 const vehicles = [
   {
     name: "Sedan",
-    img: "/thumbnail/Sedan.jpeg"
+    img: "/Sedan/1.jpeg"
   },
   {
     name: "SUV",

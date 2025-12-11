@@ -14,7 +14,7 @@ const vehicleImages = {
 export const vehicles = [
   {
     name: "Sedan",
-    img: "/thumbnail/Sedan.jpeg",
+    img: "/Sedan/1.jpeg",
     images: vehicleImages.Sedan,
     description:
       "Perfect for solo travellers or small groups looking for a comfortable and efficient ride.",
