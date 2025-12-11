@@ -1,5 +1,12 @@
 import React from "react";
 
+const VEHICLE_RATES = {
+  Sedan: 6.50,
+  SUV: 8.50,
+  Executive: 10.50,
+  "Sprinter Bus": 12.50
+};
+
 const vehicles = [
   {
     name: "Sedan",
@@ -30,7 +37,7 @@ export default function Vehicle({ next, back, data, setData }) {
     <div className="step-card">
       <h2 className="step-title">Choose Your Vehicle</h2>
       <p className="step-subtitle">
-        Select the vehicle type that best fits your group and comfort level. Our driver will contact you to discuss pricing and finalize your booking.
+        Select the vehicle type that best fits your group and comfort level.
       </p>
 
       <div className="vehicle-grid">
@@ -42,6 +49,7 @@ export default function Vehicle({ next, back, data, setData }) {
           >
             <img src={v.img} alt={v.name} className="vehicle-img" loading="lazy" decoding="async" />
             <div className="vehicle-name">{v.name}</div>
+            <div className="vehicle-rate">${VEHICLE_RATES[v.name]}/km</div>
           </div>
         ))}
       </div>

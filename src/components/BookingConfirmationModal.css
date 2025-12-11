@@ -198,12 +198,14 @@
   justify-content: center;
   gap: 8px;
   animation: none !important;
+  transform: none !important;
 }
 
 .btn-confirm:hover {
   background: #0956c4;
 }
 
+/* Prevent all button content from spinning except the spinner */
 .btn-confirm *:not(.button-spinner) {
   animation: none !important;
   transform: none !important;
@@ -226,18 +228,49 @@
 /* Extra specific rule to prevent confirming text from spinning */
 button.btn-confirm .confirming-text,
 button.btn-confirm span.confirming-text,
-.btn-confirm .confirming-text {
+.btn-confirm .confirming-text,
+span.confirming-text {
   animation: none !important;
   transform: none !important;
   transform-origin: center !important;
   position: relative !important;
   z-index: 1 !important;
+  will-change: auto !important;
 }
 
-/* Ensure button itself doesn't rotate */
+/* Even more specific - target any span inside disabled button that's not the spinner */
+.btn-confirm:disabled > span:not(.button-spinner),
+.btn-confirm:disabled span:not(.button-spinner) {
+  animation: none !important;
+  transform: none !important;
+}
+
+/* Prevent button text content from spinning */
+.btn-confirm:not(:disabled) {
+  animation: none !important;
+  transform: none !important;
+}
+
+/* Ensure button itself doesn't rotate when disabled */
 .btn-confirm:disabled {
   animation: none !important;
   transform: none !important;
+}
+
+/* Ensure button text doesn't spin */
+.btn-confirm:disabled *:not(.button-spinner),
+.btn-confirm:disabled > *:not(.button-spinner),
+.btn-confirm:disabled span:not(.button-spinner) {
+  animation: none !important;
+  transform: none !important;
+  transform-origin: center !important;
+}
+
+/* Ensure "Confirm Booking" text doesn't spin */
+.btn-confirm-text {
+  animation: none !important;
+  transform: none !important;
+  display: inline-block;
 }
 
 .btn-confirm .button-spinner {
@@ -255,6 +288,21 @@ button.btn-confirm span.confirming-text,
   padding: 0;
   box-sizing: border-box;
   transform-origin: center;
+}
+
+/* Ultra-specific rule to stop confirming text from any animation */
+button.btn-confirm:disabled span.confirming-text,
+.btn-confirm:disabled .confirming-text,
+button.btn-confirm span.confirming-text {
+  animation: none !important;
+  -webkit-animation: none !important;
+  -moz-animation: none !important;
+  -o-animation: none !important;
+  transform: none !important;
+  -webkit-transform: none !important;
+  -moz-transform: none !important;
+  -o-transform: none !important;
+  transform-origin: center !important;
 }
 
 @keyframes spin {

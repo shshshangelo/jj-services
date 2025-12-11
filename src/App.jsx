@@ -378,8 +378,8 @@ function HomePage() {
             <div className="faq-item">
               <h3>How are prices calculated?</h3>
               <p>
-                We use a simple per-kilometer fare based on vehicle type: Sedan $3.25/km, SUV $3.75/km,
-                Executive $4.50/km, and Sprinter Bus $5.25/km. These rates are displayed directly in
+                We use a simple per-kilometer fare based on vehicle type: Sedan $6.50/km, SUV $8.50/km,
+                Executive $10.50/km, and Sprinter Bus $12.50/km. These rates are displayed directly in
                 the booking flow and applied automatically to your trip distance. 
               </p>
             </div>

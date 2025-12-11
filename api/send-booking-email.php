@@ -58,10 +58,13 @@ $rawPhone = htmlspecialchars(strip_tags($data['phone']), ENT_QUOTES, 'UTF-8');
 $phoneDigits = preg_replace('/\D/', '', $rawPhone);
 if (strlen($phoneDigits) === 10) {
     $formattedPhone = '+1 (' . substr($phoneDigits, 0, 3) . ') ' . substr($phoneDigits, 3, 3) . '-' . substr($phoneDigits, 6, 4);
+    $phoneTelLink = '+1' . $phoneDigits;
 } elseif (strlen($phoneDigits) === 11 && substr($phoneDigits, 0, 1) === '1') {
     $formattedPhone = '+1 (' . substr($phoneDigits, 1, 3) . ') ' . substr($phoneDigits, 4, 3) . '-' . substr($phoneDigits, 7, 4);
+    $phoneTelLink = '+' . $phoneDigits;
 } else {
     $formattedPhone = $rawPhone;
+    $phoneTelLink = preg_replace('/\D/', '', $rawPhone);
 }
 $pickup = htmlspecialchars(strip_tags($data['pickup']), ENT_QUOTES, 'UTF-8');
 $dropoff = htmlspecialchars(strip_tags($data['dropoff']), ENT_QUOTES, 'UTF-8');
@@ -153,7 +156,7 @@ try {
 
           <div class='section'>
             <div class='row'><span class='label'>Passenger</span><span class='value'>{$customerName}</span></div>
-            <div class='row'><span class='label'>Phone</span><span class='value'>{$formattedPhone}</span></div>
+            <div class='row'><span class='label'>Phone</span><span class='value'><a href='tel:{$phoneTelLink}' style='color:#0b6cf2; text-decoration:none;'>{$formattedPhone}</a></span></div>
             <div class='row'><span class='label'>Email</span><span class='value'>" . ($customerEmail ? "<a href='mailto:{$customerEmail}'>{$customerEmail}</a>" : '—') . "</span></div>
           </div>
 
@@ -326,6 +329,7 @@ try {
             $currentTime = date('g:i A');
             $distanceDisplay = $distanceKm > 0 ? number_format($distanceKm, 2) . ' km' : '—';
             $phoneDisplay = $formattedPhone ?: '—';
+            $phoneTelLinkForHTML = isset($phoneTelLink) ? $phoneTelLink : (preg_replace('/\D/', '', $formattedPhone));
 
             $confirmationHTML = "<!DOCTYPE html>
 <html>
@@ -409,7 +413,7 @@ try {
     </div>
     <div class='confirmation-row'>
       <span class='confirmation-label'>Phone:</span>
-      <span class='confirmation-value'>{$phoneDisplay}</span>
+      <span class='confirmation-value'><a href='tel:{$phoneTelLinkForHTML}' style='color:#0b6cf2; text-decoration:none;'>{$phoneDisplay}</a></span>
     </div>
     <div class='confirmation-row'>
       <span class='confirmation-label'>Email:</span>

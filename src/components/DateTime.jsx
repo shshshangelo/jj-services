@@ -6,8 +6,8 @@ export default function DateTime({ next, back, data, setData }) {
   const handlePassengersChange = (e) => {
     const raw = e.target.value.replace(/\D/g, "").slice(0, 2); // Limit to 2 digits
     const num = raw ? parseInt(raw, 10) : "";
-    // Limit to maximum 99
-    const maxPassengers = num === "" ? "" : Math.min(99, Math.max(1, num));
+    // Limit to maximum 50
+    const maxPassengers = num === "" ? "" : Math.min(50, Math.max(1, num));
     setData({ passengers: maxPassengers });
   };
 
@@ -144,7 +144,7 @@ export default function DateTime({ next, back, data, setData }) {
       <input
         type="number"
         min={1}
-        max={99}
+        max={50}
         className="input-field"
         value={data.passengers || ""}
         onChange={handlePassengersChange}
@@ -157,7 +157,7 @@ export default function DateTime({ next, back, data, setData }) {
             e.preventDefault();
           }
         }}
-        placeholder="Enter number of passengers"
+        placeholder="Enter number of passengers (max 50)"
       />
 
       <div className="btn-row">
@@ -168,7 +168,8 @@ export default function DateTime({ next, back, data, setData }) {
           disabled={
             !isValidFutureDateTime() ||
             !data.passengers ||
-            Number(data.passengers) <= 0
+            Number(data.passengers) <= 0 ||
+            Number(data.passengers) > 50
           }
         >
           Next

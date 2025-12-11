@@ -307,10 +307,10 @@ export default function BookingConfirmationModal({ isOpen, onClose, bookingData 
                         boxSizing: 'border-box'
                       }}
                     ></span>
-                    <span className="confirming-text" style={{ animation: 'none', transform: 'none', display: 'inline-block', position: 'relative', zIndex: 1 }}>Confirming...</span>
+                    <span className="confirming-text" style={{ animation: 'none', transform: 'none', display: 'inline-block' }}>Confirming...</span>
                   </>
                 ) : (
-                  "Confirm Booking"
+                  <span className="btn-confirm-text">Confirm Booking</span>
                 )}
               </button>
             </div>
@@ -329,21 +329,36 @@ export default function BookingConfirmationModal({ isOpen, onClose, bookingData 
                 Please also check your email for a confirmation message.
               </p>
               {bookingRef && (
-                <div style={{ 
-                  background: "#f0f9ff", 
-                  border: "2px solid #0b6cf2", 
-                  borderRadius: "12px", 
-                  padding: "16px", 
-                  marginBottom: "20px",
-                  textAlign: "center"
-                }}>
-                  <div style={{ fontSize: "12px", color: "#64748b", marginBottom: "5px" }}>
-                    Booking Reference Number
+                <>
+                  <div style={{ 
+                    background: "#f0f9ff", 
+                    border: "2px solid #0b6cf2", 
+                    borderRadius: "12px", 
+                    padding: "16px", 
+                    marginBottom: "12px",
+                    textAlign: "center"
+                  }}>
+                    <div style={{ fontSize: "12px", color: "#64748b", marginBottom: "5px" }}>
+                      Booking Reference Number
+                    </div>
+                    <div style={{ fontSize: "20px", fontWeight: 700, color: "#0b6cf2", fontFamily: "monospace" }}>
+                      {bookingRef}
+                    </div>
                   </div>
-                  <div style={{ fontSize: "20px", fontWeight: 700, color: "#0b6cf2", fontFamily: "monospace" }}>
-                    {bookingRef}
+                  <div style={{ 
+                    fontSize: "13px", 
+                    color: "#dc2626", 
+                    fontWeight: 600,
+                    textAlign: "center",
+                    marginBottom: "20px",
+                    padding: "8px",
+                    background: "#fef2f2",
+                    border: "1px solid #fecaca",
+                    borderRadius: "8px"
+                  }}>
+                    ⚠️ Please save this reference number for your records
                   </div>
-                </div>
+                </>
               )}
               <div style={{ display: "flex", gap: "12px", justifyContent: "center", flexWrap: "wrap" }}>
                 <button 
